@@ -1,0 +1,24 @@
+{
+  "name": "sugam-extension",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SUGAM - Simple UI, Guided Actions & Money practice (Manifest V3 browser extension)",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "npm run test:unit && npm run test:verify",
+    "test:unit": "node --test \"SUGAM/extension/tests/unit/*.test.js\"",
+    "test:verify": "node SUGAM/extension/tests/verify-all.js",
+    "lint": "eslint SUGAM/extension",
+    "format": "prettier --write \"SUGAM/extension/**/*.{js,json,css}\" \"*.{js,json}\"",
+    "format:check": "prettier --check \"SUGAM/extension/**/*.{js,json,css}\" \"*.{js,json}\""
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "globals": "^17.13.0",
+    "jsdom": "^30.1.3",
+    "prettier": "^3.9.10"
+  }
+}
