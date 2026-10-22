@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SUGAM</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- Live region for accessible screen reader announcements -->
+  <div id="aria-live-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <img src="../icons/icon32.png" alt="" class="app-logo" width="32" height="32" aria-hidden="true">
+      <div class="title-block">
+        <h1 class="app-title">SUGAM</h1>
+        <p class="app-tagline" id="txt-app-tagline">Simple UI, Guided Actions &amp; Money practice</p>
+      </div>
+    </div>
+    <!-- Language Switcher -->
+    <div class="lang-selector" role="group" aria-label="Choose language">
+      <button class="lang-btn active" data-lang="en" aria-pressed="true">EN</button>
+      <button class="lang-btn" data-lang="hi" aria-pressed="false">हि</button>
+      <button class="lang-btn" data-lang="or" aria-pressed="false">ଓଡ଼</button>
+    </div>
+  </header>
+
+  <!-- Sticky Top Row: Comfort Settings & Master Switch -->
+  <section class="sticky-top-row" aria-label="Quick controls">
+    <button class="btn-comfort" id="btn-comfort-settings" aria-haspopup="dialog">
+      <span class="comfort-icon" aria-hidden="true">🎨</span>
+      <span id="txt-comfort-btn">Comfort settings</span>
+    </button>
+
+    <div class="master-switch-wrapper">
+      <label for="master-toggle" class="master-label" id="txt-master-label">Turn off all helpers</label>
+      <button role="switch" aria-checked="true" id="master-toggle" class="switch-btn active" aria-labelledby="txt-master-label">
+        <span class="switch-indicator" aria-hidden="true"></span>
+        <span class="switch-text" id="master-status-text">On</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Grid of Helper Tiles (2 per row, 48px+ touch targets) -->
+  <main class="grid-container" id="tiles-grid" role="region" aria-label="Helpers grid">
+
+    <!-- Tile 1: Take your time (Freeze panic timer) -->
+    <div class="helper-tile" data-feature="timerFreeze" role="region" aria-label="Take your time">
+      <button class="tile-main-btn" id="btn-tile-timer" aria-pressed="false">
+        <div class="tile-icon-wrap" aria-hidden="true">⏳</div>
+        <div class="tile-info">
+          <span class="tile-title" id="txt-tile-timer">Freeze panic timer</span>
+          <span class="tile-status-badge status-off" id="status-timer">Off</span>
+        </div>
+      </button>
+      <button class="tile-gear-btn" data-modal="modal-timer" aria-label="Options for Freeze panic timer">⚙️</button>
+    </div>
+
+    <!-- Tile 2: Dyslexia-friendly font -->
+    <div class="helper-tile" data-feature="dyslexiaFont" role="region" aria-label="Dyslexia-friendly font">
+      <button class="tile-main-btn" id="btn-tile-font" aria-pressed="false">
+        <div class="tile-icon-wrap" aria-hidden="true">🔤</div>
+        <div class="tile-info">
+          <span class="tile-title" id="txt-tile-font">Dyslexia font</span>
+          <span class="tile-status-badge status-off" id="status-font">Off</span>
+        </div>
+      </button>
+      <button class="tile-gear-btn" data-modal="modal-font" aria-label="Options for Dyslexia-friendly font">⚙️</button>
+    </div>
+
+    <!-- Tile 3: Reading ruler -->
+    <div class="helper-tile" data-feature="readingRuler" role="region" aria-label="Reading ruler">
+      <button class="tile-main-btn" id="btn-tile-ruler" aria-pressed="false">
+        <div class="tile-icon-wrap" aria-hidden="true">📏</div>
+        <div class="tile-info">
+          <span class="tile-title" id="txt-tile-ruler">Reading ruler</span>
+          <span class="tile-status-badge status-off" id="status-ruler">Off</span>
+        </div>
+      </button>
+      <button class="tile-gear-btn" data-modal="modal-ruler" aria-label="Options for Reading ruler">⚙️</button>
+    </div>
+
+    <!-- Tile 4: Bionic read -->
+    <div class="helper-tile" data-feature="bionicRead" role="region" aria-label="Bionic read">
+      <button class="tile-main-btn" id="btn-tile-bionic" aria-pressed="false">
+        <div class="tile-icon-wrap" aria-hidden="true">👁️</div>
+        <div class="tile-info">
+          <span class="tile-title" id="txt-tile-bionic">Bionic read</span>
+          <span class="tile-status-badge status-off" id="status-bionic">Off</span>
+        </div>
+      </button>
+      <button class="tile-gear-btn" data-modal="modal-bionic" aria-label="Options for Bionic read">⚙️</button>
+    </div>
+
+    <!-- Tile 5: Summarise with pictures -->
+    <div class="helper-tile" data-feature="summariser" role="region" aria-label="Summarise with pictures">
+      <button class="tile-main-btn" id="btn-tile-summariser" aria-pressed="false">
+        <div class="tile-icon-wrap" aria-hidden="true">🖼️</div>
+        <div class="tile-info">
+          <span class="tile-title" id="txt-tile-summariser">Summarise with pictures</span>
+          <span class="tile-status-badge status-off" id="status-summariser">Off</span>
+        </div>
+      </button>
+      <button class="tile-gear-btn" data-modal="modal-summariser" aria-label="Options for Summarise with pictures">⚙️</button>
+    </div>
+
+    <!-- Tile 6: Read aloud -->
+    <div class="helper-tile" data-feature="readAloud" role="region" aria-label="Read aloud">
+      <button class="tile-main-btn" id="btn-tile-readaloud" aria-pressed="false">
+        <div class="tile-icon-wrap" aria-hidden="true">🔊</div>
+        <div class="tile-info">
+          <span class="tile-title" id="txt-tile-readaloud">Read aloud</span>
+          <span class="tile-status-badge status-off" id="status-readaloud">Off</span>
+        </div>
+      </button>
+      <button class="tile-gear-btn" data-modal="modal-readaloud" aria-label="Options for Read aloud">⚙️</button>
+    </div>
+
+    <!-- Tile 7: Form wizard -->
+    <div class="helper-tile" data-feature="formWizard" role="region" aria-label="Form wizard">
+      <button class="tile-main-btn" id="btn-tile-formwizard" aria-pressed="false">
+        <div class="tile-icon-wrap" aria-hidden="true">📝</div>
+        <div class="tile-info">
+          <span class="tile-title" id="txt-tile-formwizard">Form wizard</span>
+          <span class="tile-status-badge status-off" id="status-formwizard">Off</span>
+        </div>
+      </button>
+      <button class="tile-gear-btn" data-modal="modal-formwizard" aria-label="Options for Form wizard">⚙️</button>
+    </div>
+
+    <!-- Tile 8: Translate -->
+    <div class="helper-tile" data-feature="translate" role="region" aria-label="Translate">
+      <button class="tile-main-btn" id="btn-tile-translate" aria-pressed="false">
+        <div class="tile-icon-wrap" aria-hidden="true">🌐</div>
+        <div class="tile-info">
+          <span class="tile-title" id="txt-tile-translate">Translate</span>
+          <span class="tile-status-badge status-off" id="status-translate">Off</span>
+        </div>
+      </button>
+      <button class="tile-gear-btn" data-modal="modal-translate" aria-label="Options for Translate">⚙️</button>
+    </div>
+
+    <!-- Tile 9: Money Practice (UPI Sandbox & Scam Spotter) [MUST] -->
+    <div class="helper-tile highlight-practice" data-feature="moneyPractice" role="region" aria-label="Money practice">
+      <button class="tile-main-btn" id="btn-tile-moneypractice" aria-pressed="false">
+        <div class="tile-icon-wrap" aria-hidden="true">💳</div>
+        <div class="tile-info">
+          <span class="tile-title" id="txt-tile-moneypractice">Money practice</span>
+          <span class="tile-status-badge status-practice" id="status-moneypractice">Open</span>
+        </div>
+      </button>
+      <button class="tile-gear-btn" data-modal="modal-moneypractice" aria-label="Options for Money practice">⚙️</button>
+    </div>
+
+    <!-- Tile 10: Scam Safety Guard [MUST] -->
+    <div class="helper-tile" data-feature="scamGuard" role="region" aria-label="Scam safety guard">
+      <button class="tile-main-btn" id="btn-tile-scamguard" aria-pressed="true">
+        <div class="tile-icon-wrap" aria-hidden="true">🛡️</div>
+        <div class="tile-info">
+          <span class="tile-title" id="txt-tile-scamguard">Scam safety guard</span>
+          <span class="tile-status-badge status-on" id="status-scamguard">On</span>
+        </div>
+      </button>
+      <button class="tile-gear-btn" data-modal="modal-scamguard" aria-label="Options for Scam safety guard">⚙️</button>
+    </div>
+
+    <!-- Tile 11: Explain this word [SHOULD] -->
+    <div class="helper-tile" data-feature="explainWord" role="region" aria-label="Explain this word">
+      <button class="tile-main-btn" id="btn-tile-explainword" aria-pressed="false">
+        <div class="tile-icon-wrap" aria-hidden="true">💡</div>
+        <div class="tile-info">
+          <span class="tile-title" id="txt-tile-explainword">Explain this word</span>
+          <span class="tile-status-badge status-off" id="status-explainword">Off</span>
+        </div>
+      </button>
+      <button class="tile-gear-btn" data-modal="modal-explainword" aria-label="Options for Explain this word">⚙️</button>
+    </div>
+
+    <!-- Tile 12: Numbers helper [SHOULD] -->
+    <div class="helper-tile" data-feature="numbersHelper" role="region" aria-label="Numbers helper">
+      <button class="tile-main-btn" id="btn-tile-numbers" aria-pressed="false">
+        <div class="tile-icon-wrap" aria-hidden="true">🔢</div>
+        <div class="tile-info">
+          <span class="tile-title" id="txt-tile-numbers">Numbers helper</span>
+          <span class="tile-status-badge status-off" id="status-numbers">Off</span>
+        </div>
+      </button>
+      <button class="tile-gear-btn" data-modal="modal-numbers" aria-label="Options for Numbers helper">⚙️</button>
+    </div>
+  </main>
+
+  <!-- Sticky Bottom Bar: Calm Moment & Consistent Help Button -->
+  <footer class="sticky-bottom-bar">
+    <button class="btn-calm-moment" id="btn-calm-moment" aria-label="I need a moment (dim page and breathe)">
+      <span aria-hidden="true">🌿</span>
+      <span id="txt-calm-moment">I need a moment</span>
+    </button>
+
+    <div class="footer-right">
+      <button class="btn-help" id="btn-help" aria-haspopup="dialog" aria-label="Help: Contact trusted person or cyber helpline">
+        <span aria-hidden="true">❓</span>
+        <span id="txt-help-btn">Help</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- Visual Comfort Modal (Spec 4.1) -->
+  <div class="modal-overlay hidden" id="modal-comfort" role="dialog" aria-modal="true" aria-labelledby="modal-comfort-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modal-comfort-title" class="modal-title">Visual Comfort Settings</h2>
+        <button class="modal-close-btn" data-close="modal-comfort" aria-label="Close modal">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Presets -->
+        <fieldset class="form-group">
+          <legend class="group-label">Quick Presets</legend>
+          <div class="preset-buttons">
+            <button class="preset-btn" data-preset="calm">🌿 Calm (Autism)</button>
+            <button class="preset-btn" data-preset="dyslexia">📖 Dyslexia</button>
+            <button class="preset-btn" data-preset="easyread">🟢 Easy Read</button>
+            <button class="preset-btn" data-preset="memory">🧠 Memory Support</button>
+          </div>
+        </fieldset>
+
+        <!-- Text Size -->
+        <div class="form-group">
+          <label for="range-text-size" class="range-label">
+            <span>Text Size</span>
+            <span id="val-text-size">110%</span>
+          </label>
+          <input type="range" id="range-text-size" min="100" max="200" step="5" value="110">
+        </div>
+
+        <!-- Line Spacing -->
+        <div class="form-group">
+          <label for="range-line-spacing" class="range-label">
+            <span>Line Spacing</span>
+            <span id="val-line-spacing">1.6</span>
+          </label>
+          <input type="range" id="range-line-spacing" min="1.5" max="2.0" step="0.1" value="1.6">
+        </div>
+
+        <!-- Color Themes -->
+        <fieldset class="form-group">
+          <legend class="group-label">Colour Theme</legend>
+          <div class="theme-options">
+            <label class="theme-chip theme-cream">
+              <input type="radio" name="colorTheme" value="cream" checked>
+              <span>Cream</span>
+            </label>
+            <label class="theme-chip theme-blue">
+              <input type="radio" name="colorTheme" value="blue">
+              <span>Soft Blue</span>
+            </label>
+            <label class="theme-chip theme-grey">
+              <input type="radio" name="colorTheme" value="grey">
+              <span>Soft Grey</span>
+            </label>
+            <label class="theme-chip theme-dark">
+              <input type="radio" name="colorTheme" value="dark">
+              <span>Dark</span>
+            </label>
+            <label class="theme-chip theme-highcontrast">
+              <input type="radio" name="colorTheme" value="high-contrast">
+              <span>High Contrast</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Calm switches -->
+        <fieldset class="form-group">
+          <legend class="group-label">Calm Web Page Switches</legend>
+          <label class="checkbox-row">
+            <input type="checkbox" id="chk-pause-media" checked>
+            <span>Pause carousels, videos, and autoplay audio</span>
+          </label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="chk-stop-animations" checked>
+            <span>Stop moving animations and flashing</span>
+          </label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="chk-hide-popups" checked>
+            <span>Hide pop-up banners and chat bubbles</span>
+          </label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="chk-left-align" checked>
+            <span>Left-align all text (easier to follow)</span>
+          </label>
+        </fieldset>
+
+        <!-- Never run on this site toggle -->
+        <div class="form-group site-toggle-row">
+          <button class="btn-site-toggle" id="btn-toggle-site">Never run on this website</button>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="modal-btn-primary" data-close="modal-comfort">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help Modal (Spec 5.4) -->
+  <div class="modal-overlay hidden" id="modal-help" role="dialog" aria-modal="true" aria-labelledby="modal-help-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modal-help-title" class="modal-title">Need Help?</h2>
+        <button class="modal-close-btn" data-close="modal-help" aria-label="Close modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="help-desc">You are safe. Here are easy ways to get support right now:</p>
+
+        <div class="help-action-card">
+          <div class="hac-title">👨‍👩‍👧 Trusted Helper</div>
+          <p id="txt-trusted-contact">No trusted helper saved yet. You can add one below.</p>
+          <div class="hac-btns">
+            <button class="btn-help-act" id="btn-call-helper">📞 Call Helper</button>
+            <button class="btn-help-act" id="btn-msg-helper">💬 Message Helper</button>
+          </div>
+        </div>
+
+        <div class="help-action-card">
+          <div class="hac-title">📋 Copy Page Summary</div>
+          <p>Copy a simple explanation of this page to send your helper:</p>
+          <button class="btn-help-act" id="btn-copy-summary">Copy simple page summary</button>
+        </div>
+
+        <div class="help-action-card highlight-safety">
+          <div class="hac-title">🛡️ National Cyber Helpline: 1930</div>
+          <p>If anyone pressured you for a PIN, OTP, or money, call 1930 (Toll-Free in India).</p>
+          <a href="tel:1930" class="btn-help-act btn-call-1930">📞 Call 1930 Helpline</a>
+        </div>
+
+        <!-- Caregiver setup -->
+        <div class="caregiver-setup-box">
+          <div class="group-label">Caregiver Phone Number</div>
+          <input type="tel" id="input-trusted-phone" class="text-input" placeholder="e.g. 9876543210">
+          <button class="btn-save-sm" id="btn-save-phone">Save Phone</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn-primary" data-close="modal-help">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature Options Modal (Dynamic) -->
+  <div class="modal-overlay hidden" id="modal-feature-options" role="dialog" aria-modal="true" aria-labelledby="modal-fo-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modal-fo-title" class="modal-title">Feature Options</h2>
+        <button class="modal-close-btn" data-close="modal-feature-options" aria-label="Close modal">✕</button>
+      </div>
+      <div class="modal-body" id="modal-fo-body">
+        <!-- Content dynamically populated by JS -->
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn-primary" data-close="modal-feature-options">Save &amp; Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../shared/storage.js"></script>
+  <script src="../shared/i18n.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
+

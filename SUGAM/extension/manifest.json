@@ -1,0 +1,77 @@
+{
+  "manifest_version": 3,
+  "name": "SUGAM - Simple UI, Guided Actions & Money practice",
+  "short_name": "SUGAM",
+  "version": "1.0.0",
+  "description": "Accessible browsing, reading comfort, form guidance, and safe UPI practice for people with cognitive and learning differences.",
+  "default_locale": "en",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Open SUGAM",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "side_panel": {
+    "default_path": "sidepanel/sidepanel.html"
+  },
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "css": ["content/content.css"],
+      "js": ["content/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "content/timer-pause-mainworld.js",
+        "icons/*",
+        "sandbox/*",
+        "shared/*"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "sidePanel",
+    "tts",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "commands": {
+    "toggle-master-switch": {
+      "suggested_key": {
+        "default": "Alt+Shift+S",
+        "mac": "Alt+Shift+S"
+      },
+      "description": "Turn all SUGAM helpers on or off"
+    },
+    "trigger-calm-moment": {
+      "suggested_key": {
+        "default": "Alt+Shift+M",
+        "mac": "Alt+Shift+M"
+      },
+      "description": "I need a moment (Calm screen)"
+    }
+  }
+}
+

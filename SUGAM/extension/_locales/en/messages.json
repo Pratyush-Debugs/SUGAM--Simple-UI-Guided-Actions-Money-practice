@@ -1,0 +1,20 @@
+{
+  "appName": {
+    "message": "SUGAM - Simple UI, Guided Actions & Money practice",
+    "description": "The name of the application"
+  },
+  "appDesc": {
+    "message": "Accessible browsing, reading comfort, form guidance, and safe UPI practice.",
+    "description": "Application description"
+  },
+  "comfortSettings": {
+    "message": "Comfort settings"
+  },
+  "turnOffAll": {
+    "message": "Turn off all helpers"
+  },
+  "helpButton": {
+    "message": "Help"
+  }
+}
+

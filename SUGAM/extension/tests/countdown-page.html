@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Countdown Timer Test Page</title>
+  <style>
+    body { font-family: sans-serif; padding: 32px; text-align: center; }
+    .timer-card { background: #ffebee; border: 2px solid #ef5350; border-radius: 12px; max-width: 400px; margin: 40px auto; padding: 24px; }
+    .clock-display { font-size: 48px; font-weight: bold; color: #c62828; margin: 16px 0; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <h1>Online Quiz / Registration</h1>
+  <div class="timer-card">
+    <h2>Time Remaining to Complete</h2>
+    <div id="clock" class="clock-display" role="timer" aria-live="polite">04:59</div>
+    <p>Please complete registration before time expires.</p>
+  </div>
+
+  <script>
+    let secondsLeft = 299;
+    const clock = document.getElementById('clock');
+    window.testTimerId = setInterval(() => {
+      if (secondsLeft > 0) {
+        secondsLeft--;
+        const m = String(Math.floor(secondsLeft / 60)).padStart(2, '0');
+        const s = String(secondsLeft % 60).padStart(2, '0');
+        clock.textContent = `${m}:${s}`;
+      } else {
+        clock.textContent = "00:00 - Expired";
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
+

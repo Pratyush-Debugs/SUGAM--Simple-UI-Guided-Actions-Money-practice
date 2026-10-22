@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sample 10-Field Government Application Form</title>
+  <style>
+    body { font-family: sans-serif; padding: 24px; max-width: 650px; margin: 0 auto; background: #fdfdfd; }
+    h1 { color: #333; }
+    .form-group { margin-bottom: 16px; }
+    label { display: block; font-weight: bold; margin-bottom: 6px; }
+    input, textarea, select { width: 100%; padding: 10px; border: 1.5px solid #bbb; border-radius: 6px; box-sizing: border-box; font-size: 15px; }
+    button[type="submit"] { background: #2e7d32; color: #fff; padding: 14px 24px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
+    .sensitive-box { background: #fff8e1; border: 1px solid #ffe082; padding: 12px; border-radius: 6px; margin: 16px 0; }
+  </style>
+</head>
+<body>
+  <h1>Scholarship Application Form</h1>
+  <p>Fill all required details below:</p>
+
+  <form id="scholarship-form">
+    <!-- 1. Full Name -->
+    <div class="form-group">
+      <label for="fullName">1. Full Legal Name</label>
+      <input type="text" id="fullName" name="fullName" placeholder="e.g. Rahul Sharma" required>
+    </div>
+
+    <!-- 2. Email Address -->
+    <div class="form-group">
+      <label for="emailAddr">2. Email Address</label>
+      <input type="email" id="emailAddr" name="email" placeholder="name@example.com" required>
+    </div>
+
+    <!-- 3. Mobile Number -->
+    <div class="form-group">
+      <label for="phoneNum">3. Mobile Phone Number (10 digits)</label>
+      <input type="tel" id="phoneNum" name="phone" placeholder="9876543210" pattern="[0-9]{10}" required>
+    </div>
+
+    <!-- 4. Street Address -->
+    <div class="form-group">
+      <label for="addressLine">4. Street Address</label>
+      <input type="text" id="addressLine" name="address" placeholder="House number and street" required>
+    </div>
+
+    <!-- 5. City -->
+    <div class="form-group">
+      <label for="cityName">5. City / Town</label>
+      <input type="text" id="cityName" name="city" required>
+    </div>
+
+    <!-- 6. State -->
+    <div class="form-group">
+      <label for="stateName">6. State</label>
+      <select id="stateName" name="state" required>
+        <option value="">Select State</option>
+        <option value="Odisha">Odisha</option>
+        <option value="Delhi">Delhi</option>
+        <option value="Maharashtra">Maharashtra</option>
+        <option value="Karnataka">Karnataka</option>
+      </select>
+    </div>
+
+    <!-- 7. Pincode -->
+    <div class="form-group">
+      <label for="pincode">7. Postal Pincode (6 digits)</label>
+      <input type="text" id="pincode" name="pincode" placeholder="751001" pattern="[0-9]{6}" required>
+    </div>
+
+    <!-- 8. Additional Comments -->
+    <div class="form-group">
+      <label for="comments">8. Special Accommodation Needs</label>
+      <textarea id="comments" name="comments" rows="3" placeholder="Describe any assistive needs"></textarea>
+    </div>
+
+    <!-- Sensitive Fields: SENSITIVE_DETECTOR MUST PROTECT THESE -->
+    <div class="sensitive-box">
+      <!-- 9. Account Password -->
+      <div class="form-group">
+        <label for="accountPassword">9. Portal Account Password</label>
+        <input type="password" id="accountPassword" name="password" autocomplete="new-password" required>
+      </div>
+
+      <!-- 10. Verification OTP -->
+      <div class="form-group">
+        <label for="otpCode">10. SMS Verification OTP</label>
+        <input type="text" id="otpCode" name="otp" autocomplete="one-time-code" placeholder="6-digit code">
+      </div>
+    </div>
+
+    <button type="submit" id="btn-real-submit">Submit Application</button>
+  </form>
+
+  <script>
+    document.getElementById('scholarship-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert("Form submitted on webpage by user!");
+    });
+  </script>
+</body>
+</html>
+

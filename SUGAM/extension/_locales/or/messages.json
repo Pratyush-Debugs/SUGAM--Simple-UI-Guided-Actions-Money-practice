@@ -1,0 +1,20 @@
+{
+  "appName": {
+    "message": "ସୁଗମ (SUGAM) - ସରଳ UI, ନିର୍ଦ୍ଦେଶିତ କାର୍ଯ୍ୟ ଏବଂ ଟଙ୍କା ଅଭ୍ୟାସ",
+    "description": "ଆପର ନାମ"
+  },
+  "appDesc": {
+    "message": "ସହଜ ବ୍ରାଉଜିଂ, ପଢିବାର ସୁବିଧା, ଫର୍ମ ସହାୟତା ଏବଂ ନିରାପଦ UPI ଅଭ୍ୟାସ।",
+    "description": "ଆପ୍ଲିକେସନ୍ ବର୍ଣ୍ଣନା"
+  },
+  "comfortSettings": {
+    "message": "ସୁବିଧା ସେଟିଙ୍ଗ୍ସ"
+  },
+  "turnOffAll": {
+    "message": "ସବୁ ସହାୟକ ବନ୍ଦ କରନ୍ତୁ"
+  },
+  "helpButton": {
+    "message": "ସାହାଯ୍ୟ"
+  }
+}
+

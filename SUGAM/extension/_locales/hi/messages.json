@@ -1,0 +1,20 @@
+{
+  "appName": {
+    "message": "सुगम (SUGAM) - सरल यूआई, मार्गदर्शित कार्य और मनी अभ्यास",
+    "description": "ऐप का नाम"
+  },
+  "appDesc": {
+    "message": "सुलभ ब्राउज़िंग, पढ़ने में आराम, फॉर्म सहायता और सुरक्षित यूपीआई अभ्यास।",
+    "description": "ऐप का विवरण"
+  },
+  "comfortSettings": {
+    "message": "सुविधा सेटिंग्स"
+  },
+  "turnOffAll": {
+    "message": "सभी मददगार बंद करें"
+  },
+  "helpButton": {
+    "message": "मदद"
+  }
+}
+

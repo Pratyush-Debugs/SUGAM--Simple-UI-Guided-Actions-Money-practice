@@ -1,0 +1,153 @@
+/**
+ * SUGAM - Accessible Content Stylesheet
+ * Driven by CSS Variables for instantaneous updates (<200ms)
+ * Conforms to WCAG 2.2 AA & W3C COGA guidelines.
+ */
+
+:root {
+  --sugam-plum: #59366E;
+  --sugam-lavender: #E7DDF0;
+  --sugam-pale-lilac: #F3EDF7;
+  --sugam-charcoal: #29252D;
+  --sugam-warm-white: #FAF8F5;
+
+  /* Comfort variables applied when active */
+  --sugam-font-family: inherit;
+  --sugam-font-size-scale: 1;
+  --sugam-line-height: 1.6;
+  --sugam-letter-spacing: normal;
+  --sugam-word-spacing: normal;
+  --sugam-paragraph-spacing: 1.5em;
+  --sugam-max-width: 65ch;
+  --sugam-bg-color: #FAF8F5;
+  --sugam-text-color: #29252D;
+  --sugam-link-color: #59366E;
+}
+
+/* 1. Master Active Class (Applied to <html> only when masterSwitch is ON and helpers are active) */
+html.sugam-active body {
+  /* Comfort spacing and font scaling */
+  line-height: var(--sugam-line-height) !important;
+  letter-spacing: var(--sugam-letter-spacing) !important;
+  word-spacing: var(--sugam-word-spacing) !important;
+  font-family: var(--sugam-font-family), system-ui, -apple-system, sans-serif !important;
+  color: var(--sugam-text-color) !important;
+  background-color: var(--sugam-bg-color) !important;
+}
+
+/* Apply comfort to paragraph and content elements */
+html.sugam-active p,
+html.sugam-active li,
+html.sugam-active blockquote,
+html.sugam-active article,
+html.sugam-active main {
+  line-height: var(--sugam-line-height) !important;
+  letter-spacing: var(--sugam-letter-spacing) !important;
+  word-spacing: var(--sugam-word-spacing) !important;
+  color: var(--sugam-text-color) !important;
+}
+
+/* Text scale */
+html.sugam-text-scaled {
+  font-size: calc(100% * var(--sugam-font-size-scale)) !important;
+}
+
+/* Left-align override (COGA & BDA recommendation: avoid justified text) */
+html.sugam-left-align p,
+html.sugam-left-align article,
+html.sugam-left-align div,
+html.sugam-left-align li {
+  text-align: left !important;
+}
+
+/* Limit line length for reading comfort (50-75 characters) */
+html.sugam-limit-width p,
+html.sugam-limit-width article > p {
+  max-width: var(--sugam-max-width) !important;
+}
+
+/* Underline all links and enhance focus rings */
+html.sugam-enhanced-links a {
+  text-decoration: underline !important;
+  text-underline-offset: 3px !important;
+  color: var(--sugam-link-color) !important;
+}
+
+/* High visibility focus rings (WCAG 2.4.11 & 2.4.12) */
+html.sugam-active *:focus-visible {
+  outline: 3px solid var(--sugam-plum) !important;
+  outline-offset: 3px !important;
+}
+
+/* Stop distracting animations & transitions */
+html.sugam-stop-animations *,
+html.sugam-stop-animations *::before,
+html.sugam-stop-animations *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Hide annoying sticky ads / popups when calm is active */
+html.sugam-hide-popups .sugam-hidden-distraction {
+  display: none !important;
+}
+
+/* Bionic reading strong tag styling */
+.sugam-bionic-bold {
+  font-weight: 700 !important;
+}
+
+/* Read Aloud active word / sentence highlight */
+.sugam-speech-sentence-highlight {
+  background-color: rgba(231, 221, 240, 0.7) !important; /* Pale lavender */
+  border-radius: 4px !important;
+  transition: background-color 0.15s ease !important;
+}
+.sugam-speech-word-highlight {
+  background-color: #59366E !important;
+  color: #FFFFFF !important;
+  border-radius: 2px !important;
+  padding: 0 2px !important;
+}
+
+/* Theme presets */
+html.sugam-theme-cream body {
+  background-color: #FFFDF7 !important;
+  color: #29252D !important;
+}
+html.sugam-theme-blue body {
+  background-color: #F0F4F8 !important;
+  color: #1A202C !important;
+}
+html.sugam-theme-grey body {
+  background-color: #F5F5F5 !important;
+  color: #222222 !important;
+}
+html.sugam-theme-dark body {
+  background-color: #1F1D2B !important;
+  color: #FAF8F5 !important;
+}
+html.sugam-theme-dark a {
+  color: #E7DDF0 !important;
+}
+html.sugam-theme-high-contrast body {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+}
+html.sugam-theme-high-contrast a {
+  color: #FFFF00 !important;
+}
+
+/* Exclude code, icons, and preformatted blocks from font changes */
+html.sugam-active code,
+html.sugam-active pre,
+html.sugam-active kbd,
+html.sugam-active svg,
+html.sugam-active [class*="icon"],
+html.sugam-active [class*="fa-"],
+html.sugam-active .material-icons {
+  font-family: monospace, inherit !important;
+}
+
