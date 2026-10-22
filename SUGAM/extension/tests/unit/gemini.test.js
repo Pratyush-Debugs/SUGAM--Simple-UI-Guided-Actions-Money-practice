@@ -14,7 +14,11 @@ function mockFetch(handler) {
   return calls;
 }
 
-const okJson = (text) => ({ ok: true, status: 200, json: async () => ({ candidates: [{ content: { parts: [{ text }] } }] }) });
+const okJson = (text) => ({
+  ok: true,
+  status: 200,
+  json: async () => ({ candidates: [{ content: { parts: [{ text }] } }] })
+});
 
 test('the API key is sent in a header, never in the URL', async () => {
   const calls = mockFetch(() => okJson('["Pay **₹500** soon."]'));

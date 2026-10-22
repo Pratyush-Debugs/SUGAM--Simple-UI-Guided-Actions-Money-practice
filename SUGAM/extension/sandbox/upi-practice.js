@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   };
 
   function showScreen(name) {
-    Object.values(screens).forEach(s => {
+    Object.values(screens).forEach((s) => {
       s.classList.remove('active');
       s.hidden = true;
     });
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await SugamStorage.saveSettings(settings);
     updateBalanceDisplay();
     startSendFlow();
-    updateCoach("Play balance reset to <strong>₹2,500</strong>. You are ready to practise!");
+    updateCoach('Play balance reset to <strong>₹2,500</strong>. You are ready to practise!');
   });
 
   document.getElementById('btn-exit-sandbox').addEventListener('click', () => {
@@ -77,14 +77,36 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Number to Indian Words
   function numberToWords(num) {
     if (isNaN(num) || num <= 0) return 'Zero rupees';
-    const a = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+    const a = [
+      '',
+      'one',
+      'two',
+      'three',
+      'four',
+      'five',
+      'six',
+      'seven',
+      'eight',
+      'nine',
+      'ten',
+      'eleven',
+      'twelve',
+      'thirteen',
+      'fourteen',
+      'fifteen',
+      'sixteen',
+      'seventeen',
+      'eighteen',
+      'nineteen'
+    ];
     const b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
 
     function inWords(n) {
       if (n < 20) return a[n];
       if (n < 100) return b[Math.floor(n / 10)] + (n % 10 !== 0 ? ' ' + a[n % 10] : '');
       if (n < 1000) return a[Math.floor(n / 100)] + ' hundred' + (n % 100 !== 0 ? ' ' + inWords(n % 100) : '');
-      if (n < 100000) return inWords(Math.floor(n / 1000)) + ' thousand' + (n % 1000 !== 0 ? ' ' + inWords(n % 1000) : '');
+      if (n < 100000)
+        return inWords(Math.floor(n / 1000)) + ' thousand' + (n % 1000 !== 0 ? ' ' + inWords(n % 1000) : '');
       return inWords(Math.floor(n / 100000)) + ' lakh' + (n % 100000 !== 0 ? ' ' + inWords(n % 100000) : '');
     }
 
@@ -95,11 +117,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   // FLOW 1: Standard Send Money
   function startSendFlow() {
     showScreen('contact');
-    updateCoach("<strong>Step 1:</strong> Tap a person to send play money to. Look at their name and UPI ID.");
+    updateCoach('<strong>Step 1:</strong> Tap a person to send play money to. Look at their name and UPI ID.');
   }
 
   // Contact list selection
-  document.querySelectorAll('.contact-item').forEach(item => {
+  document.querySelectorAll('.contact-item').forEach((item) => {
     item.addEventListener('click', () => {
       currentPayee = {
         name: item.dataset.contact,
@@ -113,7 +135,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('txt-amount-words').textContent = 'Zero rupees';
 
       showScreen('amount');
-      updateCoach(`<strong>Step 2:</strong> Type how much you want to send to <strong>${currentPayee.name}</strong>. Always check the words below the amount.`);
+      updateCoach(
+        `<strong>Step 2:</strong> Type how much you want to send to <strong>${currentPayee.name}</strong>. Always check the words below the amount.`
+      );
     });
   });
 
@@ -125,7 +149,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('txt-amount-words').textContent = numberToWords(val);
   });
 
-  document.querySelectorAll('.chip-btn').forEach(chip => {
+  document.querySelectorAll('.chip-btn').forEach((chip) => {
     chip.addEventListener('click', () => {
       const add = parseInt(chip.dataset.amt, 10);
       const val = (parseInt(inpAmount.value, 10) || 0) + add;
@@ -142,7 +166,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Proceed to Review
   document.getElementById('btn-proceed-to-review').addEventListener('click', () => {
     if (currentAmount <= 0) {
-      alert("Please enter an amount of at least ₹1.");
+      alert('Please enter an amount of at least ₹1.');
       return;
     }
     if (currentAmount > demoBalance) {
@@ -156,7 +180,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('rev-amount-words').textContent = numberToWords(currentAmount);
 
     showScreen('review');
-    updateCoach(`<strong>Step 3: Check Carefully!</strong> Look at the name (<strong>${currentPayee.name}</strong>) and amount (<strong>₹${currentAmount}</strong>). You are SENDING money from your bank.`);
+    updateCoach(
+      `<strong>Step 3: Check Carefully!</strong> Look at the name (<strong>${currentPayee.name}</strong>) and amount (<strong>₹${currentAmount}</strong>). You are SENDING money from your bank.`
+    );
   });
 
   document.getElementById('btn-back-to-amount').addEventListener('click', () => {
@@ -169,7 +195,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     updatePinDots();
     document.getElementById('txt-pin-error').classList.add('hidden');
     showScreen('pin');
-    updateCoach("<strong>Step 4: Enter Practice PIN.</strong> On real phones, never tell anyone your PIN. In this sandbox, type <strong>1 2 3 4</strong>.");
+    updateCoach(
+      '<strong>Step 4: Enter Practice PIN.</strong> On real phones, never tell anyone your PIN. In this sandbox, type <strong>1 2 3 4</strong>.'
+    );
   });
 
   // Keypad logic
@@ -184,7 +212,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  document.querySelectorAll('.key-btn[data-key]').forEach(btn => {
+  document.querySelectorAll('.key-btn[data-key]').forEach((btn) => {
     btn.addEventListener('click', () => {
       if (enteredPin.length < 4) {
         enteredPin += btn.dataset.key;
@@ -201,7 +229,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.getElementById('key-submit').addEventListener('click', async () => {
     if (enteredPin.length < 4) {
-      alert("Please enter all 4 digits of your practice PIN.");
+      alert('Please enter all 4 digits of your practice PIN.');
       return;
     }
 
@@ -215,13 +243,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       document.getElementById('rec-amount').textContent = `₹${currentAmount}`;
       document.getElementById('rec-payee').textContent = currentPayee.name;
-      document.getElementById('rec-time').textContent = `Today, ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+      document.getElementById('rec-time').textContent =
+        `Today, ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
 
       showScreen('receipt');
-      updateCoach("🎉 <strong>Payment Successful!</strong> You checked who you were paying, checked the amount, and entered the practice PIN. Outstanding job!");
+      updateCoach(
+        '🎉 <strong>Payment Successful!</strong> You checked who you were paying, checked the amount, and entered the practice PIN. Outstanding job!'
+      );
     } else {
       document.getElementById('txt-pin-error').classList.remove('hidden');
-      updateCoach("⚠️ That was not 1234. No worries! Tap <strong>C</strong> to clear, then type <strong>1 2 3 4</strong>.");
+      updateCoach(
+        '⚠️ That was not 1234. No worries! Tap <strong>C</strong> to clear, then type <strong>1 2 3 4</strong>.'
+      );
     }
   });
 
@@ -233,7 +266,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const scamScenarios = {
     'scam-refund': {
       title: 'Scam Scenario 1: Fake Refund Request',
-      coachMessage: '⚠️ <strong>Scam Spotter:</strong> A stranger says they overpaid you by accident and asks you to enter your PIN to get the refund. What should you do?',
+      coachMessage:
+        '⚠️ <strong>Scam Spotter:</strong> A stranger says they overpaid you by accident and asks you to enter your PIN to get the refund. What should you do?',
       content: `
         <div class="scam-message-banner">
           <span class="scam-badge">Incoming Payment Request</span>
@@ -253,16 +287,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>
       `,
       onCorrect: () => {
-        updateCoach("🌟 <strong>BRILLIANT!</strong> You remembered Golden Rule #1: You <strong>NEVER</strong> enter a UPI PIN to receive money. A PIN is ONLY for sending money out of your account!");
+        updateCoach(
+          '🌟 <strong>BRILLIANT!</strong> You remembered Golden Rule #1: You <strong>NEVER</strong> enter a UPI PIN to receive money. A PIN is ONLY for sending money out of your account!'
+        );
       },
       onWrong: () => {
-        updateCoach("🚨 <strong>STOP! Danger!</strong> If you enter your PIN, ₹5,000 will be STOLEN from your bank! Remember: You <em>never</em> type a PIN to receive money.");
+        updateCoach(
+          '🚨 <strong>STOP! Danger!</strong> If you enter your PIN, ₹5,000 will be STOLEN from your bank! Remember: You <em>never</em> type a PIN to receive money.'
+        );
       }
     },
 
     'scam-qr': {
       title: 'Scam Scenario 2: Scan QR to Receive Lottery',
-      coachMessage: '⚠️ <strong>Scam Spotter:</strong> You receive a message with a QR code promising ₹2,000 festival cashback.',
+      coachMessage:
+        '⚠️ <strong>Scam Spotter:</strong> You receive a message with a QR code promising ₹2,000 festival cashback.',
       content: `
         <div class="scam-message-banner">
           <span class="scam-badge">WhatsApp Lottery Message</span>
@@ -282,16 +321,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>
       `,
       onCorrect: () => {
-        updateCoach("🌟 <strong>PERFECT!</strong> Scanning a QR code is for PAYING money at a store or to a person. It NEVER receives money into your account.");
+        updateCoach(
+          '🌟 <strong>PERFECT!</strong> Scanning a QR code is for PAYING money at a store or to a person. It NEVER receives money into your account.'
+        );
       },
       onWrong: () => {
-        updateCoach("🚨 <strong>DANGER!</strong> Scanning a QR code always makes a payment. Scammers use fake 'receive' QR codes to drain your account!");
+        updateCoach(
+          "🚨 <strong>DANGER!</strong> Scanning a QR code always makes a payment. Scammers use fake 'receive' QR codes to drain your account!"
+        );
       }
     },
 
     'scam-kyc': {
       title: 'Scam Scenario 3: Urgent Bank KYC Threat',
-      coachMessage: '⚠️ <strong>Scam Spotter:</strong> You receive an SMS threatening that your bank account will be blocked today.',
+      coachMessage:
+        '⚠️ <strong>Scam Spotter:</strong> You receive an SMS threatening that your bank account will be blocked today.',
       content: `
         <div class="scam-message-banner">
           <span class="scam-badge">Urgent SMS</span>
@@ -311,16 +355,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>
       `,
       onCorrect: () => {
-        updateCoach("🌟 <strong>EXCELLENT!</strong> Banks never send urgent threat links asking for card details or PINs. If you ever feel scared, call <strong>1930</strong> (National Cyber Helpline).");
+        updateCoach(
+          '🌟 <strong>EXCELLENT!</strong> Banks never send urgent threat links asking for card details or PINs. If you ever feel scared, call <strong>1930</strong> (National Cyber Helpline).'
+        );
       },
       onWrong: () => {
-        updateCoach("🚨 <strong>DON'T PANIC!</strong> Scammers use artificial panic and urgency ('blocked in 2 hours') to make people act without thinking. Real banks never do this!");
+        updateCoach(
+          "🚨 <strong>DON'T PANIC!</strong> Scammers use artificial panic and urgency ('blocked in 2 hours') to make people act without thinking. Real banks never do this!"
+        );
       }
     },
 
-    'shop': {
+    shop: {
       title: 'Practice: Genuine Grocery Store Payment',
-      coachMessage: '🛒 <strong>Positive Practice:</strong> You are buying ₹80 of groceries at Kirana Store. Tap to check merchant name and pay safely.',
+      coachMessage:
+        '🛒 <strong>Positive Practice:</strong> You are buying ₹80 of groceries at Kirana Store. Tap to check merchant name and pay safely.',
       content: `
         <div style="background:#FFFFFF; border:2px solid #59366E; border-radius:14px; padding:18px;">
           <h3 style="color:#59366E; margin-bottom:8px;">At the Grocery Store Counter</h3>
@@ -338,16 +387,18 @@ document.addEventListener('DOMContentLoaded', async () => {
           document.getElementById('rev-amount').textContent = '₹80';
           document.getElementById('rev-amount-words').textContent = 'Eighty rupees';
           showScreen('review');
-          updateCoach("Check the shop name: <strong>Kirana Grocery Store</strong> and amount <strong>₹80</strong>. Tap Enter Practice PIN.");
+          updateCoach(
+            'Check the shop name: <strong>Kirana Grocery Store</strong> and amount <strong>₹80</strong>. Tap Enter Practice PIN.'
+          );
         });
       }
     }
   };
 
   // Activity button clicks
-  document.querySelectorAll('.activity-btn').forEach(btn => {
+  document.querySelectorAll('.activity-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.activity-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.activity-btn').forEach((b) => b.classList.remove('active'));
       btn.classList.add('active');
 
       const flow = btn.dataset.flow;
@@ -367,7 +418,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           if (scenario.setup) scenario.setup();
 
           // Attach correct/wrong handlers
-          box.querySelectorAll('.scam-option-btn').forEach(opt => {
+          box.querySelectorAll('.scam-option-btn').forEach((opt) => {
             opt.addEventListener('click', () => {
               if (opt.id.includes('correct')) {
                 opt.style.borderColor = '#2E7D32';
@@ -388,4 +439,3 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Start with default send flow
   startSendFlow();
 });
-

@@ -33,23 +33,23 @@ const SUGAM_DEFAULT_SETTINGS = {
   // 4.1 Visual Comfort Settings
   visualComfort: {
     enabled: false,
-    textSize: 110,         // 100% to 200%
-    lineSpacing: 1.6,      // 1.5 to 2.0
-    letterSpacing: 0.05,   // 0 to 0.12 em
-    wordSpacing: 0.1,      // 0 to 0.16 em
+    textSize: 110, // 100% to 200%
+    lineSpacing: 1.6, // 1.5 to 2.0
+    letterSpacing: 0.05, // 0 to 0.12 em
+    wordSpacing: 0.1, // 0 to 0.16 em
     paragraphSpacing: 1.8, // 1.0 to 2.0
-    leftAlign: true,       // override justify
-    maxLineLength: 65,     // 50 to 75 ch
-    colorTheme: 'cream',   // 'default', 'cream', 'blue', 'grey', 'dark', 'high-contrast'
-    pauseMedia: true,      // pause carousels, videos, audio
-    stopAnimations: true,  // pause CSS animations & transitions
-    hidePopups: true       // hide sticky overlays & floating banners
+    leftAlign: true, // override justify
+    maxLineLength: 65, // 50 to 75 ch
+    colorTheme: 'cream', // 'default', 'cream', 'blue', 'grey', 'dark', 'high-contrast'
+    pauseMedia: true, // pause carousels, videos, audio
+    stopAnimations: true, // pause CSS animations & transitions
+    hidePopups: true // hide sticky overlays & floating banners
   },
 
   // 4.3 Take your time (Timer freeze & Calm button)
   timerFreeze: {
     enabled: false,
-    level: 1,              // Level 1: Plain words detector. Level 2: Pause client-side timer (opt-in, non-financial).
+    level: 1, // Level 1: Plain words detector. Level 2: Pause client-side timer (opt-in, non-financial).
     sessionAlerts: true,
     autoSaveForms: true
   },
@@ -64,7 +64,7 @@ const SUGAM_DEFAULT_SETTINGS = {
   // 4.5 Reading ruler
   readingRuler: {
     enabled: false,
-    height: 70,           // pixels
+    height: 70, // pixels
     tintColor: 'rgba(231, 221, 240, 0.45)', // Pale lilac tint
     dimmingStrength: 0.45 // 0.1 to 0.8
   },
@@ -72,7 +72,7 @@ const SUGAM_DEFAULT_SETTINGS = {
   // 4.6 Bionic reading
   bionicRead: {
     enabled: false,
-    strength: 'medium'    // 'light' (30%), 'medium' (45%), 'strong' (60%)
+    strength: 'medium' // 'light' (30%), 'medium' (45%), 'strong' (60%)
   },
 
   // 4.7 Summarise with pictures
@@ -86,7 +86,7 @@ const SUGAM_DEFAULT_SETTINGS = {
   // 4.8 Read aloud
   readAloud: {
     enabled: false,
-    rate: 0.9,            // 0.7 to 1.5 (default 0.9)
+    rate: 0.9, // 0.7 to 1.5 (default 0.9)
     pitch: 1.0,
     voiceUri: '',
     highlightWords: true,
@@ -197,7 +197,7 @@ const SUGAM_PRESETS = {
       textSize: 130,
       lineSpacing: 1.8,
       letterSpacing: 0.06,
-      wordSpacing: 0.10,
+      wordSpacing: 0.1,
       paragraphSpacing: 2.0,
       leftAlign: true,
       maxLineLength: 55,

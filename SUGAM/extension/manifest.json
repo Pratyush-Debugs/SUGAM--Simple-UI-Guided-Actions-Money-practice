@@ -29,41 +29,20 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "<all_urls>"
-      ],
-      "css": [
-        "content/content.css"
-      ],
-      "js": [
-        "shared/dom-safe.js",
-        "shared/bionic.js",
-        "content/content.js"
-      ],
+      "matches": ["<all_urls>"],
+      "css": ["content/content.css"],
+      "js": ["shared/dom-safe.js", "shared/bionic.js", "content/content.js"],
       "run_at": "document_idle"
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": [
-        "content/timer-pause-mainworld.js",
-        "fonts/*.woff2"
-      ],
-      "matches": [
-        "<all_urls>"
-      ]
+      "resources": ["content/timer-pause-mainworld.js", "fonts/*.woff2"],
+      "matches": ["<all_urls>"]
     }
   ],
-  "permissions": [
-    "activeTab",
-    "scripting",
-    "storage",
-    "sidePanel",
-    "contextMenus"
-  ],
-  "host_permissions": [
-    "<all_urls>"
-  ],
+  "permissions": ["activeTab", "scripting", "storage", "sidePanel", "contextMenus"],
+  "host_permissions": ["<all_urls>"],
   "commands": {
     "toggle-master-switch": {
       "suggested_key": {

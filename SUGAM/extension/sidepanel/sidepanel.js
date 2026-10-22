@@ -28,11 +28,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   Object.entries(tabs).forEach(([tabId, viewId]) => {
     document.getElementById(tabId)?.addEventListener('click', () => {
-      document.querySelectorAll('.sp-tab-btn').forEach(btn => {
+      document.querySelectorAll('.sp-tab-btn').forEach((btn) => {
         btn.classList.remove('active');
         btn.setAttribute('aria-selected', 'false');
       });
-      document.querySelectorAll('.sp-view').forEach(view => {
+      document.querySelectorAll('.sp-view').forEach((view) => {
         view.classList.remove('active');
         view.hidden = true;
       });
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
       if (!tab || !tab.id) {
-        throw new Error("No active web page found.");
+        throw new Error('No active web page found.');
       }
 
       // Ask content script for page text & sensitivity check
@@ -83,7 +83,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       // Record Where Was I breadcrumb
       recordWhereWasI(tab.title || 'Page', tab.url);
-
     } catch (err) {
       cardsContainer.replaceChildren();
       const errorBox = document.createElement('div');
@@ -148,7 +147,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // Attach individual Listen buttons
-    cardsContainer.querySelectorAll('.btn-listen-card').forEach(btn => {
+    cardsContainer.querySelectorAll('.btn-listen-card').forEach((btn) => {
       btn.addEventListener('click', () => {
         const idx = parseInt(btn.dataset.idx, 10);
         speakSentence(sentences[idx]);
@@ -192,7 +191,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-      const response = await new Promise(resolve => {
+      const response = await new Promise((resolve) => {
         chrome.tabs.sendMessage(tab.id, { action: 'EXTRACT_PAGE_CONTENT' }, resolve);
       });
 
@@ -221,8 +220,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const parsed = new URL(safeUrl);
     url = parsed.origin + parsed.pathname;
     const memory = settings.whereWasI?.lastVisited || [];
-    const filtered = memory.filter(item => item.url !== url);
-    filtered.unshift({ title, url, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
+    const filtered = memory.filter((item) => item.url !== url);
+    filtered.unshift({
+      title,
+      url,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    });
     settings.whereWasI = { enabled: true, lastVisited: filtered.slice(0, 8) };
     await SugamStorage.saveSettings(settings);
     renderWhereWasI();
@@ -242,7 +245,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (!href) return;
 
       const entry = document.createElement('div');
-      entry.style.cssText = 'background:#FFF; border:1.5px solid #E7DDF0; border-radius:10px; padding:12px; margin-bottom:8px;';
+      entry.style.cssText =
+        'background:#FFF; border:1.5px solid #E7DDF0; border-radius:10px; padding:12px; margin-bottom:8px;';
 
       const title = document.createElement('div');
       title.style.cssText = 'font-weight:700; color:#59366E; margin-bottom:4px;';
@@ -256,7 +260,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       link.href = href;
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
-      link.style.cssText = 'display:inline-block; margin-top:6px; color:#59366E; font-weight:700; text-decoration:underline;';
+      link.style.cssText =
+        'display:inline-block; margin-top:6px; color:#59366E; font-weight:700; text-decoration:underline;';
       link.textContent = 'Resume reading';
 
       entry.append(title, saved, link);
@@ -268,4 +273,3 @@ document.addEventListener('DOMContentLoaded', async () => {
   loadEasyCards();
   renderWhereWasI();
 });
-

@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       currentTab = tabs[0];
     }
   } catch (e) {
-    console.warn("Could not query active tab", e);
+    console.warn('Could not query active tab', e);
   }
 
   // Feature to Settings Key Mapping
@@ -54,7 +54,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!currentTab || !currentTab.id) return;
 
     // Skip internal browser pages
-    if (currentTab.url && (currentTab.url.startsWith('chrome://') || currentTab.url.startsWith('edge://') || currentTab.url.startsWith('about:'))) {
+    if (
+      currentTab.url &&
+      (currentTab.url.startsWith('chrome://') ||
+        currentTab.url.startsWith('edge://') ||
+        currentTab.url.startsWith('about:'))
+    ) {
       return;
     }
 
@@ -63,21 +68,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Content script might not be injected yet into this tab. Inject dynamically!
         if (chrome.scripting && chrome.scripting.executeScript) {
           if (chrome.scripting.insertCSS) {
-            chrome.scripting.insertCSS({
-              target: { tabId: currentTab.id },
-              files: ['content/content.css']
-            }).catch(() => {});
+            chrome.scripting
+              .insertCSS({
+                target: { tabId: currentTab.id },
+                files: ['content/content.css']
+              })
+              .catch(() => {});
           }
 
-          chrome.scripting.executeScript({
-            target: { tabId: currentTab.id },
-            files: ['shared/dom-safe.js', 'shared/bionic.js', 'content/content.js']
-          }).then(() => {
-            // Retry sending message after injection
-            chrome.tabs.sendMessage(currentTab.id, { action, ...payload });
-          }).catch(err => {
-            console.warn("Script injection skipped:", err);
-          });
+          chrome.scripting
+            .executeScript({
+              target: { tabId: currentTab.id },
+              files: ['shared/dom-safe.js', 'shared/bionic.js', 'content/content.js']
+            })
+            .then(() => {
+              // Retry sending message after injection
+              chrome.tabs.sendMessage(currentTab.id, { action, ...payload });
+            })
+            .catch((err) => {
+              console.warn('Script injection skipped:', err);
+            });
         }
       }
     });
@@ -98,7 +108,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function updateTilesUI() {
-    Object.keys(featureKeyMap).forEach(key => {
+    Object.keys(featureKeyMap).forEach((key) => {
       const tile = document.querySelector(`.helper-tile[data-feature="${key}"]`);
       if (!tile) return;
 
@@ -107,8 +117,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       if (key === 'moneyPractice') {
         if (badge) {
-          badge.textContent = "Open";
-          badge.className = "tile-status-badge status-practice";
+          badge.textContent = 'Open';
+          badge.className = 'tile-status-badge status-practice';
         }
         return;
       }
@@ -175,9 +185,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   applyTranslations();
 
   // 1. Language Selector Buttons
-  document.querySelectorAll('.lang-btn').forEach(btn => {
+  document.querySelectorAll('.lang-btn').forEach((btn) => {
     btn.addEventListener('click', async () => {
-      document.querySelectorAll('.lang-btn').forEach(b => {
+      document.querySelectorAll('.lang-btn').forEach((b) => {
         b.classList.remove('active');
         b.setAttribute('aria-pressed', 'false');
       });
@@ -194,7 +204,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   // Highlight active language button
-  document.querySelectorAll('.lang-btn').forEach(btn => {
+  document.querySelectorAll('.lang-btn').forEach((btn) => {
     const isActive = btn.dataset.lang === settings.language;
     btn.classList.toggle('active', isActive);
     btn.setAttribute('aria-pressed', isActive.toString());
@@ -209,13 +219,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       updateMasterSwitchUI();
       notifyContentScript('TOGGLE_MASTER_SWITCH', { value: nextState });
 
-      const msg = nextState ? "SUGAM helpers turned on" : "SUGAM helpers off";
+      const msg = nextState ? 'SUGAM helpers turned on' : 'SUGAM helpers off';
       announce(msg);
     });
   }
 
   // 3. Helper Tiles Click Listeners
-  document.querySelectorAll('.helper-tile').forEach(tile => {
+  document.querySelectorAll('.helper-tile').forEach((tile) => {
     const feature = tile.dataset.feature;
     const mainBtn = tile.querySelector('.tile-main-btn');
     if (!mainBtn) return;
@@ -268,7 +278,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (m) m.classList.add('hidden');
   }
 
-  document.querySelectorAll('[data-close]').forEach(btn => {
+  document.querySelectorAll('[data-close]').forEach((btn) => {
     btn.addEventListener('click', () => {
       hideModal(btn.dataset.close);
     });
@@ -358,7 +368,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  document.querySelectorAll('input[name="colorTheme"]').forEach(radio => {
+  document.querySelectorAll('input[name="colorTheme"]').forEach((radio) => {
     radio.addEventListener('change', async (e) => {
       if (!settings.visualComfort) settings.visualComfort = {};
       settings.visualComfort.colorTheme = e.target.value;
@@ -389,7 +399,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   // Presets in Comfort Modal
-  document.querySelectorAll('.preset-btn').forEach(btn => {
+  document.querySelectorAll('.preset-btn').forEach((btn) => {
     btn.addEventListener('click', async () => {
       const presetKey = btn.dataset.preset;
       settings = await SugamStorage.applyPreset(presetKey);
@@ -408,10 +418,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const isDisabled = await SugamStorage.toggleSiteDisabled(currentTab.url);
         settings = await SugamStorage.getSettings();
         notifyContentScript('TOGGLE_SITE_DISABLED');
-        btnToggleSite.textContent = isDisabled 
-          ? "Re-enable on this website" 
-          : "Never run on this website";
-        announce(isDisabled ? "SUGAM disabled on this site" : "SUGAM enabled on this site");
+        btnToggleSite.textContent = isDisabled ? 'Re-enable on this website' : 'Never run on this website';
+        announce(isDisabled ? 'SUGAM disabled on this site' : 'SUGAM enabled on this site');
       }
     });
   }
@@ -422,9 +430,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const txt = document.getElementById('txt-trusted-contact');
     const input = document.getElementById('input-trusted-phone');
     if (txt) {
-      txt.textContent = phone 
-        ? `Phone: ${phone}` 
-        : "No phone number saved yet. Enter caregiver number below:";
+      txt.textContent = phone ? `Phone: ${phone}` : 'No phone number saved yet. Enter caregiver number below:';
     }
     if (input) input.value = phone;
   }
@@ -438,7 +444,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       settings.trustedPerson.phone = val;
       await SugamStorage.saveSettings(settings);
       loadHelpUI();
-      announce("Caregiver phone number saved");
+      announce('Caregiver phone number saved');
     });
   }
 
@@ -449,7 +455,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (phone) {
         window.open(`tel:${phone}`);
       } else {
-        alert("Please enter a phone number below and click Save.");
+        alert('Please enter a phone number below and click Save.');
       }
     });
   }
@@ -461,7 +467,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (phone) {
         window.open(`sms:${phone}?body=Hi, I need help with this webpage.`);
       } else {
-        alert("Please enter a phone number below and click Save.");
+        alert('Please enter a phone number below and click Save.');
       }
     });
   }
@@ -471,7 +477,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     btnCopySummary.addEventListener('click', () => {
       if (currentTab?.id) {
         chrome.tabs.sendMessage(currentTab.id, { action: 'EXTRACT_PAGE_CONTENT' }, (resp) => {
-          const text = resp?.content?.slice(0, 500) || "Could not read page text.";
+          const text = resp?.content?.slice(0, 500) || 'Could not read page text.';
           const summaryText = `Help needed on this page (${currentTab.title || 'Webpage'}):\n"${text}..."`;
           navigator.clipboard.writeText(summaryText);
           alert(SugamI18n.get('helpSummaryCopied'));
@@ -481,7 +487,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // 9. Gear Buttons for Feature Options
-  document.querySelectorAll('.tile-gear-btn').forEach(btn => {
+  document.querySelectorAll('.tile-gear-btn').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       const tile = btn.closest('.helper-tile');
@@ -500,7 +506,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     title.textContent = `${feature} Options`;
 
     if (feature === 'dyslexiaFont') {
-      title.textContent = "Dyslexia Font Options";
+      title.textContent = 'Dyslexia Font Options';
       body.innerHTML = `
         <div class="form-group">
           <label class="group-label">Font Family</label>
@@ -526,7 +532,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
       }
     } else if (feature === 'readingRuler') {
-      title.textContent = "Reading Ruler Options";
+      title.textContent = 'Reading Ruler Options';
       body.innerHTML = `
         <div class="form-group">
           <label class="range-label">Ruler Height: <span id="val-ruler-h">${settings.readingRuler?.height || 70}px</span></label>
@@ -562,7 +568,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
       }
     } else if (feature === 'summariser') {
-      title.textContent = "Summariser & Gemini AI Options";
+      title.textContent = 'Summariser & Gemini AI Options';
       body.innerHTML = `
         <div class="form-group">
           <p style="font-size:14px; line-height:1.4;">
@@ -588,7 +594,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
       }
     } else if (feature === 'formWizard') {
-      title.textContent = "Form Wizard Options";
+      title.textContent = 'Form Wizard Options';
       body.innerHTML = `
         <div class="form-group">
           <p style="font-size:14px; line-height:1.5;">

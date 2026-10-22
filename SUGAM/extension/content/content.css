@@ -5,11 +5,11 @@
  */
 
 :root {
-  --sugam-plum: #59366E;
-  --sugam-lavender: #E7DDF0;
-  --sugam-pale-lilac: #F3EDF7;
-  --sugam-charcoal: #29252D;
-  --sugam-warm-white: #FAF8F5;
+  --sugam-plum: #59366e;
+  --sugam-lavender: #e7ddf0;
+  --sugam-pale-lilac: #f3edf7;
+  --sugam-charcoal: #29252d;
+  --sugam-warm-white: #faf8f5;
 
   /* Comfort variables applied when active */
   --sugam-font-family: inherit;
@@ -19,9 +19,9 @@
   --sugam-word-spacing: normal;
   --sugam-paragraph-spacing: 1.5em;
   --sugam-max-width: 65ch;
-  --sugam-bg-color: #FAF8F5;
-  --sugam-text-color: #29252D;
-  --sugam-link-color: #59366E;
+  --sugam-bg-color: #faf8f5;
+  --sugam-text-color: #29252d;
+  --sugam-link-color: #59366e;
 }
 
 /* 1. Master Active Class (Applied to <html> only when masterSwitch is ON and helpers are active) */
@@ -30,7 +30,11 @@ html.sugam-active body {
   line-height: var(--sugam-line-height) !important;
   letter-spacing: var(--sugam-letter-spacing) !important;
   word-spacing: var(--sugam-word-spacing) !important;
-  font-family: var(--sugam-font-family), system-ui, -apple-system, sans-serif !important;
+  font-family:
+    var(--sugam-font-family),
+    system-ui,
+    -apple-system,
+    sans-serif !important;
   color: var(--sugam-text-color) !important;
   background-color: var(--sugam-bg-color) !important;
 }
@@ -106,38 +110,38 @@ html.sugam-hide-popups .sugam-hidden-distraction {
   transition: background-color 0.15s ease !important;
 }
 .sugam-speech-word-highlight {
-  background-color: #59366E !important;
-  color: #FFFFFF !important;
+  background-color: #59366e !important;
+  color: #ffffff !important;
   border-radius: 2px !important;
   padding: 0 2px !important;
 }
 
 /* Theme presets */
 html.sugam-theme-cream body {
-  background-color: #FFFDF7 !important;
-  color: #29252D !important;
+  background-color: #fffdf7 !important;
+  color: #29252d !important;
 }
 html.sugam-theme-blue body {
-  background-color: #F0F4F8 !important;
-  color: #1A202C !important;
+  background-color: #f0f4f8 !important;
+  color: #1a202c !important;
 }
 html.sugam-theme-grey body {
-  background-color: #F5F5F5 !important;
+  background-color: #f5f5f5 !important;
   color: #222222 !important;
 }
 html.sugam-theme-dark body {
-  background-color: #1F1D2B !important;
-  color: #FAF8F5 !important;
+  background-color: #1f1d2b !important;
+  color: #faf8f5 !important;
 }
 html.sugam-theme-dark a {
-  color: #E7DDF0 !important;
+  color: #e7ddf0 !important;
 }
 html.sugam-theme-high-contrast body {
   background-color: #000000 !important;
-  color: #FFFFFF !important;
+  color: #ffffff !important;
 }
 html.sugam-theme-high-contrast a {
-  color: #FFFF00 !important;
+  color: #ffff00 !important;
 }
 
 /* Exclude code, icons, and preformatted blocks from font changes */
@@ -145,9 +149,8 @@ html.sugam-active code,
 html.sugam-active pre,
 html.sugam-active kbd,
 html.sugam-active svg,
-html.sugam-active [class*="icon"],
-html.sugam-active [class*="fa-"],
+html.sugam-active [class*='icon'],
+html.sugam-active [class*='fa-'],
 html.sugam-active .material-icons {
   font-family: monospace, inherit !important;
 }
-

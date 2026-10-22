@@ -16,16 +16,31 @@
 
   // Sensitive page detector (embedded inline to ensure independence)
   const SENSITIVE_DOMAINS = [
-    'onlinesbi.sbi', 'sbi.co.in', 'hdfcbank.com', 'icicibank.com', 'axisbank.com',
-    'kotak.com', 'pnbindia.in', 'bankofbaroda.in', 'canarabank.com', 'unionbankofindia.co.in',
-    'paytm.com', 'phonepe.com', 'pay.google.com', 'bhimupi.org.in', 'razorpay.com',
-    'billdesk.com', 'ccavenue.com', 'incometax.gov.in', 'uidai.gov.in'
+    'onlinesbi.sbi',
+    'sbi.co.in',
+    'hdfcbank.com',
+    'icicibank.com',
+    'axisbank.com',
+    'kotak.com',
+    'pnbindia.in',
+    'bankofbaroda.in',
+    'canarabank.com',
+    'unionbankofindia.co.in',
+    'paytm.com',
+    'phonepe.com',
+    'pay.google.com',
+    'bhimupi.org.in',
+    'razorpay.com',
+    'billdesk.com',
+    'ccavenue.com',
+    'incometax.gov.in',
+    'uidai.gov.in'
   ];
 
   function isPageSensitive() {
     try {
       const host = window.location.hostname.toLowerCase();
-      if (SENSITIVE_DOMAINS.some(d => host === d || host.endsWith('.' + d))) return true;
+      if (SENSITIVE_DOMAINS.some((d) => host === d || host.endsWith('.' + d))) return true;
       if (document.querySelector('input[type="password"]')) return true;
       const inputs = document.querySelectorAll('input');
       for (const input of inputs) {
@@ -42,7 +57,15 @@
     if (!input) return false;
     const type = (input.type || '').toLowerCase();
     if (type === 'password') return true;
-    const check = [input.name, input.id, input.placeholder, input.getAttribute('aria-label') || '', input.getAttribute('autocomplete') || ''].join(' ').toLowerCase();
+    const check = [
+      input.name,
+      input.id,
+      input.placeholder,
+      input.getAttribute('aria-label') || '',
+      input.getAttribute('autocomplete') || ''
+    ]
+      .join(' ')
+      .toLowerCase();
     return /(^|[^a-z])(otp|one-time|pin|cvv|cvc|cardnumber|card-number|secret|security-code)($|[^a-z])/i.test(check);
   }
 
@@ -69,7 +92,7 @@
       // Check if site is disabled in sync storage
       const res = await this.getStorageData(['sugamSettings']);
       this.settings = res?.sugamSettings || {};
-      
+
       const host = window.location.hostname;
       if (this.settings.disabledSites && this.settings.disabledSites.includes(host)) {
         this.isSiteDisabled = true;
@@ -122,7 +145,7 @@
       try {
         chrome.storage.sync.set({ sugamSettings: updated });
       } catch (e) {
-        console.warn("Storage sync failed", e);
+        console.warn('Storage sync failed', e);
       }
     },
 
@@ -182,17 +205,17 @@
      * Tapping again restores previous state.
      */
     toggleMasterSwitch(forceValue) {
-      const nextState = (typeof forceValue === 'boolean') ? forceValue : !this.isMasterOn;
+      const nextState = typeof forceValue === 'boolean' ? forceValue : !this.isMasterOn;
       this.isMasterOn = nextState;
       this.settings.masterSwitch = nextState;
       this.saveStorageSettings(this.settings);
 
       if (this.isMasterOn) {
         this.applyAllHelpers();
-        this.announceToScreenReader("SUGAM helpers turned on");
+        this.announceToScreenReader('SUGAM helpers turned on');
       } else {
         this.teardownAllHelpers();
-        this.announceToScreenReader("SUGAM helpers off");
+        this.announceToScreenReader('SUGAM helpers off');
         // The announcement needs a live region, so keep the host just long enough for it to be
         // spoken, then remove it so SUGAM leaves nothing behind on the page.
         setTimeout(() => {
@@ -222,10 +245,10 @@
 
       if (this.isSiteDisabled) {
         this.teardownAllHelpers();
-        this.announceToScreenReader("SUGAM disabled for this site");
+        this.announceToScreenReader('SUGAM disabled for this site');
       } else if (this.isMasterOn) {
         this.applyAllHelpers();
-        this.announceToScreenReader("SUGAM re-enabled for this site");
+        this.announceToScreenReader('SUGAM re-enabled for this site');
       }
     },
 
@@ -248,7 +271,7 @@
       this.shadowHost.style.pointerEvents = 'none';
 
       this.shadowRoot = this.shadowHost.attachShadow({ mode: 'open' });
-      
+
       // Inject base styles into shadow root
       const style = document.createElement('style');
       style.textContent = `
@@ -434,7 +457,7 @@
       }
 
       // Remove speech highlights
-      document.querySelectorAll('.sugam-speech-sentence-highlight, .sugam-speech-word-highlight').forEach(el => {
+      document.querySelectorAll('.sugam-speech-sentence-highlight, .sugam-speech-word-highlight').forEach((el) => {
         el.classList.remove('sugam-speech-sentence-highlight', 'sugam-speech-word-highlight');
       });
     },
@@ -481,8 +504,12 @@
 
       // Pause audio & video
       if (vc.pauseMedia) {
-        document.querySelectorAll('video, audio').forEach(media => {
-          try { media.pause(); } catch { /* some media elements refuse to pause */ }
+        document.querySelectorAll('video, audio').forEach((media) => {
+          try {
+            media.pause();
+          } catch {
+            /* some media elements refuse to pause */
+          }
         });
       }
 
@@ -496,12 +523,16 @@
     hideDistractions() {
       // Find fixed overlays, cookie banners, chat widgets
       const selectors = [
-        '[class*="cookie"]', '[id*="cookie"]',
-        '[class*="newsletter"]', '[id*="newsletter"]',
-        '[class*="intercom"]', '[id*="intercom"]',
-        '[class*="chat-widget"]', '[id*="chat-widget"]'
+        '[class*="cookie"]',
+        '[id*="cookie"]',
+        '[class*="newsletter"]',
+        '[id*="newsletter"]',
+        '[class*="intercom"]',
+        '[id*="intercom"]',
+        '[class*="chat-widget"]',
+        '[id*="chat-widget"]'
       ];
-      document.querySelectorAll(selectors.join(',')).forEach(el => {
+      document.querySelectorAll(selectors.join(',')).forEach((el) => {
         if (el.id !== 'sugam-root' && !el.classList.contains('sugam-hidden-distraction')) {
           el.classList.add('sugam-hidden-distraction');
           this.hiddenDistractions.push(el);
@@ -510,7 +541,7 @@
     },
 
     restoreHiddenDistractions() {
-      this.hiddenDistractions.forEach(el => {
+      this.hiddenDistractions.forEach((el) => {
         el.classList.remove('sugam-hidden-distraction');
       });
       this.hiddenDistractions = [];
@@ -530,7 +561,8 @@
       }
 
       // Fallback for Devanagari and Odia scripts
-      fontStack += ', "SUGAM Noto Sans Devanagari", "Noto Sans Devanagari", "SUGAM Noto Sans Odia", "Noto Sans Odia", sans-serif';
+      fontStack +=
+        ', "SUGAM Noto Sans Devanagari", "Noto Sans Devanagari", "SUGAM Noto Sans Odia", "Noto Sans Odia", sans-serif';
       document.documentElement.style.setProperty('--sugam-font-family', fontStack);
 
       if (df.applySpacing) {
@@ -597,7 +629,7 @@
       const rHeight = options.height || 70;
 
       const updatePosition = (clientY) => {
-        const topH = Math.max(0, clientY - (rHeight / 2));
+        const topH = Math.max(0, clientY - rHeight / 2);
         topDim.style.height = `${topH}px`;
         guide.style.top = `${topH}px`;
         const botH = Math.max(0, window.innerHeight - topH - rHeight);
@@ -658,7 +690,9 @@
     scanForTimers() {
       if (isPageSensitive()) return; // Never intervene on financial timers
 
-      const timerElems = document.querySelectorAll('[role="timer"], [class*="countdown"], [id*="countdown"], [class*="timer"], [id*="timer"]');
+      const timerElems = document.querySelectorAll(
+        '[role="timer"], [class*="countdown"], [id*="countdown"], [class*="timer"], [id*="timer"]'
+      );
       let foundCountdown = null;
 
       for (const el of timerElems) {
@@ -735,7 +769,7 @@
         (document.head || document.documentElement).appendChild(script);
         window.postMessage({ source: 'SUGAM_CONTENT_SCRIPT', action: 'PAUSE_TIMERS' }, '*');
       } catch (e) {
-        console.warn("Main world pause failed", e);
+        console.warn('Main world pause failed', e);
       }
     },
 
@@ -905,7 +939,9 @@
         if (res && res[pageKey]) {
           const draft = res[pageKey];
           Object.entries(draft).forEach(([name, val]) => {
-            const input = document.querySelector(`input[name="${CSS.escape(name)}"], textarea[name="${CSS.escape(name)}"]`);
+            const input = document.querySelector(
+              `input[name="${CSS.escape(name)}"], textarea[name="${CSS.escape(name)}"]`
+            );
             if (input && !isFieldSensitive(input) && !input.value) {
               input.value = val;
             }
@@ -914,17 +950,21 @@
       });
 
       // Save on input
-      document.addEventListener('input', (e) => {
-        const target = e.target;
-        if (!target || !target.name) return;
-        if (isFieldSensitive(target)) return; // NEVER SAVE SENSITIVE VALUES!
+      document.addEventListener(
+        'input',
+        (e) => {
+          const target = e.target;
+          if (!target || !target.name) return;
+          if (isFieldSensitive(target)) return; // NEVER SAVE SENSITIVE VALUES!
 
-        chrome.storage.local.get([pageKey], (res) => {
-          const currentDraft = res?.[pageKey] || {};
-          currentDraft[target.name] = target.value;
-          chrome.storage.local.set({ [pageKey]: currentDraft });
-        });
-      }, { passive: true });
+          chrome.storage.local.get([pageKey], (res) => {
+            const currentDraft = res?.[pageKey] || {};
+            currentDraft[target.name] = target.value;
+            chrome.storage.local.set({ [pageKey]: currentDraft });
+          });
+        },
+        { passive: true }
+      );
     },
 
     /**
@@ -958,7 +998,7 @@
 
       window.speechSynthesis.speak(utterance);
       this.isReadingAloud = true;
-      this.announceToScreenReader("Reading aloud started");
+      this.announceToScreenReader('Reading aloud started');
     },
 
     teardownReadAloud() {
@@ -982,22 +1022,23 @@
       const candidates = [];
       const forms = document.querySelectorAll('form, [role="form"]');
       if (forms.length > 0) {
-        forms.forEach(f => {
+        forms.forEach((f) => {
           const els = f.querySelectorAll('input, textarea, select');
-          els.forEach(el => candidates.push(el));
+          els.forEach((el) => candidates.push(el));
         });
       }
       if (candidates.length === 0) {
         const standalone = document.querySelectorAll('input, textarea, select');
-        standalone.forEach(el => candidates.push(el));
+        standalone.forEach((el) => candidates.push(el));
       }
 
       // Filter out hidden, submit, button, reset, image
-      const valid = candidates.filter(el => {
+      const valid = candidates.filter((el) => {
         const tag = (el.tagName || '').toLowerCase();
         const type = (el.type || 'text').toLowerCase();
         if (tag !== 'input' && tag !== 'textarea' && tag !== 'select') return false;
-        if (type === 'hidden' || type === 'submit' || type === 'button' || type === 'reset' || type === 'image') return false;
+        if (type === 'hidden' || type === 'submit' || type === 'button' || type === 'reset' || type === 'image')
+          return false;
         if (el.disabled || el.readOnly) return false;
 
         // Skip non-visible elements
@@ -1095,7 +1136,9 @@
             Object.assign(wizardData, res[draftKey]);
           }
         });
-      } catch { /* storage unavailable: start without a saved draft */ }
+      } catch {
+        /* storage unavailable: start without a saved draft */
+      }
 
       // Pre-populate with any current values from the real inputs
       elements.forEach((el, idx) => {
@@ -1307,43 +1350,50 @@
         const value = (val || '').trim();
 
         if (el.required && !value) {
-          return { ok: false, msg: "⚠️ Please answer this question to continue." };
+          return { ok: false, msg: '⚠️ Please answer this question to continue.' };
         }
 
         if (type === 'tel' || pattern.includes('[0-9]{10}') || /phone|mobile/i.test(el.name + ' ' + el.id)) {
           const digits = value.replace(/\D/g, '');
           if (value && digits.length < 10) {
             const diff = 10 - digits.length;
-            return { ok: false, msg: `⚠️ Your phone number needs 10 digits. You typed ${digits.length}. Please add ${diff} more.` };
+            return {
+              ok: false,
+              msg: `⚠️ Your phone number needs 10 digits. You typed ${digits.length}. Please add ${diff} more.`
+            };
           }
         }
 
         if (type === 'email' || /email/i.test(el.name + ' ' + el.id)) {
           if (value && (!value.includes('@') || !value.includes('.'))) {
-            return { ok: false, msg: "⚠️ Please enter an email address with an @ and domain (e.g. name@example.com)." };
+            return { ok: false, msg: '⚠️ Please enter an email address with an @ and domain (e.g. name@example.com).' };
           }
         }
 
         if (/pincode|postal|zip/i.test(el.name + ' ' + el.id)) {
           const digits = value.replace(/\D/g, '');
           if (value && digits.length < 6) {
-            return { ok: false, msg: `⚠️ Pincode needs 6 digits. You typed ${digits.length}. Add ${6 - digits.length} more.` };
+            return {
+              ok: false,
+              msg: `⚠️ Pincode needs 6 digits. You typed ${digits.length}. Add ${6 - digits.length} more.`
+            };
           }
         }
 
-        return { ok: true, msg: "" };
+        return { ok: true, msg: '' };
       };
 
       // Speech recognition handler
       const startDictation = (inputElem, micBtn) => {
         const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRec) {
-          alert("Speech dictation is not available in this browser window.");
+          alert('Speech dictation is not available in this browser window.');
           return;
         }
         try {
           const recognition = new SpeechRec();
-          recognition.lang = this.settings.language === 'hi' ? 'hi-IN' : (this.settings.language === 'or' ? 'or-IN' : 'en-IN');
+          recognition.lang =
+            this.settings.language === 'hi' ? 'hi-IN' : this.settings.language === 'or' ? 'or-IN' : 'en-IN';
           recognition.continuous = false;
           recognition.interimResults = false;
 
@@ -1368,7 +1418,7 @@
           };
           recognition.start();
         } catch (e) {
-          console.warn("Speech recognition error", e);
+          console.warn('Speech recognition error', e);
         }
       };
 
@@ -1381,17 +1431,17 @@
 
         // SCREEN 1: "What you will need" (Spec 4.9.2)
         if (currentStep === -1) {
-          stepNum.textContent = "Start: What you will need";
+          stepNum.textContent = 'Start: What you will need';
           progressFill.style.width = '5%';
 
-          const requiredItems = elements.filter(el => el.required || isFieldSensitive(el));
+          const requiredItems = elements.filter((el) => el.required || isFieldSensitive(el));
           let reqListHtml = '';
           if (requiredItems.length > 0) {
             reqListHtml = `
               <div style="background:#E7DDF0; border-radius:12px; padding:16px; margin:16px 0;">
                 <strong style="color:#59366E; font-size:16px; display:block; margin-bottom:8px;">Items you will need for this form:</strong>
                 <ul style="padding-left:20px; line-height:1.6; font-size:15px;">
-                  ${requiredItems.map(el => `<li>${esc(this.getFieldLabel(el))}</li>`).join('')}
+                  ${requiredItems.map((el) => `<li>${esc(this.getFieldLabel(el))}</li>`).join('')}
                 </ul>
               </div>
             `;
@@ -1426,7 +1476,7 @@
 
         // SCREEN 3: Review Screen - "Check your answers" (Spec 4.9.6)
         if (currentStep >= elements.length) {
-          stepNum.textContent = "Check your answers";
+          stepNum.textContent = 'Check your answers';
           progressFill.style.width = '100%';
 
           let reviewItemsHtml = '';
@@ -1435,7 +1485,9 @@
             const isSensitive = isFieldSensitive(el);
             const val = isSensitive
               ? '🔒 (Private - Enter on website)'
-              : (wizardData[idx] ? esc(wizardData[idx]) : '<em>(Not answered)</em>');
+              : wizardData[idx]
+                ? esc(wizardData[idx])
+                : '<em>(Not answered)</em>';
 
             reviewItemsHtml += `
               <div class="sugam-review-item">
@@ -1463,7 +1515,7 @@
           `;
 
           // Change button handlers
-          container.querySelectorAll('.sugam-btn-change').forEach(btn => {
+          container.querySelectorAll('.sugam-btn-change').forEach((btn) => {
             btn.addEventListener('click', () => {
               currentStep = parseInt(btn.dataset.idx, 10);
               renderCurrentScreen();
@@ -1487,7 +1539,8 @@
             this.wizardModalElem = null;
 
             // Highlight real form on page and scroll to submit
-            const realSubmit = document.querySelector('button[type="submit"], input[type="submit"]') || elements[elements.length - 1];
+            const realSubmit =
+              document.querySelector('button[type="submit"], input[type="submit"]') || elements[elements.length - 1];
             if (realSubmit) {
               realSubmit.scrollIntoView({ behavior: 'smooth', block: 'center' });
               realSubmit.style.outline = '4px solid #59366E';
@@ -1496,7 +1549,7 @@
             }
 
             // Announcement
-            this.announceToScreenReader("Answers written into form. Please review and click submit on the website.");
+            this.announceToScreenReader('Answers written into form. Please review and click submit on the website.');
           });
           return;
         }
@@ -1507,7 +1560,8 @@
         const isSensitive = isFieldSensitive(el);
         const tag = (el.tagName || '').toLowerCase();
         const type = (el.type || 'text').toLowerCase();
-        const placeholder = el.placeholder || (el.getAttribute('autocomplete') ? `Example for ${el.getAttribute('autocomplete')}` : '');
+        const placeholder =
+          el.placeholder || (el.getAttribute('autocomplete') ? `Example for ${el.getAttribute('autocomplete')}` : '');
         const val = wizardData[currentStep] || el.value || '';
 
         const pct = Math.round(((currentStep + 1) / elements.length) * 100);
@@ -1525,9 +1579,13 @@
           `;
         } else if (tag === 'select') {
           // Replicate select options
-          const optionsHtml = Array.from(el.options).map(opt => `
+          const optionsHtml = Array.from(el.options)
+            .map(
+              (opt) => `
             <option value="${esc(opt.value)}" ${opt.value === val ? 'selected' : ''}>${esc(opt.text)}</option>
-          `).join('');
+          `
+            )
+            .join('');
           inputWidgetHtml = `
             <select class="sugam-wz-select" id="sugam-curr-field">${optionsHtml}</select>
           `;
@@ -1622,10 +1680,12 @@
           // Save locally
           try {
             chrome.storage.local.set({ [draftKey]: wizardData });
-          } catch { /* storage unavailable: the draft is simply not saved */ }
+          } catch {
+            /* storage unavailable: the draft is simply not saved */
+          }
           container.remove();
           this.wizardModalElem = null;
-          alert("Your answers are saved. You can open Form Wizard anytime to continue.");
+          alert('Your answers are saved. You can open Form Wizard anytime to continue.');
         });
       };
 
@@ -1640,7 +1700,10 @@
       if (el.placeholder) return el.placeholder.trim();
       if (el.name) {
         // Clean up camelCase or snake_case name into friendly words
-        return el.name.replace(/([A-Z])/g, ' $1').replace(/[_-]/g, ' ').trim();
+        return el.name
+          .replace(/([A-Z])/g, ' $1')
+          .replace(/[_-]/g, ' ')
+          .trim();
       }
       return 'Question';
     },
@@ -1672,7 +1735,10 @@
       // Lookalike bank domain checks (e.g. sbi-secure.com, hdfc-update.net)
       const isLookalike = /-(secure|login|update|kyc|verify|portal)\./.test(host);
       // Urgent threat scam phrases
-      const hasUrgentThreat = /(blocked in 24 hours|account suspended immediately|send pin to receive|lottery winner claim|urgent kyc update)/i.test(bodyText);
+      const hasUrgentThreat =
+        /(blocked in 24 hours|account suspended immediately|send pin to receive|lottery winner claim|urgent kyc update)/i.test(
+          bodyText
+        );
 
       if (isLookalike || hasUrgentThreat) {
         const shadow = this.ensureShadowHost();
@@ -1767,4 +1833,3 @@
   // Start engine
   SugamEngine.init();
 })();
-

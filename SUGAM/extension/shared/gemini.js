@@ -59,11 +59,11 @@ const SugamAI = {
     const { apiKey = '', language = 'en', isSensitive = false } = options;
 
     if (isSensitive) {
-      throw new Error("Cloud AI is disabled on sensitive pages to protect your privacy.");
+      throw new Error('Cloud AI is disabled on sensitive pages to protect your privacy.');
     }
 
     if (!text || text.trim().length < 50) {
-      throw new Error("The page content is too short to summarise.");
+      throw new Error('The page content is too short to summarise.');
     }
 
     // Try Gemini API if key is present
@@ -74,11 +74,12 @@ const SugamAI = {
           return {
             source: 'gemini',
             sentences: sentences.slice(0, 8),
-            disclaimer: "This summary is made by a computer and may have mistakes. Check the original for money, health and legal information."
+            disclaimer:
+              'This summary is made by a computer and may have mistakes. Check the original for money, health and legal information.'
           };
         }
       } catch (err) {
-        console.warn("Gemini API call failed, falling back to local summarizer:", err);
+        console.warn('Gemini API call failed, falling back to local summarizer:', err);
       }
     }
 
@@ -87,7 +88,8 @@ const SugamAI = {
     return {
       source: 'local',
       sentences: localSentences.slice(0, 8),
-      disclaimer: "This summary is made by an on-device helper. Check the original for money, health and legal information."
+      disclaimer:
+        'This summary is made by an on-device helper. Check the original for money, health and legal information.'
     };
   },
 
@@ -95,7 +97,7 @@ const SugamAI = {
    * Summarises text with Gemini and returns an array of plain sentences
    */
   async _callGeminiSummarise(text, apiKey, language) {
-    const targetLangName = language === 'hi' ? 'Hindi' : (language === 'or' ? 'Odia' : 'English');
+    const targetLangName = language === 'hi' ? 'Hindi' : language === 'or' ? 'Odia' : 'English';
 
     const prompt = `You are an accessibility assistant for people with intellectual, autistic, and cognitive disabilities following W3C COGA and Inclusion Europe Easy-to-Read standards.
 Summarise the following text into at most 8 short, plain, friendly sentences in ${targetLangName}.
@@ -115,7 +117,10 @@ ${text.slice(0, 8000)}`;
     });
 
     // Parse JSON array from response
-    const cleaned = candidateText.replace(/```json/g, '').replace(/```/g, '').trim();
+    const cleaned = candidateText
+      .replace(/```json/g, '')
+      .replace(/```/g, '')
+      .trim();
     const parsed = JSON.parse(cleaned);
     if (!Array.isArray(parsed)) {
       throw new Error('Gemini returned an unexpected format');
@@ -136,11 +141,11 @@ ${text.slice(0, 8000)}`;
     const rawSentences = rawText
       .replace(/\r?\n+/g, ' ')
       .split(/(?<=[.!?।])\s+/)
-      .map(s => s.trim())
-      .filter(s => s.length > 15 && s.length < 180);
+      .map((s) => s.trim())
+      .filter((s) => s.length > 15 && s.length < 180);
 
     if (rawSentences.length === 0) {
-      return ["This page does not have enough text to summarise."];
+      return ['This page does not have enough text to summarise.'];
     }
 
     // Score sentences by presence of numbers, currency, dates, and concise length
@@ -156,7 +161,7 @@ ${text.slice(0, 8000)}`;
 
     scored.sort((a, b) => b.score - a.score);
 
-    const top = scored.slice(0, 6).map(item => {
+    const top = scored.slice(0, 6).map((item) => {
       // Bold numbers and amounts for clarity
       let bolded = item.sentence.replace(/(\b\d+[\d,.]*\b|₹\s*\d+[\d,.]*)/g, '**$1**');
       return bolded;
@@ -170,12 +175,12 @@ ${text.slice(0, 8000)}`;
    */
   async translate(text, targetLang, apiKey = '', isSensitive = false) {
     if (isSensitive) {
-      throw new Error("Translation via cloud is disabled on sensitive pages.");
+      throw new Error('Translation via cloud is disabled on sensitive pages.');
     }
     if (!text || !text.trim()) return text;
 
     if (apiKey && apiKey.trim().length > 10) {
-      const targetLangName = targetLang === 'hi' ? 'Hindi' : (targetLang === 'or' ? 'Odia' : 'English');
+      const targetLangName = targetLang === 'hi' ? 'Hindi' : targetLang === 'or' ? 'Odia' : 'English';
       const prompt = `Translate the following text into clear, easy-to-read ${targetLangName} at a 5th-grade reading level.
 Keep numbers, currency symbols (₹), names, URLs, and UPI IDs unchanged.
 Return ONLY the translated text without extra explanation.
@@ -199,4 +204,3 @@ ${text}`;
 if (typeof module !== 'undefined') {
   module.exports = { SugamAI };
 }
-

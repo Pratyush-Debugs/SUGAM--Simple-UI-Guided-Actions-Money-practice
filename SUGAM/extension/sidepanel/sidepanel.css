@@ -4,11 +4,11 @@
  */
 
 :root {
-  --color-warm-white: #FAF8F5;
-  --color-deep-plum: #59366E;
-  --color-lavender: #E7DDF0;
-  --color-pale-lilac: #F3EDF7;
-  --color-charcoal: #29252D;
+  --color-warm-white: #faf8f5;
+  --color-deep-plum: #59366e;
+  --color-lavender: #e7ddf0;
+  --color-pale-lilac: #f3edf7;
+  --color-charcoal: #29252d;
   --radius-md: 14px;
 }
 
@@ -16,7 +16,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 body {
@@ -123,13 +123,13 @@ body {
 }
 
 .sp-disclaimer {
-  background-color: #FFF3E0;
-  border: 1.5px solid #FFB74D;
+  background-color: #fff3e0;
+  border: 1.5px solid #ffb74d;
   border-radius: 10px;
   padding: 10px 12px;
   font-size: 12px;
   line-height: 1.4;
-  color: #BF360C;
+  color: #bf360c;
   display: flex;
   gap: 8px;
 }
@@ -142,7 +142,7 @@ body {
 
 /* Individual Easy-Read Card (Spec 4.7) */
 .easy-card {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border: 2px solid var(--color-lavender);
   border-radius: var(--radius-md);
   padding: 16px;
@@ -176,7 +176,8 @@ body {
   flex: 1;
 }
 
-.easy-card-text b, .easy-card-text strong {
+.easy-card-text b,
+.easy-card-text strong {
   color: var(--color-deep-plum);
   font-weight: 800;
 }
@@ -205,7 +206,7 @@ body {
 
 .btn-listen-card:hover {
   background-color: var(--color-deep-plum);
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .sp-loading {
@@ -224,7 +225,9 @@ body {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .translate-controls {
@@ -238,7 +241,7 @@ body {
   border: 2px solid var(--color-deep-plum);
   border-radius: var(--radius-md);
   font-size: 16px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   min-height: 48px;
 }
 
@@ -253,4 +256,3 @@ body {
   cursor: pointer;
   min-height: 48px;
 }
-
