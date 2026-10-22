@@ -10,7 +10,7 @@ const assert = require('assert');
 
 const ROOT = path.resolve(__dirname, '..');
 
-function runTests() {
+async function runTests() {
   console.log("==================================================");
   console.log("🚀 Starting SUGAM Verification Test Suite");
   console.log("==================================================\n");
@@ -18,10 +18,10 @@ function runTests() {
   let passed = 0;
   let total = 0;
 
-  function test(name, fn) {
+  async function test(name, fn) {
     total++;
     try {
-      fn();
+      await fn();
       console.log(`✅ PASS: ${name}`);
       passed++;
     } catch (err) {
@@ -31,7 +31,7 @@ function runTests() {
   }
 
   // 1. Manifest V3 Validation
-  test("1. Manifest V3 Schema & Permissions", () => {
+  await test("1. Manifest V3 Schema & Permissions", () => {
     const manifestPath = path.join(ROOT, 'manifest.json');
     assert(fs.existsSync(manifestPath), "manifest.json must exist");
     const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
@@ -52,8 +52,8 @@ function runTests() {
   });
 
   // 2. Sensitive Detector Protection
-  test("2. Sensitive Detector & Domain Checks", () => {
-    const { SensitiveDetector, SUGAM_SENSITIVE_DOMAINS } = require(path.join(ROOT, 'shared/sensitive-detector.js'));
+  await test("2. Sensitive Detector & Domain Checks", () => {
+    const { SensitiveDetector } = require(path.join(ROOT, 'shared/sensitive-detector.js'));
 
     // Check bank domains
     assert(SensitiveDetector.isSensitiveDomain('https://retail.onlinesbi.sbi/retail/login.htm'));
@@ -91,7 +91,7 @@ function runTests() {
   });
 
   // 3. Pictograms & Concept Matcher
-  test("3. Pictograms & Concept Matcher (Indian Context)", () => {
+  await test("3. Pictograms & Concept Matcher (Indian Context)", () => {
     const { SUGAM_PICTOGRAMS, PictogramMatcher } = require(path.join(ROOT, 'shared/pictograms-data.js'));
 
     assert(SUGAM_PICTOGRAMS.rupee, "Rupee symbol must exist");
@@ -119,7 +119,7 @@ function runTests() {
   });
 
   // 4. Internationalization & Disclaimers
-  test("4. Translations (English, Hindi, Odia) & Honest Disclaimers", () => {
+  await test("4. Translations (English, Hindi, Odia) & Honest Disclaimers", () => {
     const { SUGAM_TRANSLATIONS, SugamI18n } = require(path.join(ROOT, 'shared/i18n.js'));
 
     for (const lang of ['en', 'hi', 'or']) {
@@ -136,7 +136,7 @@ function runTests() {
   });
 
   // 5. CSS & WCAG 2.2 Target Size & Contrast Check
-  test("5. Touch Target Sizes (>= 48px) & Palette Consistency", () => {
+  await test("5. Touch Target Sizes (>= 48px) & Palette Consistency", () => {
     const popupCss = fs.readFileSync(path.join(ROOT, 'popup/popup.css'), 'utf8');
     const contentCss = fs.readFileSync(path.join(ROOT, 'content/content.css'), 'utf8');
     const sandboxCss = fs.readFileSync(path.join(ROOT, 'sandbox/upi-practice.css'), 'utf8');
@@ -160,7 +160,7 @@ function runTests() {
   });
 
   // 6. Safe UPI Practice Sandbox Conformance
-  test("6. Money Practice Sandbox Requirements", () => {
+  await test("6. Money Practice Sandbox Requirements", () => {
     const sandboxHtml = fs.readFileSync(path.join(ROOT, 'sandbox/upi-practice.html'), 'utf8');
     const sandboxJs = fs.readFileSync(path.join(ROOT, 'sandbox/upi-practice.js'), 'utf8');
 
@@ -175,18 +175,18 @@ function runTests() {
   });
 
   // 7. Master Switch Non-Negotiable Check in Content Script
-  test("7. Master Switch Teardown & Reversion", () => {
+  await test("7. Master Switch Teardown & Reversion", () => {
     const contentJs = fs.readFileSync(path.join(ROOT, 'content/content.js'), 'utf8');
 
     assert(contentJs.includes('teardownAllHelpers'), "Must have complete teardownAllHelpers function");
     assert(contentJs.includes('SUGAM helpers off'), "Must announce 'SUGAM helpers off' to screen readers");
     assert(contentJs.includes('this.shadowHost.remove()'), "Must remove all injected Shadow DOM nodes");
-    assert(contentJs.includes('bionicOriginalNodes'), "Must restore original DOM nodes losslessly");
+    assert(contentJs.includes('SugamBionic.restore'), "Must restore original DOM nodes losslessly");
     assert(contentJs.includes('restoreHiddenDistractions'), "Must restore hidden distractions");
   });
 
   // 8. Sensitive Field Privacy Non-Negotiable
-  test("8. Form Wizard & Speech Never Read/Store Sensitive Fields", () => {
+  await test("8. Form Wizard & Speech Never Read/Store Sensitive Fields", () => {
     const contentJs = fs.readFileSync(path.join(ROOT, 'content/content.js'), 'utf8');
 
     assert(contentJs.includes('isFieldSensitive'), "Must check isFieldSensitive");
@@ -196,7 +196,7 @@ function runTests() {
   });
 
   // 9. Popup Script Execution & Event Binding
-  test("9. Popup Execution & Event Binding Verification", async () => {
+  await test("9. Popup Execution & Event Binding Verification", async () => {
     const mockEl = {
       textContent: '',
       setAttribute: () => {},
@@ -215,7 +215,10 @@ function runTests() {
       querySelectorAll: () => [mockEl]
     };
     global.chrome = {
-      storage: { sync: { get: (k, cb) => cb({ sugamSettings: {} }), set: (o, cb) => cb && cb() } },
+      storage: {
+        sync: { get: (k, cb) => cb({ sugamSettings: {} }), set: (o, cb) => cb && cb(), remove: (k, cb) => cb && cb() },
+        local: { get: (k, cb) => cb({}), set: (o, cb) => cb && cb(), remove: (k, cb) => cb && cb() }
+      },
       tabs: { query: async () => [{ id: 1, url: 'https://example.com' }], sendMessage: () => {} },
       runtime: { getURL: (p) => p }
     };
@@ -231,7 +234,7 @@ function runTests() {
   });
 
   // 10. Form Wizard Comprehensive Conformance
-  test("10. Form Wizard GOV.UK & COGA Pattern Conformance", () => {
+  await test("10. Form Wizard GOV.UK & COGA Pattern Conformance", () => {
     const contentJs = fs.readFileSync(path.join(ROOT, 'content/content.js'), 'utf8');
 
     assert(contentJs.includes('detectFormFields'), "Must have robust detectFormFields");
@@ -245,8 +248,11 @@ function runTests() {
   });
 
   console.log("\n==================================================");
-  console.log(`🎉 TEST SUMMARY: ${passed}/${total} Passed (100% Success)`);
+  console.log(passed === total
+    ? `🎉 TEST SUMMARY: ${passed}/${total} Passed (100% Success)`
+    : `❌ TEST SUMMARY: ${passed}/${total} Passed, ${total - passed} FAILED`);
   console.log("==================================================");
+  if (passed !== total) process.exitCode = 1;
 }
 
 runTests();

@@ -29,9 +29,17 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "css": ["content/content.css"],
-      "js": ["content/content.js"],
+      "matches": [
+        "<all_urls>"
+      ],
+      "css": [
+        "content/content.css"
+      ],
+      "js": [
+        "shared/dom-safe.js",
+        "shared/bionic.js",
+        "content/content.js"
+      ],
       "run_at": "document_idle"
     }
   ],
@@ -39,11 +47,11 @@
     {
       "resources": [
         "content/timer-pause-mainworld.js",
-        "icons/*",
-        "sandbox/*",
-        "shared/*"
+        "fonts/*.woff2"
       ],
-      "matches": ["<all_urls>"]
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ],
   "permissions": [
@@ -51,7 +59,6 @@
     "scripting",
     "storage",
     "sidePanel",
-    "tts",
     "contextMenus"
   ],
   "host_permissions": [
@@ -74,4 +81,3 @@
     }
   }
 }
-

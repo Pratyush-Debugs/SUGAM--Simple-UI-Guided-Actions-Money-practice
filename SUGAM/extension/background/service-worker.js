@@ -13,6 +13,9 @@ chrome.runtime.onInstalled.addListener(async (details) => {
         chrome.storage.sync.set({ sugamSettings: SUGAM_DEFAULT_SETTINGS });
       }
     });
+  } else if (details.reason === 'update') {
+    // Reading settings migrates older data (e.g. moves the API key out of synced storage).
+    await SugamStorage.getSettings();
   }
 
   // Set sidepanel behavior
@@ -71,15 +74,25 @@ chrome.commands.onCommand.addListener(async (command) => {
 
 // Message Relay
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  // Only accept messages from SUGAM's own pages and content scripts.
+  if (sender.id !== chrome.runtime.id || !request) return false;
+
   if (request.action === 'OPEN_SIDE_PANEL' && sender.tab?.id) {
-    if (chrome.sidePanel && chrome.sidePanel.open) {
-      chrome.sidePanel.open({ tabId: sender.tab.id });
-      sendResponse({ success: true });
+    if (!chrome.sidePanel?.open) {
+      sendResponse({ success: false });
+      return false;
     }
-  } else if (request.action === 'OPEN_UPI_PRACTICE') {
+    // Answer once the panel has really opened, so the sender knows the outcome.
+    chrome.sidePanel
+      .open({ tabId: sender.tab.id })
+      .then(() => sendResponse({ success: true }))
+      .catch(() => sendResponse({ success: false }));
+    return true; // keep the channel open for the async response
+  }
+
+  if (request.action === 'OPEN_UPI_PRACTICE') {
     chrome.tabs.create({ url: chrome.runtime.getURL('sandbox/upi-practice.html') });
     sendResponse({ success: true });
   }
-  return true;
+  return false;
 });
-

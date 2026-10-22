@@ -9,6 +9,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   const loadingIndicator = document.getElementById('summary-loading');
   let currentCards = [];
 
+  // Messages and results are shown with textContent so nothing from a web page or cloud AI is parsed as HTML.
+  function showMessage(container, text, className, color) {
+    container.replaceChildren();
+    const p = document.createElement('p');
+    if (className) p.className = className;
+    if (color) p.style.color = color;
+    p.textContent = text;
+    container.appendChild(p);
+  }
+
   // Tab switching
   const tabs = {
     'tab-btn-summary': 'view-summary',
@@ -39,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Load and generate cards
   async function loadEasyCards() {
     loadingIndicator.classList.remove('hidden');
-    cardsContainer.innerHTML = '';
+    cardsContainer.replaceChildren();
 
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -75,11 +85,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       recordWhereWasI(tab.title || 'Page', tab.url);
 
     } catch (err) {
-      cardsContainer.innerHTML = `
-        <div class="sp-disclaimer" style="border-color:#D32F2F; color:#D32F2F;">
-          ${err.message || 'Could not summarise this page.'}
-        </div>
-      `;
+      cardsContainer.replaceChildren();
+      const errorBox = document.createElement('div');
+      errorBox.className = 'sp-disclaimer';
+      errorBox.style.borderColor = '#D32F2F';
+      errorBox.style.color = '#D32F2F';
+      errorBox.textContent = err.message || 'Could not summarise this page.';
+      cardsContainer.appendChild(errorBox);
     } finally {
       loadingIndicator.classList.add('hidden');
     }
@@ -87,36 +99,50 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function renderCards(sentences) {
     if (!sentences || sentences.length === 0) {
-      cardsContainer.innerHTML = `<p class="placeholder-text">No summary cards available.</p>`;
+      showMessage(cardsContainer, 'No summary cards available.', 'placeholder-text');
       return;
     }
 
-    cardsContainer.innerHTML = '';
+    cardsContainer.replaceChildren();
     sentences.forEach((sentence, idx) => {
       const card = document.createElement('div');
       card.className = 'easy-card';
       card.setAttribute('role', 'listitem');
 
-      // Match pictogram
+      // Pictograms come from SUGAM's own bundled data, so their SVG markup is trusted.
       const matchedPic = PictogramMatcher.matchSentence(sentence);
-      const picHtml = matchedPic 
-        ? `<div class="easy-card-pic" aria-hidden="true">${matchedPic.svg}</div>`
-        : `<div class="easy-card-pic" aria-hidden="true"><span style="font-size:28px;">📄</span></div>`;
+      const pic = document.createElement('div');
+      pic.className = 'easy-card-pic';
+      pic.setAttribute('aria-hidden', 'true');
+      if (matchedPic) {
+        pic.innerHTML = matchedPic.svg;
+      } else {
+        const fallback = document.createElement('span');
+        fallback.style.fontSize = '28px';
+        fallback.textContent = '📄';
+        pic.appendChild(fallback);
+      }
 
-      // Bolded formatting
-      const formattedText = sentence.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      const text = document.createElement('div');
+      text.className = 'easy-card-text';
+      SugamDom.appendEmphasis(text, sentence);
 
-      card.innerHTML = `
-        <div class="easy-card-content">
-          ${picHtml}
-          <div class="easy-card-text">${formattedText}</div>
-        </div>
-        <div class="easy-card-footer">
-          <button class="btn-listen-card" data-idx="${idx}" aria-label="Listen to card ${idx + 1}">
-            <span>🔊</span> Listen
-          </button>
-        </div>
-      `;
+      const content = document.createElement('div');
+      content.className = 'easy-card-content';
+      content.append(pic, text);
+
+      const footer = document.createElement('div');
+      footer.className = 'easy-card-footer';
+      const listen = document.createElement('button');
+      listen.className = 'btn-listen-card';
+      listen.dataset.idx = String(idx);
+      listen.setAttribute('aria-label', `Listen to card ${idx + 1}`);
+      const icon = document.createElement('span');
+      icon.textContent = '🔊';
+      listen.append(icon, ' Listen');
+      footer.appendChild(listen);
+
+      card.append(content, footer);
 
       cardsContainer.appendChild(card);
     });
@@ -157,7 +183,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('btn-run-translate')?.addEventListener('click', async () => {
     const targetLang = document.getElementById('select-trans-lang').value;
     const resultBox = document.getElementById('translate-result');
-    resultBox.innerHTML = `<div class="spinner"></div><p>Translating...</p>`;
+    resultBox.replaceChildren();
+    const spinner = document.createElement('div');
+    spinner.className = 'spinner';
+    const progress = document.createElement('p');
+    progress.textContent = 'Translating...';
+    resultBox.append(spinner, progress);
 
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -172,19 +203,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         response?.isSensitive
       );
 
-      resultBox.innerHTML = `
-        <div style="font-size: 16px; line-height: 1.6; color: #29252D;">
-          ${translated}
-        </div>
-      `;
+      resultBox.replaceChildren();
+      const translatedBox = document.createElement('div');
+      translatedBox.style.cssText = 'font-size: 16px; line-height: 1.6; color: #29252D;';
+      translatedBox.textContent = translated;
+      resultBox.appendChild(translatedBox);
     } catch (e) {
-      resultBox.innerHTML = `<p style="color:#D32F2F;">Translation failed: ${e.message}</p>`;
+      showMessage(resultBox, `Translation failed: ${e.message}`, '', '#D32F2F');
     }
   });
 
   // Where was I tracker
   async function recordWhereWasI(title, url) {
-    if (!url || url.startsWith('chrome://')) return;
+    // Only plain web pages are remembered, and without ?query or #fragment (which can carry tokens).
+    const safeUrl = SugamDom.safeHttpUrl(url);
+    if (!safeUrl) return;
+    const parsed = new URL(safeUrl);
+    url = parsed.origin + parsed.pathname;
     const memory = settings.whereWasI?.lastVisited || [];
     const filtered = memory.filter(item => item.url !== url);
     filtered.unshift({ title, url, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
@@ -196,20 +231,37 @@ document.addEventListener('DOMContentLoaded', async () => {
   function renderWhereWasI() {
     const list = document.getElementById('memory-list');
     const items = settings.whereWasI?.lastVisited || [];
+    list.replaceChildren();
     if (items.length === 0) {
-      list.innerHTML = `<p style="color:#666;">No recent pages recorded yet.</p>`;
+      showMessage(list, 'No recent pages recorded yet.', '', '#666');
       return;
     }
 
-    list.innerHTML = items.map(item => `
-      <div style="background:#FFF; border:1.5px solid #E7DDF0; border-radius:10px; padding:12px; margin-bottom:8px;">
-        <div style="font-weight:700; color:#59366E; margin-bottom:4px;">${item.title}</div>
-        <div style="font-size:12px; color:#666;">Saved at ${item.timestamp}</div>
-        <a href="${item.url}" target="_blank" style="display:inline-block; margin-top:6px; color:#59366E; font-weight:700; text-decoration:underline;">
-          Resume reading
-        </a>
-      </div>
-    `).join('');
+    items.forEach((item) => {
+      const href = SugamDom.safeHttpUrl(item.url);
+      if (!href) return;
+
+      const entry = document.createElement('div');
+      entry.style.cssText = 'background:#FFF; border:1.5px solid #E7DDF0; border-radius:10px; padding:12px; margin-bottom:8px;';
+
+      const title = document.createElement('div');
+      title.style.cssText = 'font-weight:700; color:#59366E; margin-bottom:4px;';
+      title.textContent = item.title;
+
+      const saved = document.createElement('div');
+      saved.style.cssText = 'font-size:12px; color:#666;';
+      saved.textContent = `Saved at ${item.timestamp}`;
+
+      const link = document.createElement('a');
+      link.href = href;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.style.cssText = 'display:inline-block; margin-top:6px; color:#59366E; font-weight:700; text-decoration:underline;';
+      link.textContent = 'Resume reading';
+
+      entry.append(title, saved, link);
+      list.appendChild(entry);
+    });
   }
 
   // Initial load

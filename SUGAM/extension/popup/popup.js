@@ -12,9 +12,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const btnComfortSettings = document.getElementById('btn-comfort-settings');
   const btnHelp = document.getElementById('btn-help');
   const btnCalmMoment = document.getElementById('btn-calm-moment');
-  const modalComfort = document.getElementById('modal-comfort');
-  const modalHelp = document.getElementById('modal-help');
-  const modalFeatureOptions = document.getElementById('modal-feature-options');
 
   // Load User Settings
   let settings = await SugamStorage.getSettings();
@@ -74,7 +71,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
           chrome.scripting.executeScript({
             target: { tabId: currentTab.id },
-            files: ['content/content.js']
+            files: ['shared/dom-safe.js', 'shared/bionic.js', 'content/content.js']
           }).then(() => {
             // Retry sending message after injection
             chrome.tabs.sendMessage(currentTab.id, { action, ...payload });
@@ -572,9 +569,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             SUGAM summarises pages into at most 8 plain sentences with pictures.
           </p>
           <label class="group-label" style="margin-top:10px;">Free Gemini API Key (Optional)</label>
-          <input type="password" id="input-gemini-key" class="text-input" placeholder="AIzaSy..." value="${settings.summariser?.geminiApiKey || ''}" style="padding:10px; border-radius:8px; border:2px solid #59366E; width:100%;">
+          <input type="password" id="input-gemini-key" class="text-input" placeholder="AIzaSy..." autocomplete="off" style="padding:10px; border-radius:8px; border:2px solid #59366E; width:100%;">
           <p style="font-size:12px; color:#666; margin-top:4px;">
-            Get a free key from Google AI Studio. If left empty, SUGAM uses fast on-device summarization.
+            Get a free key from Google AI Studio. The key is kept only on this device. If left empty, SUGAM uses fast on-device summarization.
           </p>
           <p style="font-size:12px; background:#E7DDF0; padding:8px; border-radius:6px; margin-top:8px;">
             🔒 <b>Privacy Rule:</b> Cloud AI is NEVER used on sensitive banking or login pages.
@@ -583,6 +580,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       `;
       const keyInput = body.querySelector('#input-gemini-key');
       if (keyInput) {
+        keyInput.value = settings.summariser?.geminiApiKey || '';
         keyInput.addEventListener('change', async (e) => {
           if (!settings.summariser) settings.summariser = { enabled: true };
           settings.summariser.geminiApiKey = e.target.value.trim();

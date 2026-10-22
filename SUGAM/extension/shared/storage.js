@@ -1,7 +1,11 @@
 /**
  * SUGAM - Storage Module
  * Manages user settings, presets, caregiver lock, and per-site rules.
- * All settings are stored locally or synced via chrome.storage.
+ *
+ * Where things live:
+ * - chrome.storage.sync  -> comfort settings only (follow the user across devices).
+ * - chrome.storage.local -> secrets (Gemini API key). Never synced to the user's Google account.
+ * - Caregiver PIN        -> only a salted PBKDF2 hash is stored, never the PIN itself.
  */
 
 const SUGAM_DEFAULT_SETTINGS = {
@@ -17,10 +21,13 @@ const SUGAM_DEFAULT_SETTINGS = {
   // List of hostnames where SUGAM helpers are completely disabled
   disabledSites: [],
 
-  // Caregiver protection (optional PIN lock to prevent accidental changes)
+  // Caregiver protection (optional PIN lock to prevent accidental changes).
+  // This is a speed bump against accidental changes, not a security boundary.
+  // Use SugamStorage.setCaregiverPin() / verifyCaregiverPin(); the PIN itself is never stored.
   caregiverLock: {
     enabled: false,
-    pin: '' // 4-digit PIN
+    pinHash: '',
+    pinSalt: ''
   },
 
   // 4.1 Visual Comfort Settings
@@ -220,58 +227,190 @@ const SUGAM_PRESETS = {
   }
 };
 
+const SUGAM_SETTINGS_KEY = 'sugamSettings';
+const SUGAM_SECRETS_KEY = 'sugamSecrets';
+const SUGAM_PIN_ITERATIONS = 100000;
+
+function sugamIsPlainObject(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+/**
+ * Recursively merges `patch` onto `base` and returns a new object.
+ * Plain objects are merged key by key; arrays and primitives are replaced.
+ */
+function sugamDeepMerge(base, patch) {
+  const result = sugamIsPlainObject(base) ? { ...base } : {};
+  if (!sugamIsPlainObject(patch)) return result;
+  for (const [key, value] of Object.entries(patch)) {
+    result[key] = sugamIsPlainObject(value) ? sugamDeepMerge(result[key], value) : value;
+  }
+  return result;
+}
+
+function sugamClone(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function sugamStorageGet(area, key) {
+  return new Promise((resolve) => {
+    chrome.storage[area].get([key], (res) => resolve((res && res[key]) || undefined));
+  });
+}
+
+function sugamStorageSet(area, items) {
+  return new Promise((resolve) => chrome.storage[area].set(items, () => resolve()));
+}
+
+function sugamStorageRemove(area, key) {
+  return new Promise((resolve) => chrome.storage[area].remove(key, () => resolve()));
+}
+
+function sugamBytesToBase64(bytes) {
+  return btoa(String.fromCharCode(...bytes));
+}
+
+function sugamBase64ToBytes(b64) {
+  return Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+}
+
+async function sugamHashPin(pin, saltBytes) {
+  const subtle = globalThis.crypto.subtle;
+  const keyMaterial = await subtle.importKey('raw', new TextEncoder().encode(pin), 'PBKDF2', false, ['deriveBits']);
+  const bits = await subtle.deriveBits(
+    { name: 'PBKDF2', hash: 'SHA-256', salt: saltBytes, iterations: SUGAM_PIN_ITERATIONS },
+    keyMaterial,
+    256
+  );
+  return sugamBytesToBase64(new Uint8Array(bits));
+}
+
 const SugamStorage = {
   /**
    * Retrieves all user settings with fallback to defaults.
+   * The Gemini API key is read from local-only storage and exposed on
+   * settings.summariser.geminiApiKey so existing callers keep working.
    */
   async getSettings() {
-    return new Promise((resolve) => {
-      chrome.storage.sync.get(['sugamSettings'], (res) => {
-        if (!res || !res.sugamSettings) {
-          resolve(JSON.parse(JSON.stringify(SUGAM_DEFAULT_SETTINGS)));
-        } else {
-          // Deep merge with defaults to ensure all keys exist
-          const merged = { ...SUGAM_DEFAULT_SETTINGS, ...res.sugamSettings };
-          resolve(merged);
-        }
-      });
-    });
+    const stored = await sugamStorageGet('sync', SUGAM_SETTINGS_KEY);
+    const secrets = (await sugamStorageGet('local', SUGAM_SECRETS_KEY)) || {};
+    const merged = sugamDeepMerge(SUGAM_DEFAULT_SETTINGS, stored);
+
+    // One-time migration: older versions kept the API key in synced storage.
+    const legacyKey = stored?.summariser?.geminiApiKey;
+    if (legacyKey) {
+      if (!secrets.geminiApiKey) secrets.geminiApiKey = legacyKey;
+      await this._persist(merged, secrets);
+    }
+
+    // Legacy plain-text caregiver PIN becomes a salted hash.
+    const legacyPin = stored?.caregiverLock?.pin;
+    if (legacyPin !== undefined) {
+      delete merged.caregiverLock.pin;
+      if (/^\d{4}$/.test(String(legacyPin))) await this._storeCaregiverPin(merged, String(legacyPin));
+      await this._persist(merged, secrets);
+    }
+
+    merged.summariser.geminiApiKey = secrets.geminiApiKey || '';
+    return merged;
   },
 
   /**
-   * Saves updated settings.
+   * Saves updated settings. Secrets are split out into local-only storage.
    */
   async saveSettings(updated) {
-    return new Promise((resolve) => {
-      chrome.storage.sync.set({ sugamSettings: updated }, () => {
-        resolve(updated);
-      });
-    });
+    const toSync = sugamClone(updated);
+    const secrets = (await sugamStorageGet('local', SUGAM_SECRETS_KEY)) || {};
+    if (toSync.summariser && typeof toSync.summariser.geminiApiKey === 'string') {
+      secrets.geminiApiKey = toSync.summariser.geminiApiKey.trim();
+    }
+    await this._persist(toSync, secrets);
+    return updated;
   },
 
   /**
-   * Updates partial settings.
+   * Writes settings (without secrets) to sync and secrets to local storage.
+   */
+  async _persist(settings, secrets) {
+    const toSync = sugamClone(settings);
+    if (toSync.summariser) delete toSync.summariser.geminiApiKey;
+    if (toSync.caregiverLock) delete toSync.caregiverLock.pin;
+    await sugamStorageSet('sync', { [SUGAM_SETTINGS_KEY]: toSync });
+
+    if (secrets.geminiApiKey) {
+      await sugamStorageSet('local', { [SUGAM_SECRETS_KEY]: secrets });
+    } else {
+      await sugamStorageRemove('local', SUGAM_SECRETS_KEY);
+    }
+  },
+
+  /**
+   * Updates partial settings (deep merge).
    */
   async updateSettings(patch) {
     const current = await this.getSettings();
-    const updated = { ...current, ...patch };
-    return this.saveSettings(updated);
+    return this.saveSettings(sugamDeepMerge(current, patch));
   },
 
   /**
-   * Applies a preset.
+   * Applies a preset on top of the current settings.
+   * Deep merge keeps values the preset does not mention (API key, consent, ...).
    */
   async applyPreset(presetKey) {
     const current = await this.getSettings();
     const presetData = SUGAM_PRESETS[presetKey];
     if (!presetData) return current;
 
-    const updated = {
-      ...current,
-      preset: presetKey,
-      ...presetData
-    };
-    return this.saveSettings(updated);
+    return this.saveSettings({
+      ...sugamDeepMerge(current, presetData),
+      preset: presetKey
+    });
+  },
+
+  async getApiKey() {
+    const secrets = (await sugamStorageGet('local', SUGAM_SECRETS_KEY)) || {};
+    return secrets.geminiApiKey || '';
+  },
+
+  async setApiKey(key) {
+    const settings = await this.getSettings();
+    settings.summariser.geminiApiKey = String(key || '');
+    await this.saveSettings(settings);
+  },
+
+  /**
+   * Sets (or replaces) the caregiver PIN. Only 4-digit PINs are accepted.
+   */
+  async setCaregiverPin(pin) {
+    if (!/^\d{4}$/.test(String(pin))) throw new Error('The PIN must be exactly 4 digits.');
+    const settings = await this.getSettings();
+    await this._storeCaregiverPin(settings, String(pin));
+    await this.saveSettings(settings);
+  },
+
+  async _storeCaregiverPin(settings, pin) {
+    const salt = globalThis.crypto.getRandomValues(new Uint8Array(16));
+    settings.caregiverLock.pinSalt = sugamBytesToBase64(salt);
+    settings.caregiverLock.pinHash = await sugamHashPin(pin, salt);
+    settings.caregiverLock.enabled = true;
+  },
+
+  async verifyCaregiverPin(pin) {
+    const { pinHash, pinSalt } = (await this.getSettings()).caregiverLock;
+    if (!pinHash || !pinSalt || !/^\d{4}$/.test(String(pin))) return false;
+    const attempt = await sugamHashPin(String(pin), sugamBase64ToBytes(pinSalt));
+    // Constant-time comparison
+    let diff = attempt.length ^ pinHash.length;
+    for (let i = 0; i < attempt.length && i < pinHash.length; i++) {
+      diff |= attempt.charCodeAt(i) ^ pinHash.charCodeAt(i);
+    }
+    return diff === 0;
+  },
+
+  async clearCaregiverPin() {
+    const settings = await this.getSettings();
+    settings.caregiverLock = { enabled: false, pinHash: '', pinSalt: '' };
+    await this.saveSettings(settings);
   },
 
   /**
@@ -311,6 +450,5 @@ const SugamStorage = {
 
 // Export for ES modules and standard browser contexts
 if (typeof module !== 'undefined') {
-  module.exports = { SUGAM_DEFAULT_SETTINGS, SUGAM_PRESETS, SugamStorage };
+  module.exports = { SUGAM_DEFAULT_SETTINGS, SUGAM_PRESETS, SugamStorage, sugamDeepMerge };
 }
-

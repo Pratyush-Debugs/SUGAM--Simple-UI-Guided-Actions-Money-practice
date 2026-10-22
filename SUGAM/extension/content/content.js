@@ -46,6 +46,9 @@
     return /(^|[^a-z])(otp|one-time|pin|cvv|cvc|cardnumber|card-number|secret|security-code)($|[^a-z])/i.test(check);
   }
 
+  // Page-controlled text (labels, placeholders, option text, typed answers) must never be parsed as HTML.
+  const esc = (value) => SugamDom.escapeHtml(value);
+
   // SUGAM Engine State
   const SugamEngine = {
     settings: null,
@@ -54,7 +57,7 @@
     activeHelpers: new Set(),
     shadowHost: null,
     shadowRoot: null,
-    bionicOriginalNodes: new Map(), // Element -> original HTML for lossless restore
+    bionicRecords: [], // { wrapper, original } pairs so Bionic Read can be undone losslessly
     speechSynthesisUtterance: null,
     isReadingAloud: false,
     readingRulerElem: null,
@@ -190,6 +193,15 @@
       } else {
         this.teardownAllHelpers();
         this.announceToScreenReader("SUGAM helpers off");
+        // The announcement needs a live region, so keep the host just long enough for it to be
+        // spoken, then remove it so SUGAM leaves nothing behind on the page.
+        setTimeout(() => {
+          if (!this.isMasterOn && this.shadowHost) {
+            this.shadowHost.remove();
+            this.shadowHost = null;
+            this.shadowRoot = null;
+          }
+        }, 2500);
       }
     },
 
@@ -240,7 +252,7 @@
       // Inject base styles into shadow root
       const style = document.createElement('style');
       style.textContent = `
-        * { box-sizing: border-box; font-family: Lexend, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        * { box-sizing: border-box; font-family: "SUGAM Lexend", Lexend, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         .pointer-all { pointer-events: auto; }
         .sugam-floating-badge {
           position: fixed;
@@ -470,7 +482,7 @@
       // Pause audio & video
       if (vc.pauseMedia) {
         document.querySelectorAll('video, audio').forEach(media => {
-          try { media.pause(); } catch (e) {}
+          try { media.pause(); } catch { /* some media elements refuse to pause */ }
         });
       }
 
@@ -508,17 +520,17 @@
      * 4.4 Dyslexia-Friendly Font
      */
     applyDyslexiaFont(df) {
-      let fontStack = 'Lexend, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      let fontStack = '"SUGAM Lexend", Lexend, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
       if (df.fontFamily === 'Atkinson') {
-        fontStack = '"Atkinson Hyperlegible", Lexend, sans-serif';
+        fontStack = '"SUGAM Atkinson Hyperlegible", "Atkinson Hyperlegible", "SUGAM Lexend", sans-serif';
       } else if (df.fontFamily === 'OpenDyslexic') {
-        fontStack = 'OpenDyslexic, Lexend, sans-serif';
+        fontStack = '"SUGAM OpenDyslexic", OpenDyslexic, "SUGAM Lexend", sans-serif';
       } else if (df.fontFamily === 'System') {
         fontStack = 'Arial, Verdana, sans-serif';
       }
 
       // Fallback for Devanagari and Odia scripts
-      fontStack += ', "Noto Sans Devanagari", "Noto Sans Odia", sans-serif';
+      fontStack += ', "SUGAM Noto Sans Devanagari", "Noto Sans Devanagari", "SUGAM Noto Sans Odia", "Noto Sans Odia", sans-serif';
       document.documentElement.style.setProperty('--sugam-font-family', fontStack);
 
       if (df.applySpacing) {
@@ -613,41 +625,11 @@
      */
     applyBionicRead(strength = 'medium') {
       this.teardownBionicRead();
-
-      const ratio = strength === 'light' ? 0.3 : (strength === 'strong' ? 0.6 : 0.45);
-      const paragraphs = document.querySelectorAll('article p, main p, .content p, p');
-
-      paragraphs.forEach((p) => {
-        // Skip inputs, nav, buttons, or non-Latin content
-        if (p.closest('nav, header, footer, button, [role="button"], code, pre')) return;
-        if (/[\u0900-\u097F\u0B00-\u0B7F]/.test(p.textContent)) return; // Keep Hindi & Odia untouched
-
-        if (!this.bionicOriginalNodes.has(p)) {
-          this.bionicOriginalNodes.set(p, p.innerHTML);
-        }
-
-        // Bionic formatting preserving words
-        const originalText = p.textContent;
-        const words = originalText.split(/(\s+)/);
-        const formatted = words.map(chunk => {
-          if (/^\s+$/.test(chunk) || chunk.length <= 1) return chunk;
-          const boldCount = Math.max(1, Math.round(chunk.length * ratio));
-          const boldPart = chunk.slice(0, boldCount);
-          const restPart = chunk.slice(boldCount);
-          return `<b class="sugam-bionic-bold">${boldPart}</b>${restPart}`;
-        }).join('');
-
-        p.innerHTML = formatted;
-      });
+      this.bionicRecords = SugamBionic.apply(document.body, SugamBionic.ratioFor(strength));
     },
 
     teardownBionicRead() {
-      this.bionicOriginalNodes.forEach((origHtml, elem) => {
-        if (elem && elem.isConnected) {
-          elem.innerHTML = origHtml;
-        }
-      });
-      this.bionicOriginalNodes.clear();
+      SugamBionic.restore(this.bionicRecords);
     },
 
     /**
@@ -888,8 +870,8 @@
           <div class="sugam-breathing-circle" aria-label="Breathe gently">Breathe</div>
           <div class="sugam-calm-actions">
             <button class="sugam-btn-primary" id="sugam-resume-btn">I am ready to continue</button>
-            <a href="tel:${trustedPhone}" class="sugam-btn-secondary" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
-              📞 Call ${trustedName} (${trustedPhone})
+            <a href="tel:${esc(trustedPhone)}" class="sugam-btn-secondary" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
+              📞 Call ${esc(trustedName)} (${esc(trustedPhone)})
             </a>
             <a href="tel:1930" class="sugam-btn-secondary" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
               🛡️ Call 1930 Cyber Helpline
@@ -923,7 +905,7 @@
         if (res && res[pageKey]) {
           const draft = res[pageKey];
           Object.entries(draft).forEach(([name, val]) => {
-            const input = document.querySelector(`input[name="${name}"], textarea[name="${name}"]`);
+            const input = document.querySelector(`input[name="${CSS.escape(name)}"], textarea[name="${CSS.escape(name)}"]`);
             if (input && !isFieldSensitive(input) && !input.value) {
               input.value = val;
             }
@@ -1113,7 +1095,7 @@
             Object.assign(wizardData, res[draftKey]);
           }
         });
-      } catch (e) {}
+      } catch { /* storage unavailable: start without a saved draft */ }
 
       // Pre-populate with any current values from the real inputs
       elements.forEach((el, idx) => {
@@ -1409,7 +1391,7 @@
               <div style="background:#E7DDF0; border-radius:12px; padding:16px; margin:16px 0;">
                 <strong style="color:#59366E; font-size:16px; display:block; margin-bottom:8px;">Items you will need for this form:</strong>
                 <ul style="padding-left:20px; line-height:1.6; font-size:15px;">
-                  ${requiredItems.map(el => `<li>${this.getFieldLabel(el)}</li>`).join('')}
+                  ${requiredItems.map(el => `<li>${esc(this.getFieldLabel(el))}</li>`).join('')}
                 </ul>
               </div>
             `;
@@ -1451,12 +1433,14 @@
           elements.forEach((el, idx) => {
             const label = this.getFieldLabel(el);
             const isSensitive = isFieldSensitive(el);
-            const val = isSensitive ? '🔒 (Private - Enter on website)' : (wizardData[idx] || '<em>(Not answered)</em>');
+            const val = isSensitive
+              ? '🔒 (Private - Enter on website)'
+              : (wizardData[idx] ? esc(wizardData[idx]) : '<em>(Not answered)</em>');
 
             reviewItemsHtml += `
               <div class="sugam-review-item">
                 <div>
-                  <strong>${label}</strong>
+                  <strong>${esc(label)}</strong>
                   <div style="margin-top:2px;">${val}</div>
                 </div>
                 ${!isSensitive ? `<button class="sugam-btn-change" data-idx="${idx}">Change</button>` : ''}
@@ -1542,7 +1526,7 @@
         } else if (tag === 'select') {
           // Replicate select options
           const optionsHtml = Array.from(el.options).map(opt => `
-            <option value="${opt.value}" ${opt.value === val ? 'selected' : ''}>${opt.text}</option>
+            <option value="${esc(opt.value)}" ${opt.value === val ? 'selected' : ''}>${esc(opt.text)}</option>
           `).join('');
           inputWidgetHtml = `
             <select class="sugam-wz-select" id="sugam-curr-field">${optionsHtml}</select>
@@ -1550,7 +1534,7 @@
         } else if (tag === 'textarea') {
           inputWidgetHtml = `
             <div class="sugam-input-row">
-              <textarea class="sugam-wz-textarea" id="sugam-curr-field" rows="4" placeholder="${placeholder}">${val}</textarea>
+              <textarea class="sugam-wz-textarea" id="sugam-curr-field" rows="4" placeholder="${esc(placeholder)}">${esc(val)}</textarea>
               <button class="sugam-mic-btn" id="sugam-mic-btn" type="button" aria-label="Dictate answer with voice">🎙️ Dictate</button>
             </div>
           `;
@@ -1558,15 +1542,15 @@
           // Standard text, email, tel input
           inputWidgetHtml = `
             <div class="sugam-input-row">
-              <input class="sugam-wz-input" id="sugam-curr-field" type="${type === 'password' ? 'text' : type}" placeholder="${placeholder}" value="${val}" />
+              <input class="sugam-wz-input" id="sugam-curr-field" type="${type === 'password' ? 'text' : type}" placeholder="${esc(placeholder)}" value="${esc(val)}" />
               <button class="sugam-mic-btn" id="sugam-mic-btn" type="button" aria-label="Dictate answer with voice">🎙️ Dictate</button>
             </div>
           `;
         }
 
         body.innerHTML = `
-          <label class="sugam-wz-label" for="sugam-curr-field">${label} ${el.required ? '<span style="color:#C62828;">*</span>' : ''}</label>
-          ${placeholder && !isSensitive ? `<div class="sugam-wz-hint">${placeholder}</div>` : ''}
+          <label class="sugam-wz-label" for="sugam-curr-field">${esc(label)} ${el.required ? '<span style="color:#C62828;">*</span>' : ''}</label>
+          ${placeholder && !isSensitive ? `<div class="sugam-wz-hint">${esc(placeholder)}</div>` : ''}
           ${inputWidgetHtml}
           <div class="sugam-val-hint" id="sugam-val-hint"></div>
         `;
@@ -1638,7 +1622,7 @@
           // Save locally
           try {
             chrome.storage.local.set({ [draftKey]: wizardData });
-          } catch (e) {}
+          } catch { /* storage unavailable: the draft is simply not saved */ }
           container.remove();
           this.wizardModalElem = null;
           alert("Your answers are saved. You can open Form Wizard anytime to continue.");

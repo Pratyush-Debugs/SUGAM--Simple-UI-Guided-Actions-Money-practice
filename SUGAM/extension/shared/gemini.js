@@ -8,7 +8,48 @@
  * - Clear machine output disclaimers
  */
 
+// Change the model in one place. Check Google's current model list before releasing.
+const SUGAM_GEMINI_MODEL = 'gemini-3.8-flash';
+const SUGAM_GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${SUGAM_GEMINI_MODEL}:generateContent`;
+const SUGAM_GEMINI_TIMEOUT_MS = 20000;
+
 const SugamAI = {
+  /**
+   * POSTs a prompt to Gemini. The key travels in a header, never in the URL,
+   * and the request is aborted if it takes too long.
+   * @returns {Promise<string>} the text of the first candidate
+   */
+  async _generate(prompt, apiKey, generationConfig) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), SUGAM_GEMINI_TIMEOUT_MS);
+    try {
+      const response = await fetch(SUGAM_GEMINI_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': apiKey
+        },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig
+        }),
+        signal: controller.signal
+      });
+
+      if (!response.ok) {
+        // Status only: the response body is not needed and may echo request details.
+        throw new Error(`Gemini API error (${response.status})`);
+      }
+
+      const data = await response.json();
+      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!text) throw new Error('No response from Gemini API');
+      return text;
+    } finally {
+      clearTimeout(timer);
+    }
+  },
+
   /**
    * Generates an easy-read summary using Gemini API or local heuristic fallback.
    * @param {string} text - Raw article text.
@@ -51,7 +92,7 @@ const SugamAI = {
   },
 
   /**
-   * Calls Gemini 3.8 Flash via REST endpoint
+   * Summarises text with Gemini and returns an array of plain sentences
    */
   async _callGeminiSummarise(text, apiKey, language) {
     const targetLangName = language === 'hi' ? 'Hindi' : (language === 'or' ? 'Odia' : 'English');
@@ -68,44 +109,22 @@ Strict rules:
 Text to summarise:
 ${text.slice(0, 8000)}`;
 
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
-
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        contents: [
-          {
-            parts: [{ text: prompt }]
-          }
-        ],
-        generationConfig: {
-          temperature: 0.2,
-          maxOutputTokens: 1000
-        }
-      })
+    const candidateText = await this._generate(prompt, apiKey, {
+      temperature: 0.2,
+      maxOutputTokens: 1000
     });
-
-    if (!response.ok) {
-      const errBody = await response.text();
-      throw new Error(`Gemini API error (${response.status}): ${errBody}`);
-    }
-
-    const data = await response.json();
-    const candidateText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!candidateText) {
-      throw new Error("No response from Gemini API");
-    }
 
     // Parse JSON array from response
     const cleaned = candidateText.replace(/```json/g, '').replace(/```/g, '').trim();
     const parsed = JSON.parse(cleaned);
-    if (Array.isArray(parsed)) {
-      return parsed;
+    if (!Array.isArray(parsed)) {
+      throw new Error('Gemini returned an unexpected format');
     }
-    return [cleaned];
+    const sentences = parsed.filter((item) => typeof item === 'string' && item.trim()).map((item) => item.trim());
+    if (sentences.length === 0) {
+      throw new Error('Gemini returned no sentences');
+    }
+    return sentences;
   },
 
   /**
@@ -164,20 +183,11 @@ Return ONLY the translated text without extra explanation.
 Text:
 ${text}`;
 
-      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.1 }
-        })
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const translated = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (translated) return translated.trim();
+      try {
+        const translated = await this._generate(prompt, apiKey, { temperature: 0.1 });
+        return translated.trim();
+      } catch (err) {
+        console.warn('Gemini translation failed, returning original text:', err.message);
       }
     }
 
