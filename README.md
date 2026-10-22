@@ -8,3 +8,7 @@ Cognitive & Neuro-Inclusive Accessibility Layer (+ Safe UPI Sandbox)
 ​>>The Software Prototype:
 ​   Cognitive Simplifier Extension: Strips flashing elements and clutter from any portal, converts dense bureaucratic paragraphs into Easy-Read bullet points paired with intuitive pictograms, and breaks 20-field forms into a calm, 1-question-at-a-time wizard.
 ​Risk-Free Practice Sandbox: Includes a simulated digital payment (UPI) and form-filling training environment with AI guardrails so neurodivergent young adults can practice independent digital transactions without risking real money.
+
+## Getting started
+
+The extension lives in [`SUGAM/extension`](SUGAM/extension). See [its README](SUGAM/extension/README.md) for features, how to load it in Chrome or Edge, and the development workflow (`npm install`, `npm test`, `npm run lint`).

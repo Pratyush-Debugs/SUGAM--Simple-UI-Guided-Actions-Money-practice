@@ -50,3 +50,20 @@ test('no code builds HTML from page, storage or AI text without escaping (sidepa
     ['pic.innerHTML = matchedPic.svg;']
   );
 });
+
+test('bundled font files exist, are web accessible, and are used by content.css', () => {
+  const css = fs.readFileSync(path.join(ROOT, 'content/content.css'), 'utf8');
+  const urls = [...css.matchAll(/__MSG_@@extension_id__\/(fonts\/[^')]+)/g)].map((m) => m[1]);
+  assert.ok(urls.length >= 10, 'expected regular and bold faces for five families');
+  for (const url of urls) assert.ok(fs.existsSync(path.join(ROOT, url)), `${url} is missing`);
+  const resources = manifest.web_accessible_resources.flatMap((entry) => entry.resources);
+  assert.ok(resources.includes('fonts/*.woff2'));
+  assert.ok(fs.existsSync(path.join(ROOT, 'fonts/LICENSES.txt')), 'OFL licence text must ship with the fonts');
+});
+
+test('bundled font families are prefixed so they cannot restyle sites that use the same font name', () => {
+  const css = fs.readFileSync(path.join(ROOT, 'content/content.css'), 'utf8');
+  const families = [...css.matchAll(/@font-face\s*{\s*font-family:\s*'([^']+)'/g)].map((m) => m[1]);
+  assert.ok(families.length >= 10);
+  for (const family of families) assert.ok(family.startsWith('SUGAM '), `${family} must start with "SUGAM "`);
+});

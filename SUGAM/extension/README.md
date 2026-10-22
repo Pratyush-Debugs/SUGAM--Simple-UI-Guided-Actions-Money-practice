@@ -106,22 +106,36 @@ Supported languages: **English**, **Hindi (हिन्दी)**, and **Odia (�
 1. Open Chrome or Edge and go to `chrome://extensions` (or `edge://extensions`).
 2. Turn ON **Developer mode** (toggle in top-right or sidebar).
 3. Click **Load unpacked**.
-4. Select the directory:
-   ```
-   /home/pratyush/Documents/Sugam/extension
-   ```
+4. Select the `SUGAM/extension` folder of this repository (the folder that contains `manifest.json`).
 5. Click the SUGAM icon in the toolbar to open the extension popup!
 
 ---
 
-## 🧪 Automated Test Suite
+## 🧑‍💻 Development
 
-Run the built-in verification suite:
+Run these from the **repository root** (Node.js 20 or newer):
+
 ```bash
-node tests/verify-all.js
+npm install          # once
+npm test             # unit tests + verification suite
+npm run lint         # ESLint
+npm run format       # Prettier (use format:check in CI)
 ```
+
+- `SUGAM/extension/tests/unit/` holds `node:test` unit tests (storage, Gemini client, safe DOM helpers, Bionic Read, manifest).
+- `SUGAM/extension/tests/verify-all.js` is the original verification suite. It exits with a non-zero code on any failure.
+- Pull requests are checked by GitHub Actions (`.github/workflows/ci.yml`): lint, format check and tests.
+
 Sample test pages for testing extension behavior:
+
 - `tests/sample-article.html`: Article with English, Hindi, and Odia content.
 - `tests/form-page.html`: 10-field application form for testing Form Wizard and sensitive field protection.
 - `tests/countdown-page.html`: Page with client-side countdown timer for testing Level 1 & Level 2 timer freeze.
 
+### Coding rules for this project
+
+- **Never put text from a web page, storage, or the cloud AI into `innerHTML`.** Use `textContent`, DOM APIs, or the helpers in `shared/dom-safe.js` (`escapeHtml`, `safeHttpUrl`, `appendEmphasis`).
+- **Secrets stay local.** The Gemini API key lives in `chrome.storage.local` only (see `shared/storage.js`) and is sent in a request header, never in a URL. The caregiver PIN is stored only as a salted hash.
+- **Every helper must be reversible.** Anything a helper adds to a page must be removed by the master switch (`teardownAllHelpers`).
+- **Bundled fonts** are in `fonts/` (SIL OFL 1.1). Their family names start with `SUGAM ` so they never change a website that uses a font of the same name.
+- **Check the Gemini model name** in `shared/gemini.js` (`SUGAM_GEMINI_MODEL`) against Google's current model list before each release.

@@ -4,6 +4,94 @@
  * Conforms to WCAG 2.2 AA & W3C COGA guidelines.
  */
 
+/*
+ * Bundled fonts (SIL OFL 1.1, see fonts/README.md). No font is fetched from the internet.
+ * Family names are prefixed "SUGAM" so they never change a site that uses its own font of the same name.
+ */
+@font-face {
+  font-family: 'SUGAM Lexend';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('chrome-extension://__MSG_@@extension_id__/fonts/lexend-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'SUGAM Atkinson Hyperlegible';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('chrome-extension://__MSG_@@extension_id__/fonts/atkinson-hyperlegible-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'SUGAM OpenDyslexic';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('chrome-extension://__MSG_@@extension_id__/fonts/opendyslexic-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'SUGAM Noto Sans Devanagari';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('chrome-extension://__MSG_@@extension_id__/fonts/noto-sans-devanagari-400.woff2') format('woff2');
+  unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+25CC, U+A830-A839, U+A8E0-A8FF;
+}
+
+@font-face {
+  font-family: 'SUGAM Noto Sans Odia';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('chrome-extension://__MSG_@@extension_id__/fonts/noto-sans-odia-400.woff2') format('woff2');
+  unicode-range: U+0B00-0B7F, U+200C-200D, U+25CC;
+}
+
+@font-face {
+  font-family: 'SUGAM Lexend';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('chrome-extension://__MSG_@@extension_id__/fonts/lexend-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'SUGAM Atkinson Hyperlegible';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('chrome-extension://__MSG_@@extension_id__/fonts/atkinson-hyperlegible-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'SUGAM OpenDyslexic';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('chrome-extension://__MSG_@@extension_id__/fonts/opendyslexic-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'SUGAM Noto Sans Devanagari';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('chrome-extension://__MSG_@@extension_id__/fonts/noto-sans-devanagari-700.woff2') format('woff2');
+  unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+25CC, U+A830-A839, U+A8E0-A8FF;
+}
+
+@font-face {
+  font-family: 'SUGAM Noto Sans Odia';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('chrome-extension://__MSG_@@extension_id__/fonts/noto-sans-odia-700.woff2') format('woff2');
+  unicode-range: U+0B00-0B7F, U+200C-200D, U+25CC;
+}
+
 :root {
   --sugam-plum: #59366e;
   --sugam-lavender: #e7ddf0;
