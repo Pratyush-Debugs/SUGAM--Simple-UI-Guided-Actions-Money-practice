@@ -11,10 +11,9 @@
     "test:unit": "node --test \"SUGAM/extension/tests/unit/*.test.js\"",
     "test:verify": "node SUGAM/extension/tests/verify-all.js",
     "lint": "eslint SUGAM/extension",
-    "format": "prettier --write \"SUGAM/extension/**/*.{js,json,css}\" \"*.{js,json}\" \"scripts/**/*.js\"",
-    "format:check": "prettier --check \"SUGAM/extension/**/*.{js,json,css}\" \"*.{js,json}\" \"scripts/**/*.js\"",
-    "test:e2e": "playwright test",
-    "translations:export": "node scripts/export-translations.js"
+    "format": "prettier --write \"SUGAM/extension/**/*.{js,json,css}\" \"*.{js,json}\"",
+    "format:check": "prettier --check \"SUGAM/extension/**/*.{js,json,css}\" \"*.{js,json}\"",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
