@@ -5,22 +5,49 @@ const path = require('node:path');
 
 const ROOT = path.resolve(__dirname, '../..');
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'manifest.json'), 'utf8'));
+const { SUGAM_CONTENT_SCRIPTS, SUGAM_CONTENT_CSS, SUGAM_GEMINI_ORIGIN } = require('../../shared/injector.js');
 
-test('every file the manifest points to exists', () => {
+test('every file the manifest and injector point to exists', () => {
   const files = [
     manifest.action.default_popup,
     manifest.side_panel.default_path,
     manifest.background.service_worker,
     ...Object.values(manifest.icons),
-    ...manifest.content_scripts.flatMap((cs) => [...cs.js, ...cs.css])
+    ...SUGAM_CONTENT_SCRIPTS,
+    ...SUGAM_CONTENT_CSS
   ];
   for (const file of files) assert.ok(fs.existsSync(path.join(ROOT, file)), `${file} is missing`);
 });
 
-test('content scripts load helpers before content.js', () => {
-  const js = manifest.content_scripts[0].js;
-  assert.ok(js.indexOf('shared/dom-safe.js') < js.indexOf('content/content.js'));
-  assert.ok(js.indexOf('shared/bionic.js') < js.indexOf('content/content.js'));
+test('SUGAM has no standing access to websites', () => {
+  assert.equal(manifest.content_scripts, undefined, 'content scripts are injected on demand, not declared');
+  assert.deepEqual(manifest.host_permissions, [SUGAM_GEMINI_ORIGIN], 'only the Gemini API host is always allowed');
+  assert.deepEqual(manifest.optional_host_permissions, ['<all_urls>'], 'every-website access is opt-in');
+  assert.ok(manifest.permissions.includes('activeTab'));
+  assert.ok(manifest.permissions.includes('scripting'));
+});
+
+test('content scripts load helpers and every feature first, and content.js last', () => {
+  assert.equal(SUGAM_CONTENT_SCRIPTS.at(-1), 'content/content.js');
+  for (const file of [
+    'shared/dom-safe.js',
+    'shared/sensitive-detector.js',
+    'shared/i18n.js',
+    'content/page-safety.js'
+  ]) {
+    assert.ok(SUGAM_CONTENT_SCRIPTS.includes(file), file);
+  }
+  const features = fs.readdirSync(path.join(ROOT, 'content/features')).map((f) => `content/features/${f}`);
+  assert.ok(features.length >= 7);
+  for (const feature of features) assert.ok(SUGAM_CONTENT_SCRIPTS.includes(feature), `${feature} must be injected`);
+});
+
+test('popup, side panel and service worker all inject through the shared injector', () => {
+  for (const file of ['popup/popup.js', 'sidepanel/sidepanel.js', 'background/service-worker.js']) {
+    const code = fs.readFileSync(path.join(ROOT, file), 'utf8');
+    assert.ok(code.includes('SugamInjector.'), `${file} must use SugamInjector`);
+    assert.equal(code.includes('chrome.tabs.sendMessage'), false, `${file} must not message tabs directly`);
+  }
 });
 
 test('only the main-world timer script and bundled fonts are web accessible', () => {
@@ -33,20 +60,6 @@ test('only the main-world timer script and bundled fonts are web accessible', ()
 
 test('permissions that the code does not use are not requested', () => {
   assert.equal(manifest.permissions.includes('tts'), false);
-});
-
-test('popup fallback injection uses the same files as the manifest', () => {
-  const popup = fs.readFileSync(path.join(ROOT, 'popup/popup.js'), 'utf8');
-  assert.ok(popup.includes('chrome.runtime.getManifest().content_scripts[0].js'));
-});
-
-test('content script helpers and features load before content.js, which loads last', () => {
-  const js = manifest.content_scripts[0].js;
-  assert.equal(js.at(-1), 'content/content.js');
-  for (const file of ['shared/sensitive-detector.js', 'content/page-safety.js']) assert.ok(js.includes(file), file);
-  const features = fs.readdirSync(path.join(ROOT, 'content/features')).map((f) => `content/features/${f}`);
-  assert.ok(features.length >= 7);
-  for (const feature of features) assert.ok(js.includes(feature), `${feature} must be listed in the manifest`);
 });
 
 test('there is only one list of sensitive domains', () => {

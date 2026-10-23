@@ -292,6 +292,14 @@
           </label>
         </fieldset>
 
+        <!-- Automatic help on every website (optional permission) -->
+        <div class="form-group">
+          <label class="checkbox-row">
+            <input type="checkbox" id="chk-all-sites">
+            <span>Use SUGAM on every website (needed for automatic scam warnings). Chrome will ask you to allow this.</span>
+          </label>
+        </div>
+
         <!-- Never run on this site toggle -->
         <div class="form-group site-toggle-row">
           <button class="btn-site-toggle" id="btn-toggle-site">Never run on this website</button>
@@ -365,6 +373,7 @@
   </div>
 
   <script src="../shared/storage.js"></script>
+  <script src="../shared/injector.js"></script>
   <script src="../shared/i18n.js"></script>
   <script src="popup.js"></script>
 </body>

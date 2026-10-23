@@ -27,28 +27,6 @@
   "background": {
     "service_worker": "background/service-worker.js"
   },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "css": ["content/content.css"],
-      "js": [
-        "shared/dom-safe.js",
-        "shared/bionic.js",
-        "shared/sensitive-detector.js",
-        "shared/i18n.js",
-        "content/page-safety.js",
-        "content/features/visual-comfort.js",
-        "content/features/reading-ruler.js",
-        "content/features/bionic-read.js",
-        "content/features/take-your-time.js",
-        "content/features/read-aloud.js",
-        "content/features/form-wizard.js",
-        "content/features/scam-guard.js",
-        "content/content.js"
-      ],
-      "run_at": "document_idle"
-    }
-  ],
   "web_accessible_resources": [
     {
       "resources": ["content/timer-pause-mainworld.js", "fonts/*.woff2"],
@@ -56,7 +34,7 @@
     }
   ],
   "permissions": ["activeTab", "scripting", "storage", "sidePanel", "contextMenus"],
-  "host_permissions": ["<all_urls>"],
+  "host_permissions": ["https://generativelanguage.googleapis.com/*"],
   "commands": {
     "toggle-master-switch": {
       "suggested_key": {
@@ -72,5 +50,6 @@
       },
       "description": "I need a moment (Calm screen)"
     }
-  }
+  },
+  "optional_host_permissions": ["<all_urls>"]
 }

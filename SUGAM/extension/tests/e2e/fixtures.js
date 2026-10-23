@@ -7,7 +7,24 @@ const fs = require('node:fs');
 const http = require('node:http');
 const path = require('node:path');
 
+const os = require('node:os');
+
 const EXTENSION = path.resolve(__dirname, '../..');
+
+/**
+ * SUGAM only runs automatically on sites the user has granted. Tests use a copy of the extension
+ * that is granted the local test server, which exercises the same path as "Use SUGAM on every
+ * website" (SugamInjector.syncRegistration) without needing a click on Chrome's permission prompt.
+ */
+function grantedCopy() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sugam-ext-'));
+  fs.cpSync(EXTENSION, dir, { recursive: true, filter: (src) => !src.includes(`${path.sep}tests${path.sep}`) });
+  const manifestPath = path.join(dir, 'manifest.json');
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+  manifest.host_permissions = [...manifest.host_permissions, 'http://127.0.0.1/*'];
+  fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+  return dir;
+}
 const PAGES = path.resolve(__dirname, '..');
 
 const test = base.extend({
@@ -29,19 +46,29 @@ const test = base.extend({
     await new Promise((resolve) => server.close(resolve));
   },
 
-  // eslint-disable-next-line no-empty-pattern
-  context: async ({}, use) => {
+  // Set to false (test.use({ grantTestSite: false })) to load SUGAM exactly as shipped, with no site access.
+  grantTestSite: [true, { option: true }],
+
+  context: async ({ grantTestSite }, use) => {
+    const extension = grantTestSite ? grantedCopy() : EXTENSION;
     const context = await chromium.launchPersistentContext('', {
       channel: 'chromium',
-      args: [`--disable-extensions-except=${EXTENSION}`, `--load-extension=${EXTENSION}`]
+      args: [`--disable-extensions-except=${extension}`, `--load-extension=${extension}`]
     });
     await use(context);
     await context.close();
+    if (extension !== EXTENSION) fs.rmSync(extension, { recursive: true, force: true });
   },
 
-  serviceWorker: async ({ context }, use) => {
+  serviceWorker: async ({ context, grantTestSite }, use) => {
     let [worker] = context.serviceWorkers();
     if (!worker) worker = await context.waitForEvent('serviceworker');
+    if (grantTestSite) {
+      // On first install SUGAM registers itself for granted sites; wait so the first page load gets it.
+      await expect
+        .poll(() => worker.evaluate(async () => (await chrome.scripting.getRegisteredContentScripts()).length))
+        .toBe(1);
+    }
     await use(worker);
   },
 

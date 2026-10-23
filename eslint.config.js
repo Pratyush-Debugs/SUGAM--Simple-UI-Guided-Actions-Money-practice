@@ -13,6 +13,7 @@ const sharedGlobals = {
   SUGAM_DEFAULT_SETTINGS: 'readonly',
   SUGAM_PRESETS: 'readonly',
   SugamFeatures: 'readonly',
+  SugamInjector: 'readonly',
   // content/page-safety.js
   isPageSensitive: 'readonly',
   isFieldSensitive: 'readonly',

@@ -245,12 +245,15 @@ async function runTests() {
         local: { get: (k, cb) => cb({}), set: (o, cb) => cb && cb(), remove: (k, cb) => cb && cb() }
       },
       tabs: { query: async () => [{ id: 1, url: 'https://example.com' }], sendMessage: () => {} },
-      runtime: { getURL: (p) => p }
+      runtime: { getURL: (p) => p },
+      permissions: { contains: async () => false, request: async () => false, remove: async () => true },
+      scripting: { insertCSS: async () => {}, executeScript: async () => {} }
     };
     const { SugamStorage } = require(path.join(ROOT, 'shared/storage.js'));
     const { SugamI18n } = require(path.join(ROOT, 'shared/i18n.js'));
     global.SugamStorage = SugamStorage;
     global.SugamI18n = SugamI18n;
+    global.SugamInjector = require(path.join(ROOT, 'shared/injector.js')).SugamInjector;
 
     const code = fs.readFileSync(path.join(ROOT, 'popup/popup.js'), 'utf8');
     const runner = eval(

@@ -3,7 +3,7 @@
  * Handles installation, commands, context menus, and sidePanel routing.
  */
 
-importScripts('../shared/storage.js');
+importScripts('../shared/storage.js', '../shared/injector.js');
 
 chrome.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === 'install') {
@@ -17,6 +17,8 @@ chrome.runtime.onInstalled.addListener(async (details) => {
     // Reading settings migrates older data (e.g. moves the API key out of synced storage).
     await SugamStorage.getSettings();
   }
+
+  await SugamInjector.syncRegistration();
 
   // Set sidepanel behavior
   if (chrome.sidePanel && chrome.sidePanel.setPanelBehavior) {
@@ -45,18 +47,23 @@ chrome.runtime.onInstalled.addListener(async (details) => {
   });
 });
 
+// Automatic injection follows what the user has granted ("Use SUGAM on every website").
+chrome.runtime.onStartup.addListener(() => SugamInjector.syncRegistration());
+chrome.permissions.onAdded.addListener(() => SugamInjector.syncRegistration());
+chrome.permissions.onRemoved.addListener(() => SugamInjector.syncRegistration());
+
 // Handle Context Menu Clicks
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (!tab || !tab.id) return;
 
   if (info.menuItemId === 'sugam-read-selection') {
-    chrome.tabs.sendMessage(tab.id, { action: 'TRIGGER_READ_ALOUD', mode: 'selection' });
+    SugamInjector.send(tab.id, { action: 'TRIGGER_READ_ALOUD', mode: 'selection' });
   } else if (info.menuItemId === 'sugam-summarise-page') {
     if (chrome.sidePanel && chrome.sidePanel.open) {
       await chrome.sidePanel.open({ tabId: tab.id });
     }
   } else if (info.menuItemId === 'sugam-calm-moment') {
-    chrome.tabs.sendMessage(tab.id, { action: 'TRIGGER_CALM_MOMENT' });
+    SugamInjector.send(tab.id, { action: 'TRIGGER_CALM_MOMENT' });
   }
 });
 
@@ -66,9 +73,9 @@ chrome.commands.onCommand.addListener(async (command) => {
   if (!tab || !tab.id) return;
 
   if (command === 'toggle-master-switch') {
-    chrome.tabs.sendMessage(tab.id, { action: 'TOGGLE_MASTER_SWITCH' });
+    SugamInjector.send(tab.id, { action: 'TOGGLE_MASTER_SWITCH' });
   } else if (command === 'trigger-calm-moment') {
-    chrome.tabs.sendMessage(tab.id, { action: 'TRIGGER_CALM_MOMENT' });
+    SugamInjector.send(tab.id, { action: 'TRIGGER_CALM_MOMENT' });
   }
 });
 

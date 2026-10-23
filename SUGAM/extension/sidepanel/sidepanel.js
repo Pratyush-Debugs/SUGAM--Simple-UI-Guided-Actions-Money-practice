@@ -100,15 +100,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       // Ask content script for page text & sensitivity check
-      const response = await new Promise((resolve) => {
-        chrome.tabs.sendMessage(tab.id, { action: 'EXTRACT_PAGE_CONTENT' }, (res) => {
-          if (chrome.runtime.lastError || !res) {
-            resolve({ content: '', isSensitive: false });
-          } else {
-            resolve(res);
-          }
-        });
-      });
+      const response = (await SugamInjector.send(tab.id, { action: 'EXTRACT_PAGE_CONTENT' })) || {
+        content: '',
+        isSensitive: false
+      };
 
       const rawText = response.content || '';
       const isSensitive = response.isSensitive;
@@ -247,9 +242,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-      const response = await new Promise((resolve) => {
-        chrome.tabs.sendMessage(tab.id, { action: 'EXTRACT_PAGE_CONTENT' }, resolve);
-      });
+      const response = await SugamInjector.send(tab.id, { action: 'EXTRACT_PAGE_CONTENT' });
 
       const apiKey = settings.summariser?.geminiApiKey || '';
       if (!apiKey) {

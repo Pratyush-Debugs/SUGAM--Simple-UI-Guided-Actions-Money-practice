@@ -49,49 +49,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // Message Active Tab's Content Script with dynamic injection fallback
+  // Message SUGAM in the active tab. Opening the popup grants access to this tab only (activeTab),
+  // so SUGAM is injected here on demand.
   function notifyContentScript(action, payload = {}) {
-    if (!currentTab || !currentTab.id) return;
-
-    // Skip internal browser pages
-    if (
-      currentTab.url &&
-      (currentTab.url.startsWith('chrome://') ||
-        currentTab.url.startsWith('edge://') ||
-        currentTab.url.startsWith('about:'))
-    ) {
-      return;
-    }
-
-    chrome.tabs.sendMessage(currentTab.id, { action, ...payload }, (response) => {
-      if (chrome.runtime.lastError) {
-        // Content script might not be injected yet into this tab. Inject dynamically!
-        if (chrome.scripting && chrome.scripting.executeScript) {
-          if (chrome.scripting.insertCSS) {
-            chrome.scripting
-              .insertCSS({
-                target: { tabId: currentTab.id },
-                files: ['content/content.css']
-              })
-              .catch(() => {});
-          }
-
-          chrome.scripting
-            .executeScript({
-              target: { tabId: currentTab.id },
-              files: chrome.runtime.getManifest().content_scripts[0].js
-            })
-            .then(() => {
-              // Retry sending message after injection
-              chrome.tabs.sendMessage(currentTab.id, { action, ...payload });
-            })
-            .catch((err) => {
-              console.warn('Script injection skipped:', err);
-            });
-        }
-      }
-    });
+    if (!currentTab?.id || !SugamInjector.canRunOn(currentTab.url)) return Promise.resolve(undefined);
+    return SugamInjector.send(currentTab.id, { action, ...payload });
   }
+
+  // The user opened SUGAM on this page: start it here so their helpers apply.
+  if (currentTab?.id && SugamInjector.canRunOn(currentTab.url)) SugamInjector.ensure(currentTab.id);
 
   // UI Update Functions
   function updateMasterSwitchUI() {
@@ -476,12 +442,25 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (btnCopySummary) {
     btnCopySummary.addEventListener('click', () => {
       if (currentTab?.id) {
-        chrome.tabs.sendMessage(currentTab.id, { action: 'EXTRACT_PAGE_CONTENT' }, (resp) => {
+        notifyContentScript('EXTRACT_PAGE_CONTENT').then((resp) => {
           const text = resp?.content?.slice(0, 500) || 'Could not read page text.';
           const summaryText = `Help needed on this page (${currentTab.title || 'Webpage'}):\n"${text}..."`;
           navigator.clipboard.writeText(summaryText);
           alert(SugamI18n.get('helpSummaryCopied'));
         });
+      }
+    });
+  }
+
+  // "Use SUGAM on every website": asks Chrome for access to all sites. Off by default.
+  const chkAllSites = document.getElementById('chk-all-sites');
+  if (chkAllSites) {
+    chkAllSites.checked = await SugamInjector.hasAllSites();
+    chkAllSites.addEventListener('change', async () => {
+      if (chkAllSites.checked) {
+        chkAllSites.checked = await SugamInjector.requestAllSites();
+      } else {
+        await SugamInjector.removeAllSites();
       }
     });
   }
