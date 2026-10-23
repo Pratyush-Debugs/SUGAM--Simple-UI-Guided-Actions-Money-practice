@@ -53,10 +53,11 @@ const SugamAI = {
   /**
    * Generates an easy-read summary using Gemini API or local heuristic fallback.
    * @param {string} text - Raw article text.
-   * @param {object} options - { apiKey, language, isSensitive }
+   * @param {object} options - { apiKey, language, isSensitive, cloudAllowed }
+   *   cloudAllowed must be true (the user said yes to Google Gemini) or nothing leaves the device.
    */
   async summarise(text, options = {}) {
-    const { apiKey = '', language = 'en', isSensitive = false } = options;
+    const { apiKey = '', language = 'en', isSensitive = false, cloudAllowed = false } = options;
 
     if (isSensitive) {
       throw new Error('Cloud AI is disabled on sensitive pages to protect your privacy.');
@@ -66,8 +67,8 @@ const SugamAI = {
       throw new Error('The page content is too short to summarise.');
     }
 
-    // Try Gemini API if key is present
-    if (apiKey && apiKey.trim().length > 10) {
+    // Try Gemini only with the user's consent and a key
+    if (cloudAllowed === true && apiKey && apiKey.trim().length > 10) {
       try {
         const sentences = await this._callGeminiSummarise(text, apiKey, language);
         if (sentences && sentences.length > 0) {
@@ -173,13 +174,13 @@ ${text.slice(0, 8000)}`;
   /**
    * Translates text into target language (Hindi, Odia, or English)
    */
-  async translate(text, targetLang, apiKey = '', isSensitive = false) {
+  async translate(text, targetLang, apiKey = '', isSensitive = false, cloudAllowed = false) {
     if (isSensitive) {
       throw new Error('Translation via cloud is disabled on sensitive pages.');
     }
     if (!text || !text.trim()) return text;
 
-    if (apiKey && apiKey.trim().length > 10) {
+    if (cloudAllowed === true && apiKey && apiKey.trim().length > 10) {
       const targetLangName = targetLang === 'hi' ? 'Hindi' : targetLang === 'or' ? 'Odia' : 'English';
       const prompt = `Translate the following text into clear, easy-to-read ${targetLangName} at a 5th-grade reading level.
 Keep numbers, currency symbols (₹), names, URLs, and UPI IDs unchanged.

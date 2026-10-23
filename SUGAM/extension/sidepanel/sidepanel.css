@@ -256,3 +256,31 @@ body {
   cursor: pointer;
   min-height: 48px;
 }
+
+/* Cloud AI consent (asked before anything is sent to Google Gemini) */
+.sp-consent-card {
+  background: #fff;
+  border: 2px solid #59366e;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sp-consent-card h3 {
+  margin: 0;
+  color: #59366e;
+  font-size: 18px;
+}
+
+.sp-consent-card p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.sp-source-note {
+  font-size: 13px;
+  color: #5c5563;
+  margin-top: 8px;
+}

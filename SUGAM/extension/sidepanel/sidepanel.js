@@ -49,6 +49,45 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
 
+  /**
+   * Returns true only if the user agreed to Google Gemini. Asks once (in `container`) and saves the answer.
+   */
+  async function ensureCloudConsent(container) {
+    const choice = settings.summariser?.cloudConsent || 'ask';
+    if (choice !== 'ask') return choice === 'yes';
+
+    const agreed = await new Promise((resolve) => {
+      container.replaceChildren();
+      const card = document.createElement('div');
+      card.className = 'sp-consent-card';
+      card.setAttribute('role', 'dialog');
+      card.setAttribute('aria-labelledby', 'sp-consent-title');
+      const title = document.createElement('h3');
+      title.id = 'sp-consent-title';
+      title.textContent = t('cloudConsentTitle');
+      const body = document.createElement('p');
+      body.textContent = t('cloudConsentBody');
+      const yes = document.createElement('button');
+      yes.className = 'sp-primary-btn';
+      yes.id = 'btn-cloud-yes';
+      yes.textContent = t('cloudConsentYes');
+      yes.addEventListener('click', () => resolve(true));
+      const no = document.createElement('button');
+      no.className = 'sp-action-btn';
+      no.id = 'btn-cloud-no';
+      no.textContent = t('cloudConsentNo');
+      no.addEventListener('click', () => resolve(false));
+      card.append(title, body, no, yes);
+      container.appendChild(card);
+      no.focus(); // the private choice is the default
+    });
+
+    settings.summariser.cloudConsent = agreed ? 'yes' : 'no';
+    await SugamStorage.saveSettings(settings);
+    container.replaceChildren();
+    return agreed;
+  }
+
   // Load and generate cards
   async function loadEasyCards() {
     loadingIndicator.classList.remove('hidden');
@@ -74,15 +113,29 @@ document.addEventListener('DOMContentLoaded', async () => {
       const rawText = response.content || '';
       const isSensitive = response.isSensitive;
 
-      // Call Summarizer
+      // Cloud AI only with a key, on non-sensitive pages, and after the user said yes.
+      const apiKey = settings.summariser?.geminiApiKey || '';
+      let cloudAllowed = false;
+      if (apiKey && !isSensitive && rawText.trim().length >= 50) {
+        loadingIndicator.classList.add('hidden');
+        cloudAllowed = await ensureCloudConsent(cardsContainer);
+        loadingIndicator.classList.remove('hidden');
+      }
+
       const summaryResult = await SugamAI.summarise(rawText, {
-        apiKey: settings.summariser?.geminiApiKey,
+        apiKey,
         language: settings.language || 'en',
-        isSensitive
+        isSensitive,
+        cloudAllowed
       });
 
       currentCards = summaryResult.sentences;
       renderCards(currentCards);
+      const source = document.createElement('p');
+      source.className = 'sp-source-note';
+      source.id = 'sp-source-note';
+      source.textContent = t(summaryResult.source === 'gemini' ? 'spMadeByCloud' : 'spMadeOnDevice');
+      cardsContainer.appendChild(source);
 
       // Record Where Was I breadcrumb
       recordWhereWasI(tab.title || 'Page', tab.url);
@@ -198,11 +251,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         chrome.tabs.sendMessage(tab.id, { action: 'EXTRACT_PAGE_CONTENT' }, resolve);
       });
 
+      const apiKey = settings.summariser?.geminiApiKey || '';
+      if (!apiKey) {
+        showMessage(resultBox, t('spTranslateNeedsKey'));
+        return;
+      }
+      if (!response?.isSensitive && !(await ensureCloudConsent(resultBox))) {
+        showMessage(resultBox, t('spTranslateNeedsCloud'));
+        return;
+      }
+      resultBox.replaceChildren(spinner, progress);
+
       const translated = await SugamAI.translate(
         response?.content?.slice(0, 1500) || '',
         targetLang,
-        settings.summariser?.geminiApiKey,
-        response?.isSensitive
+        apiKey,
+        response?.isSensitive,
+        true
       );
 
       resultBox.replaceChildren();

@@ -582,14 +582,31 @@ document.addEventListener('DOMContentLoaded', async () => {
           <p style="font-size:12px; background:#E7DDF0; padding:8px; border-radius:6px; margin-top:8px;">
             🔒 <b>Privacy Rule:</b> Cloud AI is NEVER used on sensitive banking or login pages.
           </p>
+          <label class="group-label" for="select-cloud-consent" style="margin-top:10px;">Send page text to Google Gemini?</label>
+          <select id="select-cloud-consent" class="text-input" style="padding:10px; border-radius:8px; border:2px solid #59366E; width:100%;">
+            <option value="ask">Ask me first</option>
+            <option value="yes">Yes, allowed</option>
+            <option value="no">No, keep everything on this device</option>
+          </select>
         </div>
       `;
       const keyInput = body.querySelector('#input-gemini-key');
+      const consentSelect = body.querySelector('#select-cloud-consent');
+      if (consentSelect) {
+        consentSelect.value = settings.summariser?.cloudConsent || 'ask';
+        consentSelect.addEventListener('change', async (e) => {
+          if (!settings.summariser) settings.summariser = { enabled: true };
+          settings.summariser.cloudConsent = e.target.value;
+          await SugamStorage.saveSettings(settings);
+        });
+      }
       if (keyInput) {
         keyInput.value = settings.summariser?.geminiApiKey || '';
         keyInput.addEventListener('change', async (e) => {
           if (!settings.summariser) settings.summariser = { enabled: true };
           settings.summariser.geminiApiKey = e.target.value.trim();
+          settings.summariser.cloudConsent = 'ask'; // a new key is a new decision
+          if (consentSelect) consentSelect.value = 'ask';
           await SugamStorage.saveSettings(settings);
         });
       }

@@ -22,7 +22,7 @@ const okJson = (text) => ({
 
 test('the API key is sent in a header, never in the URL', async () => {
   const calls = mockFetch(() => okJson('["Pay **₹500** soon."]'));
-  const result = await SugamAI.summarise(LONG_TEXT, { apiKey: KEY });
+  const result = await SugamAI.summarise(LONG_TEXT, { apiKey: KEY, cloudAllowed: true });
 
   assert.equal(result.source, 'gemini');
   assert.deepEqual(result.sentences, ['Pay **₹500** soon.']);
@@ -35,8 +35,11 @@ test('the API key is sent in a header, never in the URL', async () => {
 
 test('sensitive pages never reach the network', async () => {
   const calls = mockFetch(() => okJson('[]'));
-  await assert.rejects(() => SugamAI.summarise(LONG_TEXT, { apiKey: KEY, isSensitive: true }), /sensitive/i);
-  await assert.rejects(() => SugamAI.translate('hello', 'hi', KEY, true), /sensitive/i);
+  await assert.rejects(
+    () => SugamAI.summarise(LONG_TEXT, { apiKey: KEY, isSensitive: true, cloudAllowed: true }),
+    /sensitive/i
+  );
+  await assert.rejects(() => SugamAI.translate('hello', 'hi', KEY, true, true), /sensitive/i);
   assert.equal(calls.length, 0);
 });
 
@@ -48,7 +51,7 @@ test('falls back to the on-device summary when Gemini fails or returns junk', as
     () => okJson('not json at all')
   ]) {
     mockFetch(handler);
-    const result = await SugamAI.summarise(LONG_TEXT, { apiKey: KEY });
+    const result = await SugamAI.summarise(LONG_TEXT, { apiKey: KEY, cloudAllowed: true });
     assert.equal(result.source, 'local');
     assert.ok(result.sentences.length > 0);
   }
@@ -71,5 +74,14 @@ test('no key means no network call', async () => {
 
 test('translate returns the original text when Gemini fails', async () => {
   mockFetch(() => ({ ok: false, status: 500, text: async () => '' }));
+  assert.equal(await SugamAI.translate('Hello', 'hi', KEY, false, true), 'Hello');
+});
+
+test('without consent nothing is sent, even with a key', async () => {
+  const calls = mockFetch(() => okJson('["Sent!"]'));
+  const result = await SugamAI.summarise(LONG_TEXT, { apiKey: KEY });
+  assert.equal(result.source, 'local');
   assert.equal(await SugamAI.translate('Hello', 'hi', KEY), 'Hello');
+  assert.equal(await SugamAI.translate('Hello', 'hi', KEY, false, 'yes'), 'Hello', 'only the boolean true counts');
+  assert.equal(calls.length, 0);
 });

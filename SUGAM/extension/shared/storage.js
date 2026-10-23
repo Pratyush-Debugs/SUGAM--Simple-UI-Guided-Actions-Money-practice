@@ -80,7 +80,8 @@ const SUGAM_DEFAULT_SETTINGS = {
     enabled: false,
     useGemini: false,
     geminiApiKey: '',
-    consentGiven: false
+    // Cloud AI choice: 'ask' (ask before first use), 'yes' or 'no'. Nothing is sent unless 'yes'.
+    cloudConsent: 'ask'
   },
 
   // 4.8 Read aloud

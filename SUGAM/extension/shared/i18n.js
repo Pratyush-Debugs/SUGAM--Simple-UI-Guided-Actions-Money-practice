@@ -440,7 +440,25 @@ const SUGAM_TRANSLATIONS = {
 
     wzPincode: '⚠️ Pincode needs 6 digits. You typed {typed}. Add {more} more.',
 
-    wzQuestion: 'Question'
+    wzQuestion: 'Question',
+
+    cloudConsentTitle: 'Use Google Gemini for better results?',
+
+    cloudConsentBody:
+      'SUGAM can send the text of this page to Google Gemini, a service on the internet, to make easier summaries and translations. Google may keep this text. SUGAM never sends pages with passwords, PINs or bank details.',
+
+    cloudConsentYes: 'Yes, use Google Gemini',
+
+    cloudConsentNo: 'No, keep everything on this device',
+
+    spMadeOnDevice: 'Made on this device. Nothing was sent to the internet.',
+
+    spMadeByCloud: 'Made by Google Gemini (cloud). The page text was sent to Google.',
+
+    spTranslateNeedsCloud:
+      'Translation needs Google Gemini. You chose to keep everything on this device. You can change this in SUGAM options.',
+
+    spTranslateNeedsKey: 'Translation needs a Google Gemini key. Add one in SUGAM options.'
   },
 
   hi: {
@@ -880,7 +898,25 @@ const SUGAM_TRANSLATIONS = {
 
     wzPincode: '⚠️ पिनकोड में 6 अंक चाहिए। आपने {typed} लिखे। {more} और जोड़ें।',
 
-    wzQuestion: 'सवाल'
+    wzQuestion: 'सवाल',
+
+    cloudConsentTitle: 'बेहतर नतीजों के लिए Google Gemini इस्तेमाल करें?',
+
+    cloudConsentBody:
+      'आसान सारांश और अनुवाद बनाने के लिए सुगम इस पेज का लेख Google Gemini (इंटरनेट की एक सेवा) को भेज सकता है। Google यह लेख रख सकता है। पासवर्ड, PIN या बैंक जानकारी वाले पेज सुगम कभी नहीं भेजता।',
+
+    cloudConsentYes: 'हाँ, Google Gemini इस्तेमाल करें',
+
+    cloudConsentNo: 'नहीं, सब कुछ इसी डिवाइस पर रखें',
+
+    spMadeOnDevice: 'इसी डिवाइस पर बना। इंटरनेट पर कुछ नहीं भेजा गया।',
+
+    spMadeByCloud: 'Google Gemini (क्लाउड) ने बनाया। पेज का लेख Google को भेजा गया।',
+
+    spTranslateNeedsCloud:
+      'अनुवाद के लिए Google Gemini चाहिए। आपने सब कुछ इसी डिवाइस पर रखना चुना है। आप इसे सुगम के विकल्पों में बदल सकते हैं।',
+
+    spTranslateNeedsKey: 'अनुवाद के लिए Google Gemini key चाहिए। इसे सुगम के विकल्पों में जोड़ें।'
   },
 
   or: {
@@ -1319,7 +1355,25 @@ const SUGAM_TRANSLATIONS = {
 
     wzPincode: '⚠️ ପିନକୋଡରେ 6ଟି ଅଙ୍କ ଦରକାର। ଆପଣ {typed}ଟି ଲେଖିଛନ୍ତି। ଆଉ {more}ଟି ଯୋଡ଼ନ୍ତୁ।',
 
-    wzQuestion: 'ପ୍ରଶ୍ନ'
+    wzQuestion: 'ପ୍ରଶ୍ନ',
+
+    cloudConsentTitle: 'ଭଲ ଫଳାଫଳ ପାଇଁ Google Gemini ବ୍ୟବହାର କରିବେ?',
+
+    cloudConsentBody:
+      'ସହଜ ସାରାଂଶ ଓ ଅନୁବାଦ ପାଇଁ ସୁଗମ ଏହି ପୃଷ୍ଠାର ଲେଖା Google Gemini (ଇଣ୍ଟରନେଟର ଏକ ସେବା)କୁ ପଠାଇପାରେ। Google ଏହି ଲେଖା ରଖିପାରେ। ପାସୱାର୍ଡ, PIN ବା ବ୍ୟାଙ୍କ ତଥ୍ୟ ଥିବା ପୃଷ୍ଠା ସୁଗମ କେବେ ପଠାଏ ନାହିଁ।',
+
+    cloudConsentYes: 'ହଁ, Google Gemini ବ୍ୟବହାର କରନ୍ତୁ',
+
+    cloudConsentNo: 'ନା, ସବୁକିଛି ଏହି ଡିଭାଇସରେ ରଖନ୍ତୁ',
+
+    spMadeOnDevice: 'ଏହି ଡିଭାଇସରେ ତିଆରି। ଇଣ୍ଟରନେଟକୁ କିଛି ପଠାଯାଇନାହିଁ।',
+
+    spMadeByCloud: 'Google Gemini (କ୍ଲାଉଡ୍) ତିଆରି କଲା। ପୃଷ୍ଠାର ଲେଖା Googleକୁ ପଠାଗଲା।',
+
+    spTranslateNeedsCloud:
+      'ଅନୁବାଦ ପାଇଁ Google Gemini ଦରକାର। ଆପଣ ସବୁକିଛି ଏହି ଡିଭାଇସରେ ରଖିବାକୁ ବାଛିଛନ୍ତି। ଏହା ସୁଗମ ବିକଳ୍ପରେ ବଦଳାଇପାରିବେ।',
+
+    spTranslateNeedsKey: 'ଅନୁବାଦ ପାଇଁ Google Gemini key ଦରକାର। ଏହା ସୁଗମ ବିକଳ୍ପରେ ଯୋଡ଼ନ୍ତୁ।'
   }
 };
 

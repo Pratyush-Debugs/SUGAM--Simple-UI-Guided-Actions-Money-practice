@@ -76,13 +76,13 @@ test('applying a preset keeps the API key, consent and unrelated values', async 
   installFakeChrome();
   const settings = await SugamStorage.getSettings();
   settings.summariser.geminiApiKey = 'AIzaSy-test-key-1234567890';
-  settings.summariser.consentGiven = true;
+  settings.summariser.cloudConsent = 'yes';
   await SugamStorage.saveSettings(settings);
 
   const updated = await SugamStorage.applyPreset('easyread');
   assert.equal(updated.preset, 'easyread');
   assert.equal(updated.summariser.enabled, true);
-  assert.equal(updated.summariser.consentGiven, true);
+  assert.equal(updated.summariser.cloudConsent, 'yes');
   assert.equal(updated.summariser.geminiApiKey, 'AIzaSy-test-key-1234567890');
 
   // The memory preset names only some visualComfort keys; the rest must survive.
