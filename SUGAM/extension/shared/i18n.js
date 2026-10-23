@@ -96,7 +96,49 @@ const SUGAM_TRANSLATIONS = {
     helpNotSet: 'No helper number saved yet.',
     helpCopySummary: 'Copy page summary to send helper',
     helpSummaryCopied: 'Page summary copied to clipboard!',
-    helpNationalHelpline: 'National Cyber Crime Helpline: 1930 (Toll Free)'
+    helpNationalHelpline: 'National Cyber Crime Helpline: 1930 (Toll Free)',
+
+    spTitle: 'SUGAM Reader',
+
+    spTabsLabel: 'Reading modes',
+
+    spTabCards: 'Easy cards',
+
+    spRefreshCards: 'Refresh cards',
+
+    spReadAll: 'Read all cards',
+
+    spLoading: 'Creating easy-read cards...',
+
+    spTranslateInto: 'Translate page into:',
+
+    spTranslateButton: 'Translate page',
+
+    spTranslatePlaceholder: 'Choose a language and tap Translate page to read comfortably.',
+
+    spMemoryTitle: 'Where you were',
+
+    spMemoryIntro: 'SUGAM remembers your pages so you never feel lost when taking a break.',
+
+    spNoCards: 'No summary cards available.',
+
+    spNoPage: 'No active web page found.',
+
+    spCouldNotSummarise: 'Could not summarise this page.',
+
+    spListen: 'Listen',
+
+    spListenCard: 'Listen to card {n}',
+
+    spTranslating: 'Translating...',
+
+    spTranslateFailed: 'Translation failed: {error}',
+
+    spNoMemory: 'No recent pages recorded yet.',
+
+    spSavedAt: 'Saved at {time}',
+
+    spResume: 'Resume reading'
   },
 
   hi: {
@@ -192,7 +234,49 @@ const SUGAM_TRANSLATIONS = {
     helpNotSet: 'अभी कोई नंबर सहेजा नहीं गया है।',
     helpCopySummary: 'पेज का सरल सारांश कॉपी करें',
     helpSummaryCopied: 'सारांश कॉपी हो गया!',
-    helpNationalHelpline: 'राष्ट्रीय साइबर अपराध हेल्पलाइन: 1930 (टोल फ्री)'
+    helpNationalHelpline: 'राष्ट्रीय साइबर अपराध हेल्पलाइन: 1930 (टोल फ्री)',
+
+    spTitle: 'सुगम रीडर',
+
+    spTabsLabel: 'पढ़ने के तरीके',
+
+    spTabCards: 'आसान कार्ड',
+
+    spRefreshCards: 'कार्ड फिर से बनाएं',
+
+    spReadAll: 'सभी कार्ड सुनें',
+
+    spLoading: 'आसान कार्ड बन रहे हैं...',
+
+    spTranslateInto: 'पेज को इस भाषा में बदलें:',
+
+    spTranslateButton: 'पेज का अनुवाद करें',
+
+    spTranslatePlaceholder: 'भाषा चुनें और "पेज का अनुवाद करें" दबाएं।',
+
+    spMemoryTitle: 'आप कहाँ थे',
+
+    spMemoryIntro: 'सुगम आपके पेज याद रखता है, ताकि आराम के बाद आप भटकें नहीं।',
+
+    spNoCards: 'अभी कोई सारांश कार्ड नहीं है।',
+
+    spNoPage: 'कोई खुला वेब पेज नहीं मिला।',
+
+    spCouldNotSummarise: 'इस पेज का सारांश नहीं बन सका।',
+
+    spListen: 'सुनें',
+
+    spListenCard: 'कार्ड {n} सुनें',
+
+    spTranslating: 'अनुवाद हो रहा है...',
+
+    spTranslateFailed: 'अनुवाद नहीं हो सका: {error}',
+
+    spNoMemory: 'अभी कोई पेज याद नहीं रखा गया है।',
+
+    spSavedAt: '{time} पर सहेजा गया',
+
+    spResume: 'फिर से पढ़ें'
   },
 
   or: {
@@ -287,7 +371,49 @@ const SUGAM_TRANSLATIONS = {
     helpNotSet: 'କୌଣସି ନମ୍ବର ସାଇତା ହୋଇନାହିଁ।',
     helpCopySummary: 'ପୃଷ୍ଠାର ସରଳ ସାରାଂଶ କପି କରନ୍ତୁ',
     helpSummaryCopied: 'ସାରାଂଶ କପି ହୋଇଗଲା!',
-    helpNationalHelpline: 'ଜାତୀୟ ସାଇବର ଅପରାଧ ହେଲ୍ପଲାଇନ୍: 1930 (ଟୋଲ୍ ଫ୍ରି)'
+    helpNationalHelpline: 'ଜାତୀୟ ସାଇବର ଅପରାଧ ହେଲ୍ପଲାଇନ୍: 1930 (ଟୋଲ୍ ଫ୍ରି)',
+
+    spTitle: 'ସୁଗମ ରିଡର',
+
+    spTabsLabel: 'ପଢ଼ିବା ପ୍ରକାର',
+
+    spTabCards: 'ସହଜ କାର୍ଡ',
+
+    spRefreshCards: 'କାର୍ଡ ପୁଣି ତିଆରି କରନ୍ତୁ',
+
+    spReadAll: 'ସବୁ କାର୍ଡ ଶୁଣନ୍ତୁ',
+
+    spLoading: 'ସହଜ କାର୍ଡ ତିଆରି ହେଉଛି...',
+
+    spTranslateInto: 'ପୃଷ୍ଠାକୁ ଏହି ଭାଷାରେ ବଦଳାନ୍ତୁ:',
+
+    spTranslateButton: 'ପୃଷ୍ଠା ଅନୁବାଦ କରନ୍ତୁ',
+
+    spTranslatePlaceholder: 'ଭାଷା ବାଛନ୍ତୁ ଏବଂ "ପୃଷ୍ଠା ଅନୁବାଦ କରନ୍ତୁ" ଦବାନ୍ତୁ।',
+
+    spMemoryTitle: 'ଆପଣ କେଉଁଠି ଥିଲେ',
+
+    spMemoryIntro: 'ସୁଗମ ଆପଣଙ୍କ ପୃଷ୍ଠା ମନେ ରଖେ, ଯାହାଫଳରେ ବିରତି ପରେ ଆପଣ ହଜିଯିବେ ନାହିଁ।',
+
+    spNoCards: 'ଏବେ କୌଣସି ସାରାଂଶ କାର୍ଡ ନାହିଁ।',
+
+    spNoPage: 'କୌଣସି ଖୋଲା ୱେବ୍ ପୃଷ୍ଠା ମିଳିଲା ନାହିଁ।',
+
+    spCouldNotSummarise: 'ଏହି ପୃଷ୍ଠାର ସାରାଂଶ ତିଆରି ହୋଇପାରିଲା ନାହିଁ।',
+
+    spListen: 'ଶୁଣନ୍ତୁ',
+
+    spListenCard: 'କାର୍ଡ {n} ଶୁଣନ୍ତୁ',
+
+    spTranslating: 'ଅନୁବାଦ ହେଉଛି...',
+
+    spTranslateFailed: 'ଅନୁବାଦ ହୋଇପାରିଲା ନାହିଁ: {error}',
+
+    spNoMemory: 'ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ପୃଷ୍ଠା ମନେ ରଖାଯାଇନାହିଁ।',
+
+    spSavedAt: '{time} ରେ ସାଇତା ହେଲା',
+
+    spResume: 'ପୁଣି ପଢ଼ନ୍ତୁ'
   }
 };
 
@@ -298,6 +424,22 @@ const SugamI18n = {
     if (SUGAM_TRANSLATIONS[lang]) {
       this.currentLang = lang;
     }
+  },
+
+  /**
+   * Fills elements marked up for translation under `root`:
+   * data-i18n (text), data-i18n-aria-label, data-i18n-placeholder and data-i18n-title (attributes).
+   */
+  translatePage(root = document) {
+    root.querySelectorAll('[data-i18n]').forEach((el) => {
+      el.textContent = this.get(el.dataset.i18n);
+    });
+    for (const attr of ['aria-label', 'placeholder', 'title']) {
+      root.querySelectorAll(`[data-i18n-${attr}]`).forEach((el) => {
+        el.setAttribute(attr, this.get(el.getAttribute(`data-i18n-${attr}`)));
+      });
+    }
+    if (root.documentElement) root.documentElement.lang = this.currentLang;
   },
 
   get(key, replacements = {}) {

@@ -5,6 +5,9 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
   const settings = await SugamStorage.getSettings();
+  SugamI18n.setLanguage(settings.language || 'en');
+  SugamI18n.translatePage();
+  const t = (key, values) => SugamI18n.get(key, values);
   const cardsContainer = document.getElementById('summary-cards-container');
   const loadingIndicator = document.getElementById('summary-loading');
   let currentCards = [];
@@ -54,7 +57,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
       if (!tab || !tab.id) {
-        throw new Error('No active web page found.');
+        throw new Error(t('spNoPage'));
       }
 
       // Ask content script for page text & sensitivity check
@@ -89,7 +92,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       errorBox.className = 'sp-disclaimer';
       errorBox.style.borderColor = '#D32F2F';
       errorBox.style.color = '#D32F2F';
-      errorBox.textContent = err.message || 'Could not summarise this page.';
+      errorBox.textContent = err.message || t('spCouldNotSummarise');
       cardsContainer.appendChild(errorBox);
     } finally {
       loadingIndicator.classList.add('hidden');
@@ -98,7 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function renderCards(sentences) {
     if (!sentences || sentences.length === 0) {
-      showMessage(cardsContainer, 'No summary cards available.', 'placeholder-text');
+      showMessage(cardsContainer, t('spNoCards'), 'placeholder-text');
       return;
     }
 
@@ -135,10 +138,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       const listen = document.createElement('button');
       listen.className = 'btn-listen-card';
       listen.dataset.idx = String(idx);
-      listen.setAttribute('aria-label', `Listen to card ${idx + 1}`);
+      listen.setAttribute('aria-label', t('spListenCard', { n: idx + 1 }));
       const icon = document.createElement('span');
       icon.textContent = '🔊';
-      listen.append(icon, ' Listen');
+      listen.append(icon, ` ${t('spListen')}`);
       footer.appendChild(listen);
 
       card.append(content, footer);
@@ -186,7 +189,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const spinner = document.createElement('div');
     spinner.className = 'spinner';
     const progress = document.createElement('p');
-    progress.textContent = 'Translating...';
+    progress.textContent = t('spTranslating');
     resultBox.append(spinner, progress);
 
     try {
@@ -208,7 +211,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       translatedBox.textContent = translated;
       resultBox.appendChild(translatedBox);
     } catch (e) {
-      showMessage(resultBox, `Translation failed: ${e.message}`, '', '#D32F2F');
+      showMessage(resultBox, t('spTranslateFailed', { error: e.message }), '', '#D32F2F');
     }
   });
 
@@ -236,7 +239,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const items = settings.whereWasI?.lastVisited || [];
     list.replaceChildren();
     if (items.length === 0) {
-      showMessage(list, 'No recent pages recorded yet.', '', '#666');
+      showMessage(list, t('spNoMemory'), '', '#666');
       return;
     }
 
@@ -254,7 +257,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       const saved = document.createElement('div');
       saved.style.cssText = 'font-size:12px; color:#666;';
-      saved.textContent = `Saved at ${item.timestamp}`;
+      saved.textContent = t('spSavedAt', { time: item.timestamp });
 
       const link = document.createElement('a');
       link.href = href;
@@ -262,7 +265,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       link.rel = 'noopener noreferrer';
       link.style.cssText =
         'display:inline-block; margin-top:6px; color:#59366E; font-weight:700; text-decoration:underline;';
-      link.textContent = 'Resume reading';
+      link.textContent = t('spResume');
 
       entry.append(title, saved, link);
       list.appendChild(entry);
