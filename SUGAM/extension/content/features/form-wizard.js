@@ -59,10 +59,10 @@ SugamFeatures.formWizard = {
     launcherPill.className = 'sugam-floating-wizard-pill pointer-all';
     launcherPill.setAttribute('role', 'button');
     launcherPill.setAttribute('tabindex', '0');
-    launcherPill.setAttribute('aria-label', 'Open Form Wizard: Answer questions one at a time');
+    launcherPill.setAttribute('aria-label', t('wzLauncherLabel'));
     launcherPill.innerHTML = `
       <span style="font-size: 18px;" aria-hidden="true">📝</span>
-      <span>Form Wizard (${fields.length} questions)</span>
+      <span>${t('wzLauncher', { n: fields.length })}</span>
     `;
 
     launcherPill.addEventListener('click', () => {
@@ -108,9 +108,9 @@ SugamFeatures.formWizard = {
       notice.style.right = 'auto';
       notice.style.transform = 'translateX(-50%)';
       notice.innerHTML = `
-        <div class="sugam-tb-title"><span>📝</span> Form Wizard</div>
-        <div>No form fields were found on this page. Navigate to an application or registration page to use the wizard.</div>
-        <button class="sugam-tb-btn" id="sugam-notice-close">Close</button>
+        <div class="sugam-tb-title"><span>📝</span> ${t('wzName')}</div>
+        <div>${t('wzNoFields')}</div>
+        <button class="sugam-tb-btn" id="sugam-notice-close">${t('close')}</button>
       `;
       shadow.appendChild(notice);
       notice.querySelector('#sugam-notice-close').addEventListener('click', () => notice.remove());
@@ -150,7 +150,7 @@ SugamFeatures.formWizard = {
     container.className = 'sugam-wizard-modal pointer-all';
     container.setAttribute('role', 'dialog');
     container.setAttribute('aria-modal', 'true');
-    container.setAttribute('aria-label', 'Form Wizard');
+    container.setAttribute('aria-label', t('wzName'));
     container.innerHTML = `
       <style>
         .sugam-wizard-modal {
@@ -321,8 +321,8 @@ SugamFeatures.formWizard = {
       </style>
       <div class="sugam-wz-card">
         <div class="sugam-wz-header">
-          <span class="sugam-wz-step" id="sugam-wz-step-num">What you will need</span>
-          <button class="sugam-badge-btn" id="sugam-wz-close" aria-label="Close wizard">✕ Close</button>
+          <span class="sugam-wz-step" id="sugam-wz-step-num">${t('wizardStartTitle')}</span>
+          <button class="sugam-badge-btn" id="sugam-wz-close" aria-label="${t('wzCloseLabel')}">✕ ${t('close')}</button>
         </div>
         <div class="sugam-progress-bar" id="sugam-progress-bar">
           <div class="sugam-progress-fill" id="sugam-progress-fill" style="width: 0%;"></div>
@@ -348,7 +348,7 @@ SugamFeatures.formWizard = {
       const value = (val || '').trim();
 
       if (el.required && !value) {
-        return { ok: false, msg: '⚠️ Please answer this question to continue.' };
+        return { ok: false, msg: t('wzRequired') };
       }
 
       if (type === 'tel' || pattern.includes('[0-9]{10}') || /phone|mobile/i.test(el.name + ' ' + el.id)) {
@@ -357,14 +357,14 @@ SugamFeatures.formWizard = {
           const diff = 10 - digits.length;
           return {
             ok: false,
-            msg: `⚠️ Your phone number needs 10 digits. You typed ${digits.length}. Please add ${diff} more.`
+            msg: t('wzPhoneDigits', { typed: digits.length, more: diff })
           };
         }
       }
 
       if (type === 'email' || /email/i.test(el.name + ' ' + el.id)) {
         if (value && (!value.includes('@') || !value.includes('.'))) {
-          return { ok: false, msg: '⚠️ Please enter an email address with an @ and domain (e.g. name@example.com).' };
+          return { ok: false, msg: t('wzEmail') };
         }
       }
 
@@ -373,7 +373,7 @@ SugamFeatures.formWizard = {
         if (value && digits.length < 6) {
           return {
             ok: false,
-            msg: `⚠️ Pincode needs 6 digits. You typed ${digits.length}. Add ${6 - digits.length} more.`
+            msg: t('wzPincode', { typed: digits.length, more: 6 - digits.length })
           };
         }
       }
@@ -385,7 +385,7 @@ SugamFeatures.formWizard = {
     const startDictation = (inputElem, micBtn) => {
       const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRec) {
-        alert('Speech dictation is not available in this browser window.');
+        alert(t('wzNoDictation'));
         return;
       }
       try {
@@ -395,7 +395,7 @@ SugamFeatures.formWizard = {
         recognition.continuous = false;
         recognition.interimResults = false;
 
-        micBtn.textContent = '🔴 Listening...';
+        micBtn.textContent = `🔴 ${t('wzListening')}`;
         micBtn.style.backgroundColor = '#FFEBEE';
         micBtn.style.color = '#C62828';
 
@@ -405,12 +405,12 @@ SugamFeatures.formWizard = {
           inputElem.dispatchEvent(new Event('input', { bubbles: true }));
         };
         recognition.onerror = () => {
-          micBtn.textContent = '🎙️ Dictate';
+          micBtn.textContent = `🎙️ ${t('wzDictate')}`;
           micBtn.style.backgroundColor = '';
           micBtn.style.color = '';
         };
         recognition.onend = () => {
-          micBtn.textContent = '🎙️ Dictate';
+          micBtn.textContent = `🎙️ ${t('wzDictate')}`;
           micBtn.style.backgroundColor = '';
           micBtn.style.color = '';
         };
@@ -429,7 +429,7 @@ SugamFeatures.formWizard = {
 
       // SCREEN 1: "What you will need" (Spec 4.9.2)
       if (currentStep === -1) {
-        stepNum.textContent = 'Start: What you will need';
+        stepNum.textContent = t('wzStartStep');
         progressFill.style.width = '5%';
 
         const requiredItems = elements.filter((el) => el.required || isFieldSensitive(el));
@@ -437,7 +437,7 @@ SugamFeatures.formWizard = {
         if (requiredItems.length > 0) {
           reqListHtml = `
             <div style="background:#E7DDF0; border-radius:12px; padding:16px; margin:16px 0;">
-              <strong style="color:#59366E; font-size:16px; display:block; margin-bottom:8px;">Items you will need for this form:</strong>
+              <strong style="color:#59366E; font-size:16px; display:block; margin-bottom:8px;">${t('wzItemsNeeded')}</strong>
               <ul style="padding-left:20px; line-height:1.6; font-size:15px;">
                 ${requiredItems.map((el) => `<li>${esc(this.getFieldLabel(el))}</li>`).join('')}
               </ul>
@@ -446,19 +446,19 @@ SugamFeatures.formWizard = {
         }
 
         body.innerHTML = `
-          <h2 class="sugam-wz-label">Welcome to Form Wizard</h2>
+          <h2 class="sugam-wz-label">${t('wzWelcome')}</h2>
           <p class="sugam-wz-hint">
-            This webpage has <b>${elements.length} questions</b>. We will show you <b>one question at a time</b> in large, friendly text so you can complete it comfortably.
+            ${t('wzIntro', { n: elements.length })}
           </p>
           ${reqListHtml}
           <div style="font-size:14px; color:#59366E; margin-top:8px;">
-            🛡️ <b>SUGAM Promise:</b> SUGAM will help you fill the answers, but <b>SUGAM never submits forms</b>. You will review and tap submit on the website yourself.
+            ${t('wzPromise')}
           </div>
         `;
 
         footerBtns.innerHTML = `
-          <button class="sugam-wz-btn-link" id="wz-act-cancel">Cancel</button>
-          <button class="sugam-wz-btn sugam-wz-btn-primary" id="wz-act-start">Start Question 1 →</button>
+          <button class="sugam-wz-btn-link" id="wz-act-cancel">${t('wzCancel')}</button>
+          <button class="sugam-wz-btn sugam-wz-btn-primary" id="wz-act-start">${t('wzStartQ1')}</button>
         `;
 
         container.querySelector('#wz-act-start').addEventListener('click', () => {
@@ -474,7 +474,7 @@ SugamFeatures.formWizard = {
 
       // SCREEN 3: Review Screen - "Check your answers" (Spec 4.9.6)
       if (currentStep >= elements.length) {
-        stepNum.textContent = 'Check your answers';
+        stepNum.textContent = t('wizardCheckAnswers');
         progressFill.style.width = '100%';
 
         let reviewItemsHtml = '';
@@ -482,10 +482,10 @@ SugamFeatures.formWizard = {
           const label = this.getFieldLabel(el);
           const isSensitive = isFieldSensitive(el);
           const val = isSensitive
-            ? '🔒 (Private - Enter on website)'
+            ? t('wzPrivateEnter')
             : wizardData[idx]
               ? esc(wizardData[idx])
-              : '<em>(Not answered)</em>';
+              : `<em>${t('wzNotAnswered')}</em>`;
 
           reviewItemsHtml += `
             <div class="sugam-review-item">
@@ -493,23 +493,23 @@ SugamFeatures.formWizard = {
                 <strong>${esc(label)}</strong>
                 <div style="margin-top:2px;">${val}</div>
               </div>
-              ${!isSensitive ? `<button class="sugam-btn-change" data-idx="${idx}">Change</button>` : ''}
+              ${!isSensitive ? `<button class="sugam-btn-change" data-idx="${idx}">${t('wizardChange')}</button>` : ''}
             </div>
           `;
         });
 
         body.innerHTML = `
-          <h2 class="sugam-wz-label">Check your answers</h2>
-          <p class="sugam-wz-hint">Review your details below. If anything needs changing, tap Change.</p>
+          <h2 class="sugam-wz-label">${t('wizardCheckAnswers')}</h2>
+          <p class="sugam-wz-hint">${t('wzReviewHint')}</p>
           <div class="sugam-review-list">${reviewItemsHtml}</div>
           <div style="background:#FFF3E0; border:1.5px solid #FF9800; border-radius:10px; padding:12px; font-size:14px; color:#29252D;">
-            ℹ️ When you tap <b>Fill into form</b>, SUGAM places your answers directly into the website's inputs. <b>SUGAM never submits forms</b>. You will press the website's submit button.
+            ${t('wzFillNote')}
           </div>
         `;
 
         footerBtns.innerHTML = `
-          <button class="sugam-wz-btn sugam-wz-btn-secondary" id="wz-act-back-review">← Back</button>
-          <button class="sugam-wz-btn sugam-wz-btn-primary" id="wz-act-fill">Fill into form ✓</button>
+          <button class="sugam-wz-btn sugam-wz-btn-secondary" id="wz-act-back-review">← ${t('back')}</button>
+          <button class="sugam-wz-btn sugam-wz-btn-primary" id="wz-act-fill">${t('wzFill')}</button>
         `;
 
         // Change button handlers
@@ -547,7 +547,7 @@ SugamFeatures.formWizard = {
           }
 
           // Announcement
-          this.announceToScreenReader('Answers written into form. Please review and click submit on the website.');
+          this.announceToScreenReader(t('wizardDoneHandoff'));
         });
         return;
       }
@@ -563,7 +563,7 @@ SugamFeatures.formWizard = {
       const val = wizardData[currentStep] || el.value || '';
 
       const pct = Math.round(((currentStep + 1) / elements.length) * 100);
-      stepNum.textContent = `Step ${currentStep + 1} of ${elements.length}`;
+      stepNum.textContent = t('wizardStepOf', { current: currentStep + 1, total: elements.length });
       progressFill.style.width = `${pct}%`;
 
       let inputWidgetHtml = '';
@@ -571,8 +571,8 @@ SugamFeatures.formWizard = {
       if (isSensitive) {
         inputWidgetHtml = `
           <div style="background:#FFF3E0; border:2px solid #E65100; padding:18px; border-radius:12px; margin-bottom:16px;">
-            <strong style="color:#BF360C; font-size:16px; display:block; margin-bottom:6px;">🔒 Private Password or PIN</strong>
-            <p style="font-size:15px; line-height:1.5;">SUGAM never stores, reads, or touches private passwords, PINs, or OTPs. Please continue through the wizard. When finished, type your password directly into the website's own secure box.</p>
+            <strong style="color:#BF360C; font-size:16px; display:block; margin-bottom:6px;">🔒 ${t('wzPrivateTitle')}</strong>
+            <p style="font-size:15px; line-height:1.5;">${t('wzPrivateBody')}</p>
           </div>
         `;
       } else if (tag === 'select') {
@@ -591,7 +591,7 @@ SugamFeatures.formWizard = {
         inputWidgetHtml = `
           <div class="sugam-input-row">
             <textarea class="sugam-wz-textarea" id="sugam-curr-field" rows="4" placeholder="${esc(placeholder)}">${esc(val)}</textarea>
-            <button class="sugam-mic-btn" id="sugam-mic-btn" type="button" aria-label="Dictate answer with voice">🎙️ Dictate</button>
+            <button class="sugam-mic-btn" id="sugam-mic-btn" type="button" aria-label="${t('wzDictateLabel')}">🎙️ ${t('wzDictate')}</button>
           </div>
         `;
       } else {
@@ -599,7 +599,7 @@ SugamFeatures.formWizard = {
         inputWidgetHtml = `
           <div class="sugam-input-row">
             <input class="sugam-wz-input" id="sugam-curr-field" type="${type === 'password' ? 'text' : type}" placeholder="${esc(placeholder)}" value="${esc(val)}" />
-            <button class="sugam-mic-btn" id="sugam-mic-btn" type="button" aria-label="Dictate answer with voice">🎙️ Dictate</button>
+            <button class="sugam-mic-btn" id="sugam-mic-btn" type="button" aria-label="${t('wzDictateLabel')}">🎙️ ${t('wzDictate')}</button>
           </div>
         `;
       }
@@ -612,11 +612,11 @@ SugamFeatures.formWizard = {
       `;
 
       footerBtns.innerHTML = `
-        <button class="sugam-wz-btn-link" id="wz-act-save-later">Save &amp; finish later</button>
+        <button class="sugam-wz-btn-link" id="wz-act-save-later">${esc(t('wzSaveLater'))}</button>
         <div style="display:flex; gap:10px;">
           <button class="sugam-wz-btn sugam-wz-btn-secondary" id="wz-act-prev" ${currentStep === 0 ? 'style="display:none;"' : ''}>← Back</button>
           <button class="sugam-wz-btn sugam-wz-btn-primary" id="wz-act-next">
-            ${currentStep === elements.length - 1 ? 'Review answers →' : 'Next Question →'}
+            ${currentStep === elements.length - 1 ? t('wzReviewAnswers') : t('wzNextQuestion')}
           </button>
         </div>
       `;
@@ -683,7 +683,7 @@ SugamFeatures.formWizard = {
         }
         container.remove();
         this.wizardModalElem = null;
-        alert('Your answers are saved. You can open Form Wizard anytime to continue.');
+        alert(t('wzSaved'));
       });
     };
 
@@ -703,7 +703,7 @@ SugamFeatures.formWizard = {
         .replace(/[_-]/g, ' ')
         .trim();
     }
-    return 'Question';
+    return t('wzQuestion');
   },
 
   setNativeValue(element, value) {

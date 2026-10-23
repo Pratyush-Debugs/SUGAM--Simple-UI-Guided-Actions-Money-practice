@@ -16,7 +16,8 @@ const sharedGlobals = {
   // content/page-safety.js
   isPageSensitive: 'readonly',
   isFieldSensitive: 'readonly',
-  esc: 'readonly'
+  esc: 'readonly',
+  t: 'readonly'
 };
 
 module.exports = [

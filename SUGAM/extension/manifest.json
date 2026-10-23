@@ -35,6 +35,7 @@
         "shared/dom-safe.js",
         "shared/bionic.js",
         "shared/sensitive-detector.js",
+        "shared/i18n.js",
         "content/page-safety.js",
         "content/features/visual-comfort.js",
         "content/features/reading-ruler.js",

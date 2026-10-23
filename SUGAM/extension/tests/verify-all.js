@@ -16,6 +16,7 @@ function readContentScripts() {
   const files = [
     'content/content.js',
     'content/page-safety.js',
+    'shared/i18n.js',
     ...fs.readdirSync(dir).map((f) => `content/features/${f}`)
   ];
   return files.map((f) => fs.readFileSync(path.join(ROOT, f), 'utf8')).join('\n');

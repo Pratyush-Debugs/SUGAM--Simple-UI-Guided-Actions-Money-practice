@@ -350,7 +350,97 @@ const SUGAM_TRANSLATIONS = {
     upiShopProceed: 'Proceed to Pay ₹80 Safely',
 
     upiShopCheck:
-      'Check the shop name: <strong>Kirana Grocery Store</strong> and amount <strong>₹80</strong>. Tap Enter Practice PIN.'
+      'Check the shop name: <strong>Kirana Grocery Store</strong> and amount <strong>₹80</strong>. Tap Enter Practice PIN.',
+
+    scamTitle: 'Stop. Check. Ask.',
+
+    scamBody:
+      'This page has urgent threats or unverified domain details. Banks never threaten immediate suspension or ask for your PIN.',
+
+    scamHelpline: 'Not sure? Call 1930 (Cyber Helpline).',
+
+    scamDismiss: 'I understand, stay alert',
+
+    calmLabel: 'Calm moment: You are safe',
+
+    calmBreathe: 'Breathe',
+
+    calmBreatheLabel: 'Breathe gently',
+
+    calmHelper: 'Helper',
+
+    calmCallName: 'Call {name} ({phone})',
+
+    timerMinutesLeft: 'You have about <b>{minutes} minutes</b> left on this page. Take your time.',
+
+    wzName: 'Form Wizard',
+
+    wzLauncher: 'Form Wizard ({n} questions)',
+
+    wzLauncherLabel: 'Open Form Wizard: Answer questions one at a time',
+
+    wzNoFields:
+      'No form fields were found on this page. Navigate to an application or registration page to use the wizard.',
+
+    wzCloseLabel: 'Close wizard',
+
+    wzStartStep: 'Start: What you will need',
+
+    wzItemsNeeded: 'Items you will need for this form:',
+
+    wzWelcome: 'Welcome to Form Wizard',
+
+    wzIntro:
+      'This webpage has <b>{n} questions</b>. We will show you <b>one question at a time</b> in large, friendly text so you can complete it comfortably.',
+
+    wzPromise:
+      '🛡️ <b>SUGAM Promise:</b> SUGAM will help you fill the answers, but <b>SUGAM never submits forms</b>. You will review and tap submit on the website yourself.',
+
+    wzCancel: 'Cancel',
+
+    wzStartQ1: 'Start Question 1 →',
+
+    wzPrivateEnter: '🔒 (Private - Enter on website)',
+
+    wzNotAnswered: '(Not answered)',
+
+    wzReviewHint: 'Review your details below. If anything needs changing, tap Change.',
+
+    wzFillNote:
+      "ℹ️ When you tap <b>Fill into form</b>, SUGAM places your answers directly into the website's inputs. <b>SUGAM never submits forms</b>. You will press the website's submit button.",
+
+    wzFill: 'Fill into form ✓',
+
+    wzPrivateTitle: 'Private Password or PIN',
+
+    wzPrivateBody:
+      "SUGAM never stores, reads, or touches private passwords, PINs, or OTPs. Please continue through the wizard. When finished, type your password directly into the website's own secure box.",
+
+    wzDictate: 'Dictate',
+
+    wzDictateLabel: 'Dictate answer with voice',
+
+    wzListening: 'Listening...',
+
+    wzNoDictation: 'Speech dictation is not available in this browser window.',
+
+    wzSaveLater: 'Save & finish later',
+
+    wzReviewAnswers: 'Review answers →',
+
+    wzNextQuestion: 'Next Question →',
+
+    wzSaved: 'Your answers are saved. You can open Form Wizard anytime to continue.',
+
+    wzRequired: '⚠️ Please answer this question to continue.',
+
+    wzPhoneDigits: '⚠️ Your phone number needs 10 digits. You typed {typed}. Please add {more} more.',
+
+    wzEmail: '⚠️ Please enter an email address with an @ and domain (e.g. name@example.com).',
+
+    wzPincode: '⚠️ Pincode needs 6 digits. You typed {typed}. Add {more} more.',
+
+    wzQuestion: 'Question'
   },
 
   hi: {
@@ -701,7 +791,96 @@ const SUGAM_TRANSLATIONS = {
     upiShopProceed: '₹80 सुरक्षित तरीके से दें',
 
     upiShopCheck:
-      'दुकान का नाम <strong>Kirana Grocery Store</strong> और रकम <strong>₹80</strong> जाँचें। फिर "अभ्यास PIN डालें" दबाएं।'
+      'दुकान का नाम <strong>Kirana Grocery Store</strong> और रकम <strong>₹80</strong> जाँचें। फिर "अभ्यास PIN डालें" दबाएं।',
+
+    scamTitle: 'रुकें। जाँचें। पूछें।',
+
+    scamBody:
+      'इस पेज पर डराने वाली बातें हैं या वेबसाइट का पता संदिग्ध है। बैंक कभी तुरंत खाता बंद करने की धमकी नहीं देते और न ही आपका PIN माँगते हैं।',
+
+    scamHelpline: 'पक्का नहीं पता? 1930 (साइबर हेल्पलाइन) पर कॉल करें।',
+
+    scamDismiss: 'ठीक है, सावधान रहें',
+
+    calmLabel: 'शांत पल: आप सुरक्षित हैं',
+
+    calmBreathe: 'साँस लें',
+
+    calmBreatheLabel: 'धीरे से साँस लें',
+
+    calmHelper: 'सहायक',
+
+    calmCallName: '{name} को कॉल करें ({phone})',
+
+    timerMinutesLeft: 'इस पेज पर आपके पास लगभग <b>{minutes} मिनट</b> बचे हैं। आराम से करें।',
+
+    wzName: 'फ़ॉर्म विज़ार्ड',
+
+    wzLauncher: 'फ़ॉर्म विज़ार्ड ({n} सवाल)',
+
+    wzLauncherLabel: 'फ़ॉर्म विज़ार्ड खोलें: एक बार में एक सवाल',
+
+    wzNoFields: 'इस पेज पर कोई फ़ॉर्म नहीं मिला। विज़ार्ड इस्तेमाल करने के लिए किसी आवेदन या पंजीकरण पेज पर जाएं।',
+
+    wzCloseLabel: 'विज़ार्ड बंद करें',
+
+    wzStartStep: 'शुरुआत: आपको क्या चाहिए होगा',
+
+    wzItemsNeeded: 'इस फ़ॉर्म के लिए आपको ये चीज़ें चाहिए:',
+
+    wzWelcome: 'फ़ॉर्म विज़ार्ड में स्वागत है',
+
+    wzIntro:
+      'इस पेज पर <b>{n} सवाल</b> हैं। हम आपको बड़े और साफ़ अक्षरों में <b>एक बार में एक सवाल</b> दिखाएंगे, ताकि आप आराम से भर सकें।',
+
+    wzPromise:
+      '🛡️ <b>सुगम का वादा:</b> सुगम उत्तर भरने में मदद करेगा, लेकिन <b>सुगम कभी फ़ॉर्म जमा नहीं करता</b>। आप खुद जाँचकर वेबसाइट पर सबमिट दबाएंगे।',
+
+    wzCancel: 'रद्द करें',
+
+    wzStartQ1: 'पहला सवाल शुरू करें →',
+
+    wzPrivateEnter: '🔒 (निजी - वेबसाइट पर खुद भरें)',
+
+    wzNotAnswered: '(उत्तर नहीं दिया)',
+
+    wzReviewHint: 'नीचे अपनी जानकारी देखें। कुछ बदलना हो तो "बदलें" दबाएं।',
+
+    wzFillNote:
+      'ℹ️ जब आप <b>फ़ॉर्म में भरें</b> दबाएंगे, सुगम आपके उत्तर वेबसाइट के खानों में डाल देगा। <b>सुगम कभी फ़ॉर्म जमा नहीं करता</b>। सबमिट बटन आप खुद दबाएंगे।',
+
+    wzFill: 'फ़ॉर्म में भरें ✓',
+
+    wzPrivateTitle: 'निजी पासवर्ड या PIN',
+
+    wzPrivateBody:
+      'सुगम निजी पासवर्ड, PIN या OTP कभी नहीं सहेजता, पढ़ता या छूता। विज़ार्ड में आगे बढ़ते रहें। आख़िर में अपना पासवर्ड सीधे वेबसाइट के अपने सुरक्षित खाने में लिखें।',
+
+    wzDictate: 'बोलकर लिखें',
+
+    wzDictateLabel: 'उत्तर बोलकर लिखें',
+
+    wzListening: 'सुन रहा है...',
+
+    wzNoDictation: 'इस ब्राउज़र में बोलकर लिखने की सुविधा नहीं है।',
+
+    wzSaveLater: 'सहेजें और बाद में पूरा करें',
+
+    wzReviewAnswers: 'उत्तर जाँचें →',
+
+    wzNextQuestion: 'अगला सवाल →',
+
+    wzSaved: 'आपके उत्तर सहेज लिए गए। आगे भरने के लिए फ़ॉर्म विज़ार्ड कभी भी खोलें।',
+
+    wzRequired: '⚠️ आगे बढ़ने के लिए कृपया इस सवाल का उत्तर दें।',
+
+    wzPhoneDigits: '⚠️ फ़ोन नंबर में 10 अंक चाहिए। आपने {typed} लिखे। {more} और जोड़ें।',
+
+    wzEmail: '⚠️ कृपया @ और डोमेन वाला ईमेल पता लिखें (जैसे name@example.com)।',
+
+    wzPincode: '⚠️ पिनकोड में 6 अंक चाहिए। आपने {typed} लिखे। {more} और जोड़ें।',
+
+    wzQuestion: 'सवाल'
   },
 
   or: {
@@ -1051,7 +1230,96 @@ const SUGAM_TRANSLATIONS = {
     upiShopProceed: '₹80 ସୁରକ୍ଷିତ ଭାବେ ଦିଅନ୍ତୁ',
 
     upiShopCheck:
-      'ଦୋକାନ ନାମ <strong>Kirana Grocery Store</strong> ଓ ରାଶି <strong>₹80</strong> ଯାଞ୍ଚ କରନ୍ତୁ। ତାପରେ "ଅଭ୍ୟାସ PIN ଦିଅନ୍ତୁ" ଦବାନ୍ତୁ।'
+      'ଦୋକାନ ନାମ <strong>Kirana Grocery Store</strong> ଓ ରାଶି <strong>₹80</strong> ଯାଞ୍ଚ କରନ୍ତୁ। ତାପରେ "ଅଭ୍ୟାସ PIN ଦିଅନ୍ତୁ" ଦବାନ୍ତୁ।',
+
+    scamTitle: 'ରୁହନ୍ତୁ। ଯାଞ୍ଚ କରନ୍ତୁ। ପଚାରନ୍ତୁ।',
+
+    scamBody:
+      'ଏହି ପୃଷ୍ଠାରେ ଡରାଇବା କଥା ଅଛି ବା ୱେବସାଇଟ୍ ଠିକଣା ସନ୍ଦେହଜନକ। ବ୍ୟାଙ୍କ କେବେ ତୁରନ୍ତ ଖାତା ବନ୍ଦ କରିବା ଧମକ ଦିଏ ନାହିଁ କିମ୍ବା ଆପଣଙ୍କ PIN ମାଗେ ନାହିଁ।',
+
+    scamHelpline: 'ନିଶ୍ଚିତ ନୁହଁନ୍ତି? 1930 (ସାଇବର ହେଲ୍ପଲାଇନ୍)କୁ କଲ୍ କରନ୍ତୁ।',
+
+    scamDismiss: 'ବୁଝିଲି, ସାବଧାନ ରହିବି',
+
+    calmLabel: 'ଶାନ୍ତ ମୁହୂର୍ତ୍ତ: ଆପଣ ସୁରକ୍ଷିତ',
+
+    calmBreathe: 'ଶ୍ୱାସ ନିଅନ୍ତୁ',
+
+    calmBreatheLabel: 'ଧୀରେ ଶ୍ୱାସ ନିଅନ୍ତୁ',
+
+    calmHelper: 'ସହାୟକ',
+
+    calmCallName: '{name}ଙ୍କୁ କଲ୍ କରନ୍ତୁ ({phone})',
+
+    timerMinutesLeft: 'ଏହି ପୃଷ୍ଠାରେ ଆପଣଙ୍କ ପାଖରେ ପ୍ରାୟ <b>{minutes} ମିନିଟ୍</b> ବାକି ଅଛି। ଧୀରେ ଧୀରେ କରନ୍ତୁ।',
+
+    wzName: 'ଫର୍ମ ୱିଜାର୍ଡ',
+
+    wzLauncher: 'ଫର୍ମ ୱିଜାର୍ଡ ({n}ଟି ପ୍ରଶ୍ନ)',
+
+    wzLauncherLabel: 'ଫର୍ମ ୱିଜାର୍ଡ ଖୋଲନ୍ତୁ: ଥରକେ ଗୋଟିଏ ପ୍ରଶ୍ନ',
+
+    wzNoFields: 'ଏହି ପୃଷ୍ଠାରେ କୌଣସି ଫର୍ମ ମିଳିଲା ନାହିଁ। ୱିଜାର୍ଡ ବ୍ୟବହାର ପାଇଁ ଆବେଦନ ବା ପଞ୍ଜୀକରଣ ପୃଷ୍ଠାକୁ ଯାଆନ୍ତୁ।',
+
+    wzCloseLabel: 'ୱିଜାର୍ଡ ବନ୍ଦ କରନ୍ତୁ',
+
+    wzStartStep: "ଆରମ୍ଭ: ଆପଣଙ୍କୁ କ'ଣ ଦରକାର ହେବ",
+
+    wzItemsNeeded: 'ଏହି ଫର୍ମ ପାଇଁ ଆପଣଙ୍କୁ ଏସବୁ ଦରକାର:',
+
+    wzWelcome: 'ଫର୍ମ ୱିଜାର୍ଡକୁ ସ୍ୱାଗତ',
+
+    wzIntro:
+      'ଏହି ପୃଷ୍ଠାରେ <b>{n}ଟି ପ୍ରଶ୍ନ</b> ଅଛି। ଆମେ ବଡ଼ ଓ ସଫା ଅକ୍ଷରରେ <b>ଥରକେ ଗୋଟିଏ ପ୍ରଶ୍ନ</b> ଦେଖାଇବୁ, ଯାହାଫଳରେ ଆପଣ ଆରାମରେ ପୂରଣ କରିପାରିବେ।',
+
+    wzPromise:
+      '🛡️ <b>ସୁଗମର ପ୍ରତିଶ୍ରୁତି:</b> ସୁଗମ ଉତ୍ତର ଭରିବାରେ ସାହାଯ୍ୟ କରିବ, କିନ୍ତୁ <b>ସୁଗମ କେବେ ଫର୍ମ ଦାଖଲ କରେ ନାହିଁ</b>। ଆପଣ ନିଜେ ଯାଞ୍ଚ କରି ୱେବସାଇଟରେ ସବମିଟ୍ ଦବାଇବେ।',
+
+    wzCancel: 'ବାତିଲ୍ କରନ୍ତୁ',
+
+    wzStartQ1: 'ପ୍ରଥମ ପ୍ରଶ୍ନ ଆରମ୍ଭ କରନ୍ତୁ →',
+
+    wzPrivateEnter: '🔒 (ବ୍ୟକ୍ତିଗତ - ୱେବସାଇଟରେ ନିଜେ ଭରନ୍ତୁ)',
+
+    wzNotAnswered: '(ଉତ୍ତର ଦିଆଯାଇନାହିଁ)',
+
+    wzReviewHint: 'ତଳେ ଆପଣଙ୍କ ତଥ୍ୟ ଦେଖନ୍ତୁ। କିଛି ବଦଳାଇବାକୁ ହେଲେ "ବଦଳାନ୍ତୁ" ଦବାନ୍ତୁ।',
+
+    wzFillNote:
+      'ℹ️ ଆପଣ <b>ଫର୍ମରେ ଭରନ୍ତୁ</b> ଦବାଇଲେ, ସୁଗମ ଆପଣଙ୍କ ଉତ୍ତର ୱେବସାଇଟର ଘରେ ରଖିଦେବ। <b>ସୁଗମ କେବେ ଫର୍ମ ଦାଖଲ କରେ ନାହିଁ</b>। ସବମିଟ୍ ବଟନ ଆପଣ ନିଜେ ଦବାଇବେ।',
+
+    wzFill: 'ଫର୍ମରେ ଭରନ୍ତୁ ✓',
+
+    wzPrivateTitle: 'ବ୍ୟକ୍ତିଗତ ପାସୱାର୍ଡ ବା PIN',
+
+    wzPrivateBody:
+      'ସୁଗମ ବ୍ୟକ୍ତିଗତ ପାସୱାର୍ଡ, PIN ବା OTP କେବେ ସାଇତେ ନାହିଁ, ପଢ଼େ ନାହିଁ କି ଛୁଏଁ ନାହିଁ। ୱିଜାର୍ଡରେ ଆଗକୁ ବଢ଼ନ୍ତୁ। ଶେଷରେ ଆପଣଙ୍କ ପାସୱାର୍ଡ ସିଧା ୱେବସାଇଟର ନିଜସ୍ୱ ସୁରକ୍ଷିତ ଘରେ ଲେଖନ୍ତୁ।',
+
+    wzDictate: 'କହି ଲେଖନ୍ତୁ',
+
+    wzDictateLabel: 'ଉତ୍ତର କହି ଲେଖନ୍ତୁ',
+
+    wzListening: 'ଶୁଣୁଛି...',
+
+    wzNoDictation: 'ଏହି ବ୍ରାଉଜରରେ କହି ଲେଖିବା ସୁବିଧା ନାହିଁ।',
+
+    wzSaveLater: 'ସାଇତି ପରେ ଶେଷ କରନ୍ତୁ',
+
+    wzReviewAnswers: 'ଉତ୍ତର ଯାଞ୍ଚ କରନ୍ତୁ →',
+
+    wzNextQuestion: 'ପରବର୍ତ୍ତୀ ପ୍ରଶ୍ନ →',
+
+    wzSaved: 'ଆପଣଙ୍କ ଉତ୍ତର ସାଇତା ହେଲା। ଆଗକୁ ଭରିବାକୁ ଯେକୌଣସି ସମୟରେ ଫର୍ମ ୱିଜାର୍ଡ ଖୋଲନ୍ତୁ।',
+
+    wzRequired: '⚠️ ଆଗକୁ ଯିବାକୁ ଦୟାକରି ଏହି ପ୍ରଶ୍ନର ଉତ୍ତର ଦିଅନ୍ତୁ।',
+
+    wzPhoneDigits: '⚠️ ଫୋନ୍ ନମ୍ବରରେ 10ଟି ଅଙ୍କ ଦରକାର। ଆପଣ {typed}ଟି ଲେଖିଛନ୍ତି। ଆଉ {more}ଟି ଯୋଡ଼ନ୍ତୁ।',
+
+    wzEmail: '⚠️ ଦୟାକରି @ ଓ ଡୋମେନ୍ ଥିବା ଇମେଲ୍ ଠିକଣା ଲେଖନ୍ତୁ (ଯେପରି name@example.com)।',
+
+    wzPincode: '⚠️ ପିନକୋଡରେ 6ଟି ଅଙ୍କ ଦରକାର। ଆପଣ {typed}ଟି ଲେଖିଛନ୍ତି। ଆଉ {more}ଟି ଯୋଡ଼ନ୍ତୁ।',
+
+    wzQuestion: 'ପ୍ରଶ୍ନ'
   }
 };
 

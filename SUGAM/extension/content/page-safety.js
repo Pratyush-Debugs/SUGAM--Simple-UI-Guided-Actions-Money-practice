@@ -17,6 +17,11 @@ function isFieldSensitive(input) {
   return SensitiveDetector.isSensitiveField(input);
 }
 
+/** Text in the user's chosen language (English, Hindi or Odia). */
+function t(key, values) {
+  return SugamI18n.get(key, values);
+}
+
 /** Page-controlled text (labels, placeholders, option text, typed answers) must never be parsed as HTML. */
 function esc(value) {
   return SugamDom.escapeHtml(value);

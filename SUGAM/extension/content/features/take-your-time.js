@@ -89,10 +89,10 @@ SugamFeatures.takeYourTime = {
         }
       </style>
       <div class="sugam-tb-title">
-        <span>⏳</span> Take Your Time
+        <span>⏳</span> ${t('tileTimer')}
       </div>
-      <div>You have about <b>${countdown.minutes} minutes</b> left on this page. Take your time.</div>
-      <button class="sugam-tb-btn" id="sugam-calm-btn">I need a moment</button>
+      <div>${t('timerMinutesLeft', { minutes: countdown.minutes })}</div>
+      <button class="sugam-tb-btn" id="sugam-calm-btn">${t('iNeedAMoment')}</button>
     `;
 
     shadow.appendChild(banner);
@@ -140,9 +140,9 @@ SugamFeatures.takeYourTime = {
     overlay.className = 'sugam-calm-overlay pointer-all';
     overlay.setAttribute('role', 'dialog');
     overlay.setAttribute('aria-modal', 'true');
-    overlay.setAttribute('aria-label', 'Calm moment: You are safe');
+    overlay.setAttribute('aria-label', t('calmLabel'));
 
-    const trustedName = this.settings.trustedPerson?.name || 'Helper';
+    const trustedName = this.settings.trustedPerson?.name || t('calmHelper');
     const trustedPhone = this.settings.trustedPerson?.phone || '1930';
 
     overlay.innerHTML = `
@@ -241,16 +241,16 @@ SugamFeatures.takeYourTime = {
         }
       </style>
       <div class="sugam-calm-card">
-        <div class="sugam-calm-title">You are safe.</div>
-        <div class="sugam-calm-sub">Nothing has been sent. Take all the time you need.</div>
-        <div class="sugam-breathing-circle" aria-label="Breathe gently">Breathe</div>
+        <div class="sugam-calm-title">${t('calmTitle')}</div>
+        <div class="sugam-calm-sub">${t('calmSubtitle')}</div>
+        <div class="sugam-breathing-circle" aria-label="${t('calmBreatheLabel')}">${t('calmBreathe')}</div>
         <div class="sugam-calm-actions">
-          <button class="sugam-btn-primary" id="sugam-resume-btn">I am ready to continue</button>
+          <button class="sugam-btn-primary" id="sugam-resume-btn">${t('returnToPage')}</button>
           <a href="tel:${esc(trustedPhone)}" class="sugam-btn-secondary" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
-            📞 Call ${esc(trustedName)} (${esc(trustedPhone)})
+            📞 ${t('calmCallName', { name: esc(trustedName), phone: esc(trustedPhone) })}
           </a>
           <a href="tel:1930" class="sugam-btn-secondary" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
-            🛡️ Call 1930 Cyber Helpline
+            🛡️ ${t('cyberHelpline')}
           </a>
         </div>
       </div>

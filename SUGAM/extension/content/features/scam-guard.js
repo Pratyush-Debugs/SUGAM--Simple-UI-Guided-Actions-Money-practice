@@ -45,9 +45,10 @@ SugamFeatures.scamGuard = {
           .sugam-scam-title { font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
           .sugam-scam-btn { background: #D32F2F; color: #FFF; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px; }
         </style>
-        <div class="sugam-scam-title">⚠️ Stop. Check. Ask.</div>
-        <div>This page has urgent threats or unverified domain details. Banks never threaten immediate suspension or ask for your PIN.</div>
-        <button class="sugam-scam-btn" id="sugam-scam-close">I understand, stay alert</button>
+        <div class="sugam-scam-title">⚠️ ${t('scamTitle')}</div>
+        <div>${t('scamBody')}</div>
+        <div style="margin-top:6px; font-weight:700;">${t('scamHelpline')}</div>
+        <button class="sugam-scam-btn" id="sugam-scam-close">${t('scamDismiss')}</button>
       `;
       shadow.appendChild(scamCard);
       scamCard.querySelector('#sugam-scam-close').addEventListener('click', () => scamCard.remove());

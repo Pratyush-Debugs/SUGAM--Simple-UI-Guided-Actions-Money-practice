@@ -40,6 +40,7 @@
       // Check if site is disabled in sync storage
       const res = await this.getStorageData(['sugamSettings']);
       this.settings = res?.sugamSettings || {};
+      SugamI18n.setLanguage(this.settings.language || 'en');
 
       const host = window.location.hostname;
       if (this.settings.disabledSites && this.settings.disabledSites.includes(host)) {
@@ -108,6 +109,7 @@
 
         case 'SETTINGS_UPDATED':
           this.settings = msg.settings;
+          SugamI18n.setLanguage(this.settings.language || 'en');
           if (this.isMasterOn) {
             this.teardownAllHelpers();
             this.applyAllHelpers();
