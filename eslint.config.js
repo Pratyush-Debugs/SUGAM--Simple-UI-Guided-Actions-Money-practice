@@ -39,7 +39,7 @@ module.exports = [
     rules: { 'no-redeclare': 'off', 'no-unused-vars': 'off' }
   },
   {
-    files: ['SUGAM/extension/tests/**/*.js', 'eslint.config.js'],
+    files: ['SUGAM/extension/tests/**/*.js', 'eslint.config.js', 'playwright.config.js'],
     languageOptions: { sourceType: 'commonjs', globals: { ...globals.node, ...globals.browser, chrome: 'writable' } },
     rules: { 'no-eval': 'off', 'no-new-func': 'off' }
   }
