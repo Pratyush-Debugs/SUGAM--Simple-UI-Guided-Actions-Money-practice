@@ -2,11 +2,8 @@ const { test, expect } = require('./fixtures');
 const { SUGAM_TRANSLATIONS } = require('../../shared/i18n.js');
 
 for (const lang of ['hi', 'or']) {
-  test(`side panel follows the chosen language (${lang})`, async ({ context, serviceWorker }) => {
-    await serviceWorker.evaluate(async (language) => {
-      const { sugamSettings = {} } = await chrome.storage.sync.get('sugamSettings');
-      await chrome.storage.sync.set({ sugamSettings: { ...sugamSettings, language } });
-    }, lang);
+  test(`side panel follows the chosen language (${lang})`, async ({ context, serviceWorker, setSettings }) => {
+    await setSettings({ language: lang });
 
     const extensionId = new URL(serviceWorker.url()).host;
     const panel = await context.newPage();

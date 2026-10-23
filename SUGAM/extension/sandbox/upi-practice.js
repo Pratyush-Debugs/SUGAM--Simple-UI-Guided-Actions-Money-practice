@@ -2,11 +2,22 @@
  * SUGAM - Safe UPI & Money Practice Sandbox Controller
  * Interactive smartphone simulation with guided steps, coach feedback,
  * and 4 realistic scam spotter training scenarios.
+ *
+ * All text comes from shared/i18n.js (English, Hindi, Odia). Coach messages contain
+ * <strong>/<em> markup, so they are SUGAM's own bundled strings; names and amounts
+ * placed into them are escaped first.
  */
 
 document.addEventListener('DOMContentLoaded', async () => {
   let settings = await SugamStorage.getSettings();
   let demoBalance = settings.moneyPractice?.demoBalance || 2500;
+
+  const lang = settings.language || 'en';
+  SugamI18n.setLanguage(lang);
+  SugamI18n.translatePage();
+  const t = (key, values) => SugamI18n.get(key, values);
+  const esc = (value) => SugamDom.escapeHtml(value);
+  const SPEECH_LANG = { en: 'en-IN', hi: 'hi-IN', or: 'or-IN' };
 
   // State
   let currentPayee = { name: 'Mom', upi: 'mom@okhdfcbank', avatar: '👩' };
@@ -39,22 +50,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function updateBalanceDisplay() {
-    phoneBalanceElem.textContent = `Play Balance: ₹${demoBalance.toLocaleString('en-IN')}`;
+    phoneBalanceElem.textContent = t('upiPlayBalance', { amount: demoBalance.toLocaleString('en-IN') });
   }
   updateBalanceDisplay();
 
-  function updateCoach(text) {
-    coachTextElem.innerHTML = text;
+  /** Shows a coach message. `html` must be one of SUGAM's own translation strings. */
+  function updateCoach(html) {
+    coachTextElem.innerHTML = html;
   }
 
-  // TTS for Coach
+  // TTS for Coach, in the chosen language
   btnListenCoach.addEventListener('click', () => {
     if (window.speechSynthesis.speaking) {
       window.speechSynthesis.cancel();
       return;
     }
-    const clean = coachTextElem.innerText.replace(/₹\s*(\d+)/g, '$1 rupees');
+    const clean = coachTextElem.innerText.replace(/₹\s*([\d,]+)/g, (m, amount) => t('upiRupees', { amount }));
     const u = new SpeechSynthesisUtterance(clean);
+    u.lang = SPEECH_LANG[lang] || 'en-IN';
     u.rate = 0.9;
     window.speechSynthesis.speak(u);
   });
@@ -67,16 +80,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     await SugamStorage.saveSettings(settings);
     updateBalanceDisplay();
     startSendFlow();
-    updateCoach('Play balance reset to <strong>₹2,500</strong>. You are ready to practise!');
+    updateCoach(t('upiCoachReset'));
   });
 
   document.getElementById('btn-exit-sandbox').addEventListener('click', () => {
     window.close();
   });
 
-  // Number to Indian Words
+  // Amount in words. English gets full Indian-system words; Hindi and Odia show the
+  // grouped number with the rupee word until native-speaker number words are added.
   function numberToWords(num) {
-    if (isNaN(num) || num <= 0) return 'Zero rupees';
+    if (isNaN(num) || num <= 0) return t('upiZeroRupees');
+    if (lang !== 'en') return t('upiRupees', { amount: num.toLocaleString('en-IN') });
+
     const a = [
       '',
       'one',
@@ -117,7 +133,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // FLOW 1: Standard Send Money
   function startSendFlow() {
     showScreen('contact');
-    updateCoach('<strong>Step 1:</strong> Tap a person to send play money to. Look at their name and UPI ID.');
+    updateCoach(t('upiCoachStep1'));
   }
 
   // Contact list selection
@@ -130,14 +146,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       };
 
       document.getElementById('txt-selected-avatar').textContent = currentPayee.avatar;
-      document.getElementById('txt-selected-payee').textContent = `Paying ${currentPayee.name}`;
+      document.getElementById('txt-selected-payee').textContent = t('upiPaying', { name: currentPayee.name });
       document.getElementById('inp-amount').value = '';
-      document.getElementById('txt-amount-words').textContent = 'Zero rupees';
+      document.getElementById('txt-amount-words').textContent = numberToWords(0);
 
       showScreen('amount');
-      updateCoach(
-        `<strong>Step 2:</strong> Type how much you want to send to <strong>${currentPayee.name}</strong>. Always check the words below the amount.`
-      );
+      updateCoach(t('upiCoachStep2', { name: esc(currentPayee.name) }));
     });
   });
 
@@ -163,26 +177,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     showScreen('contact');
   });
 
-  // Proceed to Review
-  document.getElementById('btn-proceed-to-review').addEventListener('click', () => {
-    if (currentAmount <= 0) {
-      alert('Please enter an amount of at least ₹1.');
-      return;
-    }
-    if (currentAmount > demoBalance) {
-      alert(`You only have ₹${demoBalance} play money. Enter a smaller amount.`);
-      return;
-    }
-
+  function showReview() {
     document.getElementById('rev-payee-name').textContent = currentPayee.name;
     document.getElementById('rev-payee-upi').textContent = currentPayee.upi;
     document.getElementById('rev-amount').textContent = `₹${currentAmount}`;
     document.getElementById('rev-amount-words').textContent = numberToWords(currentAmount);
-
     showScreen('review');
-    updateCoach(
-      `<strong>Step 3: Check Carefully!</strong> Look at the name (<strong>${currentPayee.name}</strong>) and amount (<strong>₹${currentAmount}</strong>). You are SENDING money from your bank.`
-    );
+  }
+
+  // Proceed to Review
+  document.getElementById('btn-proceed-to-review').addEventListener('click', () => {
+    if (currentAmount <= 0) {
+      alert(t('upiAlertMinAmount'));
+      return;
+    }
+    if (currentAmount > demoBalance) {
+      alert(t('upiAlertTooMuch', { balance: demoBalance }));
+      return;
+    }
+
+    showReview();
+    updateCoach(t('upiCoachStep3', { name: esc(currentPayee.name), amount: currentAmount }));
   });
 
   document.getElementById('btn-back-to-amount').addEventListener('click', () => {
@@ -195,9 +210,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     updatePinDots();
     document.getElementById('txt-pin-error').classList.add('hidden');
     showScreen('pin');
-    updateCoach(
-      '<strong>Step 4: Enter Practice PIN.</strong> On real phones, never tell anyone your PIN. In this sandbox, type <strong>1 2 3 4</strong>.'
-    );
+    updateCoach(t('upiCoachStep4'));
   });
 
   // Keypad logic
@@ -229,7 +242,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.getElementById('key-submit').addEventListener('click', async () => {
     if (enteredPin.length < 4) {
-      alert('Please enter all 4 digits of your practice PIN.');
+      alert(t('upiAlertPinDigits'));
       return;
     }
 
@@ -243,18 +256,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       document.getElementById('rec-amount').textContent = `₹${currentAmount}`;
       document.getElementById('rec-payee').textContent = currentPayee.name;
-      document.getElementById('rec-time').textContent =
-        `Today, ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+      document.getElementById('rec-time').textContent = t('upiToday', {
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      });
 
       showScreen('receipt');
-      updateCoach(
-        '🎉 <strong>Payment Successful!</strong> You checked who you were paying, checked the amount, and entered the practice PIN. Outstanding job!'
-      );
+      updateCoach(t('upiCoachSuccess'));
     } else {
       document.getElementById('txt-pin-error').classList.remove('hidden');
-      updateCoach(
-        '⚠️ That was not 1234. No worries! Tap <strong>C</strong> to clear, then type <strong>1 2 3 4</strong>.'
-      );
+      updateCoach(t('upiCoachWrongPin'));
     }
   });
 
@@ -262,134 +272,58 @@ document.addEventListener('DOMContentLoaded', async () => {
     startSendFlow();
   });
 
+  /** Builds a scam message with two answer buttons. `n` picks the upiScam{n}* strings. */
+  function scamContent(n, correctFirst) {
+    const correct = `<button class="scam-option-btn" id="scam-opt-correct-${n}">✅ ${t(`upiScam${n}Correct`)}</button>`;
+    const wrong = `<button class="scam-option-btn" id="scam-opt-wrong-${n}">❌ ${t(`upiScam${n}Wrong`)}</button>`;
+    return `
+      <div class="scam-message-banner">
+        <span class="scam-badge">${t(`upiScam${n}Badge`)}</span>
+        <div class="scam-msg-body">
+          <strong>${t(`upiScam${n}From`)}</strong><br>
+          ${t(`upiScam${n}Message`)}
+        </div>
+      </div>
+      <div class="scam-question">${t(`upiScam${n}Question`)}</div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        ${correctFirst ? correct + wrong : wrong + correct}
+      </div>
+    `;
+  }
+
+  function scamScenario(n, correctFirst) {
+    return {
+      title: t(`upiScam${n}Title`),
+      coachMessage: t(`upiScam${n}Coach`),
+      content: scamContent(n, correctFirst),
+      onCorrect: () => updateCoach(t(`upiScam${n}OnCorrect`)),
+      onWrong: () => updateCoach(t(`upiScam${n}OnWrong`))
+    };
+  }
+
   // SCAM SPOTTER SCENARIOS (Section 5.1)
   const scamScenarios = {
-    'scam-refund': {
-      title: 'Scam Scenario 1: Fake Refund Request',
-      coachMessage:
-        '⚠️ <strong>Scam Spotter:</strong> A stranger says they overpaid you by accident and asks you to enter your PIN to get the refund. What should you do?',
-      content: `
-        <div class="scam-message-banner">
-          <span class="scam-badge">Incoming Payment Request</span>
-          <div class="scam-msg-body">
-            <strong>Unknown Caller (Rajesh Kumar):</strong><br>
-            "Sir, I mistakenly sent ₹5,000 to your Google Pay! I sent you a collect request. Please enter your 4-digit UPI PIN now to receive your refund."
-          </div>
-        </div>
-        <div class="scam-question">What is the Golden Rule here?</div>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <button class="scam-option-btn" id="scam-opt-wrong-1">
-            ❌ Enter PIN so I can receive the ₹5,000 refund
-          </button>
-          <button class="scam-option-btn" id="scam-opt-correct-1">
-            ✅ Decline immediately! You NEVER enter a PIN to receive money!
-          </button>
-        </div>
-      `,
-      onCorrect: () => {
-        updateCoach(
-          '🌟 <strong>BRILLIANT!</strong> You remembered Golden Rule #1: You <strong>NEVER</strong> enter a UPI PIN to receive money. A PIN is ONLY for sending money out of your account!'
-        );
-      },
-      onWrong: () => {
-        updateCoach(
-          '🚨 <strong>STOP! Danger!</strong> If you enter your PIN, ₹5,000 will be STOLEN from your bank! Remember: You <em>never</em> type a PIN to receive money.'
-        );
-      }
-    },
-
-    'scam-qr': {
-      title: 'Scam Scenario 2: Scan QR to Receive Lottery',
-      coachMessage:
-        '⚠️ <strong>Scam Spotter:</strong> You receive a message with a QR code promising ₹2,000 festival cashback.',
-      content: `
-        <div class="scam-message-banner">
-          <span class="scam-badge">WhatsApp Lottery Message</span>
-          <div class="scam-msg-body">
-            <strong>Festival Lottery Offer:</strong><br>
-            "Congratulations! You won ₹2,000 cash. Open your UPI app and SCAN THIS QR CODE to receive the cash directly into your bank!"
-          </div>
-        </div>
-        <div class="scam-question">What actually happens when you scan a QR code?</div>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <button class="scam-option-btn" id="scam-opt-correct-2">
-            ✅ Scanning a QR code always SENDS money out of my account. I will not scan!
-          </button>
-          <button class="scam-option-btn" id="scam-opt-wrong-2">
-            ❌ Scanning a QR code receives money into my bank.
-          </button>
-        </div>
-      `,
-      onCorrect: () => {
-        updateCoach(
-          '🌟 <strong>PERFECT!</strong> Scanning a QR code is for PAYING money at a store or to a person. It NEVER receives money into your account.'
-        );
-      },
-      onWrong: () => {
-        updateCoach(
-          "🚨 <strong>DANGER!</strong> Scanning a QR code always makes a payment. Scammers use fake 'receive' QR codes to drain your account!"
-        );
-      }
-    },
-
-    'scam-kyc': {
-      title: 'Scam Scenario 3: Urgent Bank KYC Threat',
-      coachMessage:
-        '⚠️ <strong>Scam Spotter:</strong> You receive an SMS threatening that your bank account will be blocked today.',
-      content: `
-        <div class="scam-message-banner">
-          <span class="scam-badge">Urgent SMS</span>
-          <div class="scam-msg-body">
-            <strong>Alert from SBI-Bank-Notice:</strong><br>
-            "Dear customer, your bank account will be BLOCKED in 2 hours due to pending KYC! Click http://sbi-kyc-verify-portal.top to update your ATM card and PIN immediately."
-          </div>
-        </div>
-        <div class="scam-question">How can you tell this is a fake threat?</div>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <button class="scam-option-btn" id="scam-opt-correct-3">
-            ✅ Banks never threaten immediate blockage or ask for ATM PIN/password via SMS links!
-          </button>
-          <button class="scam-option-btn" id="scam-opt-wrong-3">
-            ❌ Click the link fast before my account is blocked!
-          </button>
-        </div>
-      `,
-      onCorrect: () => {
-        updateCoach(
-          '🌟 <strong>EXCELLENT!</strong> Banks never send urgent threat links asking for card details or PINs. If you ever feel scared, call <strong>1930</strong> (National Cyber Helpline).'
-        );
-      },
-      onWrong: () => {
-        updateCoach(
-          "🚨 <strong>DON'T PANIC!</strong> Scammers use artificial panic and urgency ('blocked in 2 hours') to make people act without thinking. Real banks never do this!"
-        );
-      }
-    },
+    'scam-refund': scamScenario(1, false),
+    'scam-qr': scamScenario(2, true),
+    'scam-kyc': scamScenario(3, true),
 
     shop: {
-      title: 'Practice: Genuine Grocery Store Payment',
-      coachMessage:
-        '🛒 <strong>Positive Practice:</strong> You are buying ₹80 of groceries at Kirana Store. Tap to check merchant name and pay safely.',
+      title: t('upiShopTitle'),
+      coachMessage: t('upiShopCoach'),
       content: `
         <div style="background:#FFFFFF; border:2px solid #59366E; border-radius:14px; padding:18px;">
-          <h3 style="color:#59366E; margin-bottom:8px;">At the Grocery Store Counter</h3>
-          <p>Merchant QR Code shows: <strong>Kirana Grocery Store (Verified Merchant)</strong></p>
-          <div style="font-size:24px; font-weight:800; color:#59366E; margin:14px 0;">Bill: ₹80</div>
-          <button class="btn-phone-primary" id="btn-start-shop-pay">Proceed to Pay ₹80 Safely</button>
+          <h3 style="color:#59366E; margin-bottom:8px;">${t('upiShopCounter')}</h3>
+          <p>${t('upiShopMerchant')}</p>
+          <div style="font-size:24px; font-weight:800; color:#59366E; margin:14px 0;">${t('upiShopBill')}</div>
+          <button class="btn-phone-primary" id="btn-start-shop-pay">${t('upiShopProceed')}</button>
         </div>
       `,
       setup: () => {
         document.getElementById('btn-start-shop-pay').addEventListener('click', () => {
           currentPayee = { name: 'Kirana Grocery Store', upi: 'merchant@icici', avatar: '🏪' };
           currentAmount = 80;
-          document.getElementById('rev-payee-name').textContent = currentPayee.name;
-          document.getElementById('rev-payee-upi').textContent = currentPayee.upi;
-          document.getElementById('rev-amount').textContent = '₹80';
-          document.getElementById('rev-amount-words').textContent = 'Eighty rupees';
-          showScreen('review');
-          updateCoach(
-            'Check the shop name: <strong>Kirana Grocery Store</strong> and amount <strong>₹80</strong>. Tap Enter Practice PIN.'
-          );
+          showReview();
+          updateCoach(t('upiShopCheck'));
         });
       }
     }

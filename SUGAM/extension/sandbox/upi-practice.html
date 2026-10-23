@@ -13,13 +13,13 @@
       <div class="logo-group">
         <img src="../icons/icon48.png" alt="" width="40" height="40">
         <div>
-          <h1>Safe UPI &amp; Money Practice</h1>
-          <p class="subtitle">Practise with play money. Learn to spot real-world scams.</p>
+          <h1 data-i18n="upiTitle">Safe UPI &amp; Money Practice</h1>
+          <p class="subtitle" data-i18n="upiSubtitle">Practise with play money. Learn to spot real-world scams.</p>
         </div>
       </div>
       <div class="header-actions">
-        <button class="btn-top-reset" id="btn-reset-balance">🔄 Reset Demo Money (₹2,500)</button>
-        <button class="btn-top-exit" id="btn-exit-sandbox">← Back to browsing</button>
+        <button class="btn-top-reset" id="btn-reset-balance">🔄 <span data-i18n="upiResetMoney">Reset Demo Money (₹2,500)</span></button>
+        <button class="btn-top-exit" id="btn-exit-sandbox">← <span data-i18n="upiBackToBrowsing">Back to browsing</span></button>
       </div>
     </div>
   </header>
@@ -32,18 +32,18 @@
       <!-- Golden Rules Card -->
       <div class="rule-card">
         <div class="rule-card-header">
-          <span class="badge-gold">🌟 The 3 Golden Rules</span>
+          <span class="badge-gold">🌟 <span data-i18n="upiGoldenRules">The 3 Golden Rules</span></span>
         </div>
         <ul class="golden-rules-list">
-          <li>
+          <li data-i18n-html="upiRule1">
             <strong>1. Never enter a PIN to receive money:</strong>
             A UPI PIN is <em>only</em> used to SEND money from your bank.
           </li>
-          <li>
+          <li data-i18n-html="upiRule2">
             <strong>2. Always check the name and amount:</strong>
             Look at the screen before typing your PIN.
           </li>
-          <li>
+          <li data-i18n-html="upiRule3">
             <strong>3. Stop. Check. Ask:</strong>
             If someone rushes or threatens you, hang up and call <strong>1930</strong>.
           </li>
@@ -55,55 +55,55 @@
         <div class="coach-avatar-row">
           <div class="coach-avatar" aria-hidden="true">🦉</div>
           <div>
-            <h3 class="coach-name">Coach Sugam</h3>
-            <span class="coach-status">Here to help you practice safely</span>
+            <h3 class="coach-name" data-i18n="upiCoachName">Coach Sugam</h3>
+            <span class="coach-status" data-i18n="upiCoachStatus">Here to help you practice safely</span>
           </div>
         </div>
-        <div class="coach-speech" id="coach-text">
+        <div class="coach-speech" id="coach-text" data-i18n-html="upiCoachWelcome">
           Welcome! This phone uses <strong>play money</strong>. Your practice PIN is <strong>1 2 3 4</strong>. Choose an activity below to begin.
         </div>
-        <button class="btn-listen-coach" id="btn-listen-coach" aria-label="Listen to coach advice">
-          🔊 Listen to Coach
+        <button class="btn-listen-coach" id="btn-listen-coach" aria-label="Listen to coach advice" data-i18n-aria-label="upiListenCoach">
+          🔊 <span data-i18n="upiListenCoach">Listen to Coach</span>
         </button>
       </div>
 
       <!-- Activity Selector -->
       <div class="activity-selector">
-        <h3>Choose Practice Mode:</h3>
+        <h3 data-i18n="upiChooseMode">Choose Practice Mode:</h3>
         <div class="activity-buttons">
           <button class="activity-btn active" data-flow="send">
-            💸 Send Money (Standard Flow)
+            💸 <span data-i18n="upiModeSend">Send Money (Standard Flow)</span>
           </button>
           <button class="activity-btn" data-flow="scam-refund">
-            ⚠️ Scam 1: "Enter PIN to Receive Refund"
+            ⚠️ <span data-i18n="upiModeScam1">Scam 1: "Enter PIN to Receive Refund"</span>
           </button>
           <button class="activity-btn" data-flow="scam-qr">
-            ⚠️ Scam 2: "Scan QR to Receive Lottery"
+            ⚠️ <span data-i18n="upiModeScam2">Scam 2: "Scan QR to Receive Lottery"</span>
           </button>
           <button class="activity-btn" data-flow="scam-kyc">
-            ⚠️ Scam 3: "Urgent Bank KYC Threat"
+            ⚠️ <span data-i18n="upiModeScam3">Scam 3: "Urgent Bank KYC Threat"</span>
           </button>
           <button class="activity-btn" data-flow="shop">
-            🛒 Genuine Grocery Shop Payment
+            🛒 <span data-i18n="upiModeShop">Genuine Grocery Shop Payment</span>
           </button>
         </div>
       </div>
     </aside>
 
     <!-- Virtual Phone Screen -->
-    <section class="phone-wrapper" aria-label="Virtual UPI Smartphone Screen">
+    <section class="phone-wrapper" aria-label="Virtual UPI Smartphone Screen" data-i18n-aria-label="upiPhoneLabel">
       <div class="virtual-phone">
         <!-- Phone Top Bar -->
         <div class="phone-status-bar">
           <span>9:41</span>
-          <span class="demo-tag">DEMO UPI APP</span>
+          <span class="demo-tag" data-i18n="upiDemoTag">DEMO UPI APP</span>
           <span>🔋 100%</span>
         </div>
 
         <!-- Phone App Header -->
         <div class="phone-app-header">
           <div class="user-welcome">
-            <span class="greeting">Hello, Rahul!</span>
+            <span class="greeting" data-i18n="upiHello">Hello, Rahul!</span>
             <span class="wallet-balance" id="phone-balance">Play Balance: ₹2,500</span>
           </div>
         </div>
@@ -113,7 +113,7 @@
 
           <!-- SCREEN 1: Choose Contact / Mode -->
           <div class="phone-step active" id="step-choose-contact">
-            <h2 class="step-title">Who do you want to pay?</h2>
+            <h2 class="step-title" data-i18n="upiWhoToPay">Who do you want to pay?</h2>
             <div class="contact-list">
               <button class="contact-item" data-contact="Mom" data-upi="mom@upi" data-avatar="👩">
                 <span class="contact-pic">👩</span>
@@ -133,7 +133,7 @@
                 <span class="contact-pic">🏪</span>
                 <div class="contact-meta">
                   <strong>Kirana Grocery Store</strong>
-                  <span>merchant@icici (Verified Shop)</span>
+                  <span>merchant@icici (<span data-i18n="upiVerifiedShop">Verified Shop</span>)</span>
                 </div>
               </button>
             </div>
@@ -143,15 +143,15 @@
           <div class="phone-step" id="step-enter-amount" hidden>
             <div class="payee-pill">
               <span id="txt-selected-avatar">👤</span>
-              <span id="txt-selected-payee">Paying Someone</span>
+              <span id="txt-selected-payee" data-i18n="upiPayingSomeone">Paying Someone</span>
             </div>
 
-            <label for="inp-amount" class="amount-label">Enter Rupee Amount:</label>
+            <label for="inp-amount" class="amount-label" data-i18n="upiEnterAmount">Enter Rupee Amount:</label>
             <div class="amount-input-box">
               <span class="rupee-symbol">₹</span>
               <input type="number" id="inp-amount" class="amount-input" placeholder="0" min="1" max="2500">
             </div>
-            <div class="amount-words" id="txt-amount-words">Zero rupees</div>
+            <div class="amount-words" id="txt-amount-words" data-i18n="upiZeroRupees">Zero rupees</div>
 
             <div class="quick-chips">
               <button class="chip-btn" data-amt="50">+ ₹50</button>
@@ -160,60 +160,60 @@
             </div>
 
             <div class="phone-nav-btns">
-              <button class="btn-phone-secondary" id="btn-back-to-contacts">Back</button>
-              <button class="btn-phone-primary" id="btn-proceed-to-review">Review Payment</button>
+              <button class="btn-phone-secondary" id="btn-back-to-contacts" data-i18n="back">Back</button>
+              <button class="btn-phone-primary" id="btn-proceed-to-review" data-i18n="upiReviewPayment">Review Payment</button>
             </div>
           </div>
 
           <!-- SCREEN 3: Review Screen (Check Payee & Amount) -->
           <div class="phone-step" id="step-review" hidden>
             <div class="review-box">
-              <div class="review-tag">Please Check Carefully</div>
+              <div class="review-tag" data-i18n="upiCheckCarefully">Please Check Carefully</div>
               <div class="review-row">
-                <span>Paying to:</span>
+                <span data-i18n="upiPayingTo">Paying to:</span>
                 <strong id="rev-payee-name">Mom</strong>
               </div>
               <div class="review-row">
-                <span>UPI ID:</span>
+                <span data-i18n="upiUpiId">UPI ID:</span>
                 <span id="rev-payee-upi">mom@upi</span>
               </div>
               <div class="review-row highlight-amt">
-                <span>Amount:</span>
+                <span data-i18n="upiAmount">Amount:</span>
                 <strong id="rev-amount">₹150</strong>
               </div>
               <div class="review-words" id="rev-amount-words">One hundred fifty rupees</div>
-              <div class="review-alert">
+              <div class="review-alert" data-i18n-html="upiSendingAlert">
                 ℹ️ You are <strong>SENDING</strong> money from your bank account.
               </div>
             </div>
 
             <div class="phone-nav-btns">
-              <button class="btn-phone-secondary" id="btn-back-to-amount">Change Amount</button>
-              <button class="btn-phone-primary" id="btn-proceed-to-pin">Enter Practice PIN</button>
+              <button class="btn-phone-secondary" id="btn-back-to-amount" data-i18n="upiChangeAmount">Change Amount</button>
+              <button class="btn-phone-primary" id="btn-proceed-to-pin" data-i18n="upiEnterPracticePin">Enter Practice PIN</button>
             </div>
           </div>
 
           <!-- SCREEN 4: Enter Practice PIN (Keypad) -->
           <div class="phone-step" id="step-pin" hidden>
             <div class="pin-header">
-              <h3>Enter UPI PIN</h3>
-              <p>Type practice PIN: <strong>1 2 3 4</strong></p>
+              <h3 data-i18n="upiEnterUpiPin">Enter UPI PIN</h3>
+              <p data-i18n-html="upiTypePracticePin">Type practice PIN: <strong>1 2 3 4</strong></p>
             </div>
 
             <!-- PIN dots -->
-            <div class="pin-dots" aria-label="PIN entered digits">
+            <div class="pin-dots" aria-label="PIN entered digits" data-i18n-aria-label="upiPinDotsLabel">
               <span class="dot" id="dot-1"></span>
               <span class="dot" id="dot-2"></span>
               <span class="dot" id="dot-3"></span>
               <span class="dot" id="dot-4"></span>
             </div>
 
-            <div class="pin-error-msg hidden" id="txt-pin-error">
+            <div class="pin-error-msg hidden" id="txt-pin-error" data-i18n="upiPinError">
               ❌ That was not 1234. No worries! Try typing 1 2 3 4.
             </div>
 
             <!-- Numeric Keypad (48px+ touch targets) -->
-            <div class="keypad-grid" role="group" aria-label="PIN keypad">
+            <div class="keypad-grid" role="group" aria-label="PIN keypad" data-i18n-aria-label="upiKeypadLabel">
               <button class="key-btn" data-key="1">1</button>
               <button class="key-btn" data-key="2">2</button>
               <button class="key-btn" data-key="3">3</button>
@@ -223,9 +223,9 @@
               <button class="key-btn" data-key="7">7</button>
               <button class="key-btn" data-key="8">8</button>
               <button class="key-btn" data-key="9">9</button>
-              <button class="key-btn key-clear" id="key-clear">C</button>
+              <button class="key-btn key-clear" id="key-clear" aria-label="Clear" data-i18n-aria-label="upiClearKey">C</button>
               <button class="key-btn" data-key="0">0</button>
-              <button class="key-btn key-ok" id="key-submit">✓</button>
+              <button class="key-btn key-ok" id="key-submit" aria-label="Confirm PIN" data-i18n-aria-label="upiConfirmKey">✓</button>
             </div>
           </div>
 
@@ -233,16 +233,16 @@
           <div class="phone-step" id="step-receipt" hidden>
             <div class="receipt-card">
               <div class="receipt-icon" aria-hidden="true">✅</div>
-              <h2 class="receipt-status">Payment Successful!</h2>
+              <h2 class="receipt-status" data-i18n="upiPaymentSuccessful">Payment Successful!</h2>
               <div class="receipt-amt" id="rec-amount">₹150</div>
-              <p class="receipt-desc">Paid to <strong id="rec-payee">Mom</strong></p>
+              <p class="receipt-desc"><span data-i18n="upiPaidTo">Paid to</span> <strong id="rec-payee">Mom</strong></p>
               <div class="receipt-time" id="rec-time">Today, 9:42 AM</div>
 
-              <div class="safety-recap">
+              <div class="safety-recap" data-i18n="upiSafetyRecap">
                 👍 You checked the name, verified the amount, and safely sent money. Well done!
               </div>
 
-              <button class="btn-phone-primary" id="btn-finish-receipt" style="margin-top: 16px;">
+              <button class="btn-phone-primary" id="btn-finish-receipt" style="margin-top: 16px;" data-i18n="upiStartNew">
                 Start New Practice
               </button>
             </div>
@@ -260,7 +260,9 @@
     </section>
   </main>
 
+  <script src="../shared/dom-safe.js"></script>
   <script src="../shared/storage.js"></script>
+  <script src="../shared/i18n.js"></script>
   <script src="upi-practice.js"></script>
 </body>
 </html>

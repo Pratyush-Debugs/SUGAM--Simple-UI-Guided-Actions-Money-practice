@@ -57,6 +57,24 @@ const test = base.extend({
     );
   },
 
+  /**
+   * Merges `patch` into SUGAM's saved settings. Waits for the defaults written on install first,
+   * otherwise they can land after the patch and overwrite it.
+   */
+  setSettings: async ({ serviceWorker }, use) => {
+    await use(async (patch) => {
+      await expect
+        .poll(() =>
+          serviceWorker.evaluate(async () => !!(await chrome.storage.sync.get('sugamSettings')).sugamSettings)
+        )
+        .toBe(true);
+      await serviceWorker.evaluate(async (p) => {
+        const { sugamSettings } = await chrome.storage.sync.get('sugamSettings');
+        await chrome.storage.sync.set({ sugamSettings: { ...sugamSettings, ...p } });
+      }, patch);
+    });
+  },
+
   /** Everything SUGAM has stored, as one JSON string (sync + local). */
   storedData: async ({ serviceWorker }, use) => {
     await use(() =>

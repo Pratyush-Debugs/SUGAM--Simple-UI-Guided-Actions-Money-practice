@@ -138,7 +138,219 @@ const SUGAM_TRANSLATIONS = {
 
     spSavedAt: 'Saved at {time}',
 
-    spResume: 'Resume reading'
+    spResume: 'Resume reading',
+
+    upiSubtitle: 'Practise with play money. Learn to spot real-world scams.',
+
+    upiResetMoney: 'Reset Demo Money (₹2,500)',
+
+    upiBackToBrowsing: 'Back to browsing',
+
+    upiGoldenRules: 'The 3 Golden Rules',
+
+    upiRule1:
+      '<strong>1. Never enter a PIN to receive money:</strong> A UPI PIN is <em>only</em> used to SEND money from your bank.',
+
+    upiRule2: '<strong>2. Always check the name and amount:</strong> Look at the screen before typing your PIN.',
+
+    upiRule3:
+      '<strong>3. Stop. Check. Ask:</strong> If someone rushes or threatens you, hang up and call <strong>1930</strong>.',
+
+    upiCoachName: 'Coach Sugam',
+
+    upiCoachStatus: 'Here to help you practice safely',
+
+    upiCoachWelcome:
+      'Welcome! This phone uses <strong>play money</strong>. Your practice PIN is <strong>1 2 3 4</strong>. Choose an activity below to begin.',
+
+    upiListenCoach: 'Listen to Coach',
+
+    upiChooseMode: 'Choose Practice Mode:',
+
+    upiModeSend: 'Send Money (Standard Flow)',
+
+    upiModeScam1: 'Scam 1: "Enter PIN to Receive Refund"',
+
+    upiModeScam2: 'Scam 2: "Scan QR to Receive Lottery"',
+
+    upiModeScam3: 'Scam 3: "Urgent Bank KYC Threat"',
+
+    upiModeShop: 'Genuine Grocery Shop Payment',
+
+    upiPhoneLabel: 'Virtual UPI Smartphone Screen',
+
+    upiDemoTag: 'DEMO UPI APP',
+
+    upiHello: 'Hello, Rahul!',
+
+    upiPlayBalance: 'Play Balance: ₹{amount}',
+
+    upiWhoToPay: 'Who do you want to pay?',
+
+    upiVerifiedShop: 'Verified Shop',
+
+    upiPayingSomeone: 'Paying Someone',
+
+    upiPaying: 'Paying {name}',
+
+    upiEnterAmount: 'Enter Rupee Amount:',
+
+    upiZeroRupees: 'Zero rupees',
+
+    upiRupees: '{amount} rupees',
+
+    upiReviewPayment: 'Review Payment',
+
+    upiCheckCarefully: 'Please Check Carefully',
+
+    upiPayingTo: 'Paying to:',
+
+    upiUpiId: 'UPI ID:',
+
+    upiAmount: 'Amount:',
+
+    upiSendingAlert: 'ℹ️ You are <strong>SENDING</strong> money from your bank account.',
+
+    upiChangeAmount: 'Change Amount',
+
+    upiEnterPracticePin: 'Enter Practice PIN',
+
+    upiEnterUpiPin: 'Enter UPI PIN',
+
+    upiTypePracticePin: 'Type practice PIN: <strong>1 2 3 4</strong>',
+
+    upiPinDotsLabel: 'PIN entered digits',
+
+    upiPinError: '❌ That was not 1234. No worries! Try typing 1 2 3 4.',
+
+    upiKeypadLabel: 'PIN keypad',
+
+    upiClearKey: 'Clear',
+
+    upiConfirmKey: 'Confirm PIN',
+
+    upiPaymentSuccessful: 'Payment Successful!',
+
+    upiPaidTo: 'Paid to',
+
+    upiSafetyRecap: '👍 You checked the name, verified the amount, and safely sent money. Well done!',
+
+    upiStartNew: 'Start New Practice',
+
+    upiToday: 'Today, {time}',
+
+    upiCoachReset: 'Play balance reset to <strong>₹2,500</strong>. You are ready to practise!',
+
+    upiCoachStep1: '<strong>Step 1:</strong> Tap a person to send play money to. Look at their name and UPI ID.',
+
+    upiCoachStep2:
+      '<strong>Step 2:</strong> Type how much you want to send to <strong>{name}</strong>. Always check the words below the amount.',
+
+    upiCoachStep3:
+      '<strong>Step 3: Check Carefully!</strong> Look at the name (<strong>{name}</strong>) and amount (<strong>₹{amount}</strong>). You are SENDING money from your bank.',
+
+    upiCoachStep4:
+      '<strong>Step 4: Enter Practice PIN.</strong> On real phones, never tell anyone your PIN. In this sandbox, type <strong>1 2 3 4</strong>.',
+
+    upiCoachSuccess:
+      '🎉 <strong>Payment Successful!</strong> You checked who you were paying, checked the amount, and entered the practice PIN. Outstanding job!',
+
+    upiCoachWrongPin:
+      '⚠️ That was not 1234. No worries! Tap <strong>C</strong> to clear, then type <strong>1 2 3 4</strong>.',
+
+    upiAlertMinAmount: 'Please enter an amount of at least ₹1.',
+
+    upiAlertTooMuch: 'You only have ₹{balance} play money. Enter a smaller amount.',
+
+    upiAlertPinDigits: 'Please enter all 4 digits of your practice PIN.',
+
+    upiScam1Title: 'Scam Scenario 1: Fake Refund Request',
+
+    upiScam1Coach:
+      '⚠️ <strong>Scam Spotter:</strong> A stranger says they overpaid you by accident and asks you to enter your PIN to get the refund. What should you do?',
+
+    upiScam1Badge: 'Incoming Payment Request',
+
+    upiScam1From: 'Unknown Caller (Rajesh Kumar):',
+
+    upiScam1Message:
+      '"Sir, I mistakenly sent ₹5,000 to your Google Pay! I sent you a collect request. Please enter your 4-digit UPI PIN now to receive your refund."',
+
+    upiScam1Question: 'What is the Golden Rule here?',
+
+    upiScam1Wrong: 'Enter PIN so I can receive the ₹5,000 refund',
+
+    upiScam1Correct: 'Decline immediately! You NEVER enter a PIN to receive money!',
+
+    upiScam1OnCorrect:
+      '🌟 <strong>BRILLIANT!</strong> You remembered Golden Rule #1: You <strong>NEVER</strong> enter a UPI PIN to receive money. A PIN is ONLY for sending money out of your account!',
+
+    upiScam1OnWrong:
+      '🚨 <strong>STOP! Danger!</strong> If you enter your PIN, ₹5,000 will be STOLEN from your bank! Remember: You <em>never</em> type a PIN to receive money.',
+
+    upiScam2Title: 'Scam Scenario 2: Scan QR to Receive Lottery',
+
+    upiScam2Coach:
+      '⚠️ <strong>Scam Spotter:</strong> You receive a message with a QR code promising ₹2,000 festival cashback.',
+
+    upiScam2Badge: 'WhatsApp Lottery Message',
+
+    upiScam2From: 'Festival Lottery Offer:',
+
+    upiScam2Message:
+      '"Congratulations! You won ₹2,000 cash. Open your UPI app and SCAN THIS QR CODE to receive the cash directly into your bank!"',
+
+    upiScam2Question: 'What actually happens when you scan a QR code?',
+
+    upiScam2Correct: 'Scanning a QR code always SENDS money out of my account. I will not scan!',
+
+    upiScam2Wrong: 'Scanning a QR code receives money into my bank.',
+
+    upiScam2OnCorrect:
+      '🌟 <strong>PERFECT!</strong> Scanning a QR code is for PAYING money at a store or to a person. It NEVER receives money into your account.',
+
+    upiScam2OnWrong:
+      "🚨 <strong>DANGER!</strong> Scanning a QR code always makes a payment. Scammers use fake 'receive' QR codes to drain your account!",
+
+    upiScam3Title: 'Scam Scenario 3: Urgent Bank KYC Threat',
+
+    upiScam3Coach:
+      '⚠️ <strong>Scam Spotter:</strong> You receive an SMS threatening that your bank account will be blocked today.',
+
+    upiScam3Badge: 'Urgent SMS',
+
+    upiScam3From: 'Alert from SBI-Bank-Notice:',
+
+    upiScam3Message:
+      '"Dear customer, your bank account will be BLOCKED in 2 hours due to pending KYC! Click http://sbi-kyc-verify-portal.top to update your ATM card and PIN immediately."',
+
+    upiScam3Question: 'How can you tell this is a fake threat?',
+
+    upiScam3Correct: 'Banks never threaten immediate blockage or ask for ATM PIN/password via SMS links!',
+
+    upiScam3Wrong: 'Click the link fast before my account is blocked!',
+
+    upiScam3OnCorrect:
+      '🌟 <strong>EXCELLENT!</strong> Banks never send urgent threat links asking for card details or PINs. If you ever feel scared, call <strong>1930</strong> (National Cyber Helpline).',
+
+    upiScam3OnWrong:
+      "🚨 <strong>DON'T PANIC!</strong> Scammers use artificial panic and urgency ('blocked in 2 hours') to make people act without thinking. Real banks never do this!",
+
+    upiShopTitle: 'Practice: Genuine Grocery Store Payment',
+
+    upiShopCoach:
+      '🛒 <strong>Positive Practice:</strong> You are buying ₹80 of groceries at Kirana Store. Tap to check merchant name and pay safely.',
+
+    upiShopCounter: 'At the Grocery Store Counter',
+
+    upiShopMerchant: 'Merchant QR Code shows: <strong>Kirana Grocery Store (Verified Merchant)</strong>',
+
+    upiShopBill: 'Bill: ₹80',
+
+    upiShopProceed: 'Proceed to Pay ₹80 Safely',
+
+    upiShopCheck:
+      'Check the shop name: <strong>Kirana Grocery Store</strong> and amount <strong>₹80</strong>. Tap Enter Practice PIN.'
   },
 
   hi: {
@@ -276,7 +488,220 @@ const SUGAM_TRANSLATIONS = {
 
     spSavedAt: '{time} पर सहेजा गया',
 
-    spResume: 'फिर से पढ़ें'
+    spResume: 'फिर से पढ़ें',
+
+    upiSubtitle: 'खेल वाले पैसों से अभ्यास करें। असली धोखाधड़ी पहचानना सीखें।',
+
+    upiResetMoney: 'अभ्यास के पैसे फिर से ₹2,500 करें',
+
+    upiBackToBrowsing: 'ब्राउज़िंग पर वापस जाएं',
+
+    upiGoldenRules: '3 सुनहरे नियम',
+
+    upiRule1:
+      '<strong>1. पैसे पाने के लिए कभी PIN न डालें:</strong> UPI PIN <em>सिर्फ</em> आपके बैंक से पैसे भेजने के लिए होता है।',
+
+    upiRule2: '<strong>2. हमेशा नाम और रकम जाँचें:</strong> PIN डालने से पहले स्क्रीन देखें।',
+
+    upiRule3:
+      '<strong>3. रुकें। जाँचें। पूछें:</strong> अगर कोई जल्दी करवाए या डराए, तो फ़ोन काट दें और <strong>1930</strong> पर कॉल करें।',
+
+    upiCoachName: 'कोच सुगम',
+
+    upiCoachStatus: 'सुरक्षित अभ्यास में आपकी मदद के लिए',
+
+    upiCoachWelcome:
+      'स्वागत है! यह फ़ोन <strong>खेल वाले पैसे</strong> इस्तेमाल करता है। आपका अभ्यास PIN <strong>1 2 3 4</strong> है। शुरू करने के लिए नीचे एक गतिविधि चुनें।',
+
+    upiListenCoach: 'कोच को सुनें',
+
+    upiChooseMode: 'अभ्यास का तरीका चुनें:',
+
+    upiModeSend: 'पैसे भेजें (सामान्य तरीका)',
+
+    upiModeScam1: 'धोखा 1: "रिफ़ंड पाने के लिए PIN डालें"',
+
+    upiModeScam2: 'धोखा 2: "लॉटरी पाने के लिए QR स्कैन करें"',
+
+    upiModeScam3: 'धोखा 3: "बैंक KYC की धमकी"',
+
+    upiModeShop: 'असली किराना दुकान पर भुगतान',
+
+    upiPhoneLabel: 'अभ्यास UPI फ़ोन की स्क्रीन',
+
+    upiDemoTag: 'अभ्यास UPI ऐप',
+
+    upiHello: 'नमस्ते, राहुल!',
+
+    upiPlayBalance: 'खेल के पैसे: ₹{amount}',
+
+    upiWhoToPay: 'आप किसे पैसे देना चाहते हैं?',
+
+    upiVerifiedShop: 'जाँची हुई दुकान',
+
+    upiPayingSomeone: 'किसी को भुगतान',
+
+    upiPaying: '{name} को भुगतान',
+
+    upiEnterAmount: 'रुपये की रकम लिखें:',
+
+    upiZeroRupees: 'शून्य रुपये',
+
+    upiRupees: '{amount} रुपये',
+
+    upiReviewPayment: 'भुगतान जाँचें',
+
+    upiCheckCarefully: 'कृपया ध्यान से जाँचें',
+
+    upiPayingTo: 'किसे भुगतान:',
+
+    upiUpiId: 'UPI ID:',
+
+    upiAmount: 'रकम:',
+
+    upiSendingAlert: 'ℹ️ आप अपने बैंक खाते से पैसे <strong>भेज</strong> रहे हैं।',
+
+    upiChangeAmount: 'रकम बदलें',
+
+    upiEnterPracticePin: 'अभ्यास PIN डालें',
+
+    upiEnterUpiPin: 'UPI PIN डालें',
+
+    upiTypePracticePin: 'अभ्यास PIN लिखें: <strong>1 2 3 4</strong>',
+
+    upiPinDotsLabel: 'डाले गए PIN अंक',
+
+    upiPinError: '❌ यह 1234 नहीं था। कोई बात नहीं! 1 2 3 4 लिखकर देखें।',
+
+    upiKeypadLabel: 'PIN कीपैड',
+
+    upiClearKey: 'मिटाएं',
+
+    upiConfirmKey: 'PIN पक्का करें',
+
+    upiPaymentSuccessful: 'भुगतान सफल रहा!',
+
+    upiPaidTo: 'भुगतान किया गया:',
+
+    upiSafetyRecap: '👍 आपने नाम देखा, रकम जाँची, और सुरक्षित तरीके से पैसे भेजे। बहुत अच्छा!',
+
+    upiStartNew: 'नया अभ्यास शुरू करें',
+
+    upiToday: 'आज, {time}',
+
+    upiCoachReset: 'खेल के पैसे फिर से <strong>₹2,500</strong> हो गए। अब आप अभ्यास के लिए तैयार हैं!',
+
+    upiCoachStep1:
+      '<strong>पहला कदम:</strong> जिसे खेल वाले पैसे भेजने हैं, उस व्यक्ति को दबाएं। उनका नाम और UPI ID देखें।',
+
+    upiCoachStep2:
+      '<strong>दूसरा कदम:</strong> लिखें कि आप <strong>{name}</strong> को कितने पैसे भेजना चाहते हैं। रकम के नीचे लिखे शब्द हमेशा जाँचें।',
+
+    upiCoachStep3:
+      '<strong>तीसरा कदम: ध्यान से जाँचें!</strong> नाम (<strong>{name}</strong>) और रकम (<strong>₹{amount}</strong>) देखें। आप अपने बैंक से पैसे भेज रहे हैं।',
+
+    upiCoachStep4:
+      '<strong>चौथा कदम: अभ्यास PIN डालें।</strong> असली फ़ोन पर अपना PIN कभी किसी को न बताएं। यहाँ <strong>1 2 3 4</strong> लिखें।',
+
+    upiCoachSuccess:
+      '🎉 <strong>भुगतान सफल रहा!</strong> आपने देखा कि किसे पैसे दे रहे हैं, रकम जाँची, और अभ्यास PIN डाला। बहुत बढ़िया!',
+
+    upiCoachWrongPin:
+      '⚠️ यह 1234 नहीं था। कोई बात नहीं! मिटाने के लिए <strong>C</strong> दबाएं, फिर <strong>1 2 3 4</strong> लिखें।',
+
+    upiAlertMinAmount: 'कृपया कम से कम ₹1 की रकम लिखें।',
+
+    upiAlertTooMuch: 'आपके पास सिर्फ ₹{balance} खेल के पैसे हैं। छोटी रकम लिखें।',
+
+    upiAlertPinDigits: 'कृपया अपने अभ्यास PIN के चारों अंक डालें।',
+
+    upiScam1Title: 'धोखा 1: नकली रिफ़ंड की माँग',
+
+    upiScam1Coach:
+      '⚠️ <strong>धोखा पहचानें:</strong> एक अनजान व्यक्ति कहता है कि उसने गलती से ज़्यादा पैसे भेज दिए, और पैसे लौटाने के लिए आपसे PIN डालने को कहता है। आपको क्या करना चाहिए?',
+
+    upiScam1Badge: 'आया हुआ भुगतान अनुरोध',
+
+    upiScam1From: 'अनजान कॉलर (राजेश कुमार):',
+
+    upiScam1Message:
+      '"सर, मैंने गलती से आपके Google Pay पर ₹5,000 भेज दिए! मैंने आपको एक अनुरोध भेजा है। पैसे वापस पाने के लिए अभी अपना 4 अंकों का UPI PIN डालें।"',
+
+    upiScam1Question: 'यहाँ सुनहरा नियम क्या है?',
+
+    upiScam1Wrong: '₹5,000 का रिफ़ंड पाने के लिए PIN डाल दूँ',
+
+    upiScam1Correct: 'तुरंत मना करें! पैसे पाने के लिए कभी PIN नहीं डालते!',
+
+    upiScam1OnCorrect:
+      '🌟 <strong>शाबाश!</strong> आपको सुनहरा नियम 1 याद रहा: पैसे पाने के लिए UPI PIN <strong>कभी नहीं</strong> डालते। PIN सिर्फ अपने खाते से पैसे भेजने के लिए है!',
+
+    upiScam1OnWrong:
+      '🚨 <strong>रुकिए! खतरा!</strong> अगर आप PIN डालेंगे, तो आपके बैंक से ₹5,000 चोरी हो जाएंगे! याद रखें: पैसे पाने के लिए PIN <em>कभी नहीं</em> डालते।',
+
+    upiScam2Title: 'धोखा 2: लॉटरी पाने के लिए QR स्कैन',
+
+    upiScam2Coach:
+      '⚠️ <strong>धोखा पहचानें:</strong> आपको एक संदेश मिलता है जिसमें QR कोड है और ₹2,000 त्योहार कैशबैक का वादा है।',
+
+    upiScam2Badge: 'WhatsApp लॉटरी संदेश',
+
+    upiScam2From: 'त्योहार लॉटरी ऑफ़र:',
+
+    upiScam2Message:
+      '"बधाई हो! आपने ₹2,000 जीते हैं। अपना UPI ऐप खोलें और पैसे सीधे बैंक में पाने के लिए यह QR कोड स्कैन करें!"',
+
+    upiScam2Question: 'QR कोड स्कैन करने पर असल में क्या होता है?',
+
+    upiScam2Correct: 'QR कोड स्कैन करने से हमेशा मेरे खाते से पैसे जाते हैं। मुझे स्कैन नहीं करना है!',
+
+    upiScam2Wrong: 'QR कोड स्कैन करने से मेरे बैंक में पैसे आते हैं।',
+
+    upiScam2OnCorrect:
+      '🌟 <strong>बिल्कुल सही!</strong> QR कोड स्कैन करना दुकान पर या किसी व्यक्ति को पैसे देने के लिए होता है। इससे आपके खाते में पैसे कभी नहीं आते।',
+
+    upiScam2OnWrong:
+      '🚨 <strong>खतरा!</strong> QR कोड स्कैन करने से हमेशा भुगतान होता है। धोखेबाज़ "पैसे पाने" वाले नकली QR कोड से आपका खाता खाली कर देते हैं!',
+
+    upiScam3Title: 'धोखा 3: बैंक KYC की धमकी',
+
+    upiScam3Coach:
+      '⚠️ <strong>धोखा पहचानें:</strong> आपको एक SMS मिलता है जिसमें धमकी है कि आज आपका बैंक खाता बंद हो जाएगा।',
+
+    upiScam3Badge: 'ज़रूरी SMS',
+
+    upiScam3From: 'SBI-Bank-Notice से चेतावनी:',
+
+    upiScam3Message:
+      '"प्रिय ग्राहक, KYC बाकी होने के कारण आपका बैंक खाता 2 घंटे में बंद हो जाएगा! अपना ATM कार्ड और PIN तुरंत अपडेट करने के लिए http://sbi-kyc-verify-portal.top पर क्लिक करें।"',
+
+    upiScam3Question: 'आप कैसे जानेंगे कि यह नकली धमकी है?',
+
+    upiScam3Correct: 'बैंक कभी तुरंत खाता बंद करने की धमकी नहीं देते, और SMS लिंक से ATM PIN या पासवर्ड नहीं माँगते!',
+
+    upiScam3Wrong: 'खाता बंद होने से पहले जल्दी लिंक पर क्लिक करूँ!',
+
+    upiScam3OnCorrect:
+      '🌟 <strong>बहुत बढ़िया!</strong> बैंक कभी डराने वाले लिंक भेजकर कार्ड या PIN की जानकारी नहीं माँगते। अगर कभी डर लगे, तो <strong>1930</strong> (राष्ट्रीय साइबर हेल्पलाइन) पर कॉल करें।',
+
+    upiScam3OnWrong:
+      '🚨 <strong>घबराइए मत!</strong> धोखेबाज़ झूठी जल्दी ("2 घंटे में बंद") दिखाकर लोगों से बिना सोचे काम करवाते हैं। असली बैंक ऐसा कभी नहीं करते!',
+
+    upiShopTitle: 'अभ्यास: असली किराना दुकान पर भुगतान',
+
+    upiShopCoach:
+      '🛒 <strong>अच्छा अभ्यास:</strong> आप किराना दुकान से ₹80 का सामान खरीद रहे हैं। दुकान का नाम जाँचने और सुरक्षित भुगतान के लिए दबाएं।',
+
+    upiShopCounter: 'किराना दुकान के काउंटर पर',
+
+    upiShopMerchant: 'दुकान का QR कोड दिखाता है: <strong>Kirana Grocery Store (जाँची हुई दुकान)</strong>',
+
+    upiShopBill: 'बिल: ₹80',
+
+    upiShopProceed: '₹80 सुरक्षित तरीके से दें',
+
+    upiShopCheck:
+      'दुकान का नाम <strong>Kirana Grocery Store</strong> और रकम <strong>₹80</strong> जाँचें। फिर "अभ्यास PIN डालें" दबाएं।'
   },
 
   or: {
@@ -413,7 +838,220 @@ const SUGAM_TRANSLATIONS = {
 
     spSavedAt: '{time} ରେ ସାଇତା ହେଲା',
 
-    spResume: 'ପୁଣି ପଢ଼ନ୍ତୁ'
+    spResume: 'ପୁଣି ପଢ଼ନ୍ତୁ',
+
+    upiSubtitle: 'ଖେଳ ଟଙ୍କାରେ ଅଭ୍ୟାସ କରନ୍ତୁ। ପ୍ରକୃତ ଠକେଇ ଚିହ୍ନିବା ଶିଖନ୍ତୁ।',
+
+    upiResetMoney: 'ଅଭ୍ୟାସ ଟଙ୍କା ପୁଣି ₹2,500 କରନ୍ତୁ',
+
+    upiBackToBrowsing: 'ବ୍ରାଉଜିଂକୁ ଫେରନ୍ତୁ',
+
+    upiGoldenRules: '3ଟି ସୁନେଲି ନିୟମ',
+
+    upiRule1:
+      '<strong>1. ଟଙ୍କା ପାଇବା ପାଇଁ କେବେ ବି PIN ଦିଅନ୍ତୁ ନାହିଁ:</strong> UPI PIN <em>କେବଳ</em> ଆପଣଙ୍କ ବ୍ୟାଙ୍କରୁ ଟଙ୍କା ପଠାଇବା ପାଇଁ।',
+
+    upiRule2: '<strong>2. ସବୁବେଳେ ନାମ ଓ ରାଶି ଯାଞ୍ଚ କରନ୍ତୁ:</strong> PIN ଦେବା ପୂର୍ବରୁ ସ୍କ୍ରିନ୍ ଦେଖନ୍ତୁ।',
+
+    upiRule3:
+      '<strong>3. ରୁହନ୍ତୁ। ଯାଞ୍ଚ କରନ୍ତୁ। ପଚାରନ୍ତୁ:</strong> କେହି ତରବର କରାଇଲେ ବା ଡରାଇଲେ, ଫୋନ୍ କାଟି <strong>1930</strong>କୁ କଲ୍ କରନ୍ତୁ।',
+
+    upiCoachName: 'କୋଚ୍ ସୁଗମ',
+
+    upiCoachStatus: 'ସୁରକ୍ଷିତ ଅଭ୍ୟାସରେ ଆପଣଙ୍କୁ ସାହାଯ୍ୟ କରିବାକୁ',
+
+    upiCoachWelcome:
+      'ସ୍ୱାଗତ! ଏହି ଫୋନ୍ <strong>ଖେଳ ଟଙ୍କା</strong> ବ୍ୟବହାର କରେ। ଆପଣଙ୍କ ଅଭ୍ୟାସ PIN <strong>1 2 3 4</strong>। ଆରମ୍ଭ କରିବାକୁ ତଳେ ଗୋଟିଏ କାମ ବାଛନ୍ତୁ।',
+
+    upiListenCoach: 'କୋଚ୍‌ଙ୍କୁ ଶୁଣନ୍ତୁ',
+
+    upiChooseMode: 'ଅଭ୍ୟାସ ପ୍ରକାର ବାଛନ୍ତୁ:',
+
+    upiModeSend: 'ଟଙ୍କା ପଠାନ୍ତୁ (ସାଧାରଣ ଉପାୟ)',
+
+    upiModeScam1: 'ଠକେଇ 1: "ଫେରସ୍ତ ଟଙ୍କା ପାଇବାକୁ PIN ଦିଅନ୍ତୁ"',
+
+    upiModeScam2: 'ଠକେଇ 2: "ଲଟେରୀ ପାଇବାକୁ QR ସ୍କାନ୍ କରନ୍ତୁ"',
+
+    upiModeScam3: 'ଠକେଇ 3: "ବ୍ୟାଙ୍କ KYC ଧମକ"',
+
+    upiModeShop: 'ପ୍ରକୃତ କିରାଣା ଦୋକାନରେ ପେମେଣ୍ଟ',
+
+    upiPhoneLabel: 'ଅଭ୍ୟାସ UPI ଫୋନ୍ ସ୍କ୍ରିନ୍',
+
+    upiDemoTag: 'ଅଭ୍ୟାସ UPI ଆପ୍',
+
+    upiHello: 'ନମସ୍କାର, ରାହୁଲ!',
+
+    upiPlayBalance: 'ଖେଳ ଟଙ୍କା: ₹{amount}',
+
+    upiWhoToPay: 'ଆପଣ କାହାକୁ ଟଙ୍କା ଦେବାକୁ ଚାହାଁନ୍ତି?',
+
+    upiVerifiedShop: 'ଯାଞ୍ଚ ହୋଇଥିବା ଦୋକାନ',
+
+    upiPayingSomeone: 'କାହାକୁ ପେମେଣ୍ଟ',
+
+    upiPaying: '{name}ଙ୍କୁ ପେମେଣ୍ଟ',
+
+    upiEnterAmount: 'ଟଙ୍କା ରାଶି ଲେଖନ୍ତୁ:',
+
+    upiZeroRupees: 'ଶୂନ ଟଙ୍କା',
+
+    upiRupees: '{amount} ଟଙ୍କା',
+
+    upiReviewPayment: 'ପେମେଣ୍ଟ ଯାଞ୍ଚ କରନ୍ତୁ',
+
+    upiCheckCarefully: 'ଦୟାକରି ଧ୍ୟାନରେ ଯାଞ୍ଚ କରନ୍ତୁ',
+
+    upiPayingTo: 'କାହାକୁ ପେମେଣ୍ଟ:',
+
+    upiUpiId: 'UPI ID:',
+
+    upiAmount: 'ରାଶି:',
+
+    upiSendingAlert: 'ℹ️ ଆପଣ ଆପଣଙ୍କ ବ୍ୟାଙ୍କ ଖାତାରୁ ଟଙ୍କା <strong>ପଠାଉଛନ୍ତି</strong>।',
+
+    upiChangeAmount: 'ରାଶି ବଦଳାନ୍ତୁ',
+
+    upiEnterPracticePin: 'ଅଭ୍ୟାସ PIN ଦିଅନ୍ତୁ',
+
+    upiEnterUpiPin: 'UPI PIN ଦିଅନ୍ତୁ',
+
+    upiTypePracticePin: 'ଅଭ୍ୟାସ PIN ଲେଖନ୍ତୁ: <strong>1 2 3 4</strong>',
+
+    upiPinDotsLabel: 'ଦିଆଯାଇଥିବା PIN ଅଙ୍କ',
+
+    upiPinError: '❌ ଏହା 1234 ନୁହେଁ। ଚିନ୍ତା ନାହିଁ! 1 2 3 4 ଲେଖି ଦେଖନ୍ତୁ।',
+
+    upiKeypadLabel: 'PIN କିପ୍ୟାଡ୍',
+
+    upiClearKey: 'ଲିଭାନ୍ତୁ',
+
+    upiConfirmKey: 'PIN ନିଶ୍ଚିତ କରନ୍ତୁ',
+
+    upiPaymentSuccessful: 'ପେମେଣ୍ଟ ସଫଳ ହେଲା!',
+
+    upiPaidTo: 'ପେମେଣ୍ଟ କରାଗଲା:',
+
+    upiSafetyRecap: '👍 ଆପଣ ନାମ ଦେଖିଲେ, ରାଶି ଯାଞ୍ଚ କଲେ, ଏବଂ ସୁରକ୍ଷିତ ଭାବେ ଟଙ୍କା ପଠାଇଲେ। ବହୁତ ଭଲ!',
+
+    upiStartNew: 'ନୂଆ ଅଭ୍ୟାସ ଆରମ୍ଭ କରନ୍ତୁ',
+
+    upiToday: 'ଆଜି, {time}',
+
+    upiCoachReset: 'ଖେଳ ଟଙ୍କା ପୁଣି <strong>₹2,500</strong> ହେଲା। ଆପଣ ଅଭ୍ୟାସ ପାଇଁ ପ୍ରସ୍ତୁତ!',
+
+    upiCoachStep1:
+      '<strong>ପ୍ରଥମ ପାଦ:</strong> ଯାହାକୁ ଖେଳ ଟଙ୍କା ପଠାଇବେ, ସେହି ବ୍ୟକ୍ତିଙ୍କୁ ଦବାନ୍ତୁ। ତାଙ୍କ ନାମ ଓ UPI ID ଦେଖନ୍ତୁ।',
+
+    upiCoachStep2:
+      '<strong>ଦ୍ୱିତୀୟ ପାଦ:</strong> <strong>{name}</strong>ଙ୍କୁ କେତେ ଟଙ୍କା ପଠାଇବେ ଲେଖନ୍ତୁ। ରାଶି ତଳେ ଲେଖାଥିବା ଶବ୍ଦ ସବୁବେଳେ ଯାଞ୍ଚ କରନ୍ତୁ।',
+
+    upiCoachStep3:
+      '<strong>ତୃତୀୟ ପାଦ: ଧ୍ୟାନରେ ଯାଞ୍ଚ କରନ୍ତୁ!</strong> ନାମ (<strong>{name}</strong>) ଓ ରାଶି (<strong>₹{amount}</strong>) ଦେଖନ୍ତୁ। ଆପଣ ଆପଣଙ୍କ ବ୍ୟାଙ୍କରୁ ଟଙ୍କା ପଠାଉଛନ୍ତି।',
+
+    upiCoachStep4:
+      '<strong>ଚତୁର୍ଥ ପାଦ: ଅଭ୍ୟାସ PIN ଦିଅନ୍ତୁ।</strong> ପ୍ରକୃତ ଫୋନରେ ଆପଣଙ୍କ PIN କେବେ କାହାକୁ କୁହନ୍ତୁ ନାହିଁ। ଏଠାରେ <strong>1 2 3 4</strong> ଲେଖନ୍ତୁ।',
+
+    upiCoachSuccess:
+      '🎉 <strong>ପେମେଣ୍ଟ ସଫଳ ହେଲା!</strong> ଆପଣ କାହାକୁ ଦେଉଛନ୍ତି ଦେଖିଲେ, ରାଶି ଯାଞ୍ଚ କଲେ, ଏବଂ ଅଭ୍ୟାସ PIN ଦେଲେ। ବହୁତ ବଢ଼ିଆ!',
+
+    upiCoachWrongPin:
+      '⚠️ ଏହା 1234 ନୁହେଁ। ଚିନ୍ତା ନାହିଁ! ଲିଭାଇବାକୁ <strong>C</strong> ଦବାନ୍ତୁ, ତାପରେ <strong>1 2 3 4</strong> ଲେଖନ୍ତୁ।',
+
+    upiAlertMinAmount: 'ଦୟାକରି ଅତି କମରେ ₹1 ରାଶି ଲେଖନ୍ତୁ।',
+
+    upiAlertTooMuch: 'ଆପଣଙ୍କ ପାଖରେ କେବଳ ₹{balance} ଖେଳ ଟଙ୍କା ଅଛି। କମ୍ ରାଶି ଲେଖନ୍ତୁ।',
+
+    upiAlertPinDigits: 'ଦୟାକରି ଅଭ୍ୟାସ PIN ର ଚାରିଟି ଅଙ୍କ ଦିଅନ୍ତୁ।',
+
+    upiScam1Title: 'ଠକେଇ 1: ନକଲି ଫେରସ୍ତ ଅନୁରୋଧ',
+
+    upiScam1Coach:
+      "⚠️ <strong>ଠକେଇ ଚିହ୍ନନ୍ତୁ:</strong> ଜଣେ ଅଚିହ୍ନା ଲୋକ କୁହେ ସେ ଭୁଲରେ ଅଧିକ ଟଙ୍କା ପଠାଇଛି, ଏବଂ ଫେରସ୍ତ ପାଇଁ ଆପଣଙ୍କୁ PIN ଦେବାକୁ କୁହେ। ଆପଣ କ'ଣ କରିବେ?",
+
+    upiScam1Badge: 'ଆସିଥିବା ପେମେଣ୍ଟ ଅନୁରୋଧ',
+
+    upiScam1From: 'ଅଚିହ୍ନା କଲର୍ (ରାଜେଶ କୁମାର):',
+
+    upiScam1Message:
+      '"ସାର୍, ମୁଁ ଭୁଲରେ ଆପଣଙ୍କ Google Payକୁ ₹5,000 ପଠାଇଦେଲି! ମୁଁ ଆପଣଙ୍କୁ ଏକ ଅନୁରୋଧ ପଠାଇଛି। ଟଙ୍କା ଫେରସ୍ତ ପାଇବାକୁ ଏବେ ଆପଣଙ୍କ 4 ଅଙ୍କର UPI PIN ଦିଅନ୍ତୁ।"',
+
+    upiScam1Question: "ଏଠାରେ ସୁନେଲି ନିୟମ କ'ଣ?",
+
+    upiScam1Wrong: '₹5,000 ଫେରସ୍ତ ପାଇବାକୁ PIN ଦେଇଦେବି',
+
+    upiScam1Correct: 'ତୁରନ୍ତ ମନା କରନ୍ତୁ! ଟଙ୍କା ପାଇବା ପାଇଁ କେବେ PIN ଦିଆଯାଏ ନାହିଁ!',
+
+    upiScam1OnCorrect:
+      '🌟 <strong>ସାବାସ୍!</strong> ଆପଣଙ୍କୁ ସୁନେଲି ନିୟମ 1 ମନେ ଅଛି: ଟଙ୍କା ପାଇବା ପାଇଁ UPI PIN <strong>କେବେ ବି</strong> ଦିଆଯାଏ ନାହିଁ। PIN କେବଳ ଆପଣଙ୍କ ଖାତାରୁ ଟଙ୍କା ପଠାଇବା ପାଇଁ!',
+
+    upiScam1OnWrong:
+      '🚨 <strong>ରୁହନ୍ତୁ! ବିପଦ!</strong> ଆପଣ PIN ଦେଲେ, ଆପଣଙ୍କ ବ୍ୟାଙ୍କରୁ ₹5,000 ଚୋରି ହୋଇଯିବ! ମନେ ରଖନ୍ତୁ: ଟଙ୍କା ପାଇବା ପାଇଁ PIN <em>କେବେ ବି</em> ଦିଆଯାଏ ନାହିଁ।',
+
+    upiScam2Title: 'ଠକେଇ 2: ଲଟେରୀ ପାଇବାକୁ QR ସ୍କାନ୍',
+
+    upiScam2Coach:
+      '⚠️ <strong>ଠକେଇ ଚିହ୍ନନ୍ତୁ:</strong> ଆପଣଙ୍କୁ QR କୋଡ୍ ସହ ଏକ ମେସେଜ୍ ଆସେ, ଯେଉଁଥିରେ ₹2,000 ପର୍ବ କ୍ୟାସବ୍ୟାକ୍ ପ୍ରତିଶ୍ରୁତି ଅଛି।',
+
+    upiScam2Badge: 'WhatsApp ଲଟେରୀ ମେସେଜ୍',
+
+    upiScam2From: 'ପର୍ବ ଲଟେରୀ ଅଫର୍:',
+
+    upiScam2Message:
+      '"ଅଭିନନ୍ଦନ! ଆପଣ ₹2,000 ଜିତିଛନ୍ତି। ଆପଣଙ୍କ UPI ଆପ୍ ଖୋଲନ୍ତୁ ଏବଂ ଟଙ୍କା ସିଧା ବ୍ୟାଙ୍କରେ ପାଇବାକୁ ଏହି QR କୋଡ୍ ସ୍କାନ୍ କରନ୍ତୁ!"',
+
+    upiScam2Question: "QR କୋଡ୍ ସ୍କାନ୍ କଲେ ପ୍ରକୃତରେ କ'ଣ ହୁଏ?",
+
+    upiScam2Correct: 'QR କୋଡ୍ ସ୍କାନ୍ କଲେ ସବୁବେଳେ ମୋ ଖାତାରୁ ଟଙ୍କା ଯାଏ। ମୁଁ ସ୍କାନ୍ କରିବି ନାହିଁ!',
+
+    upiScam2Wrong: 'QR କୋଡ୍ ସ୍କାନ୍ କଲେ ମୋ ବ୍ୟାଙ୍କକୁ ଟଙ୍କା ଆସେ।',
+
+    upiScam2OnCorrect:
+      '🌟 <strong>ଏକଦମ୍ ଠିକ୍!</strong> QR କୋଡ୍ ସ୍କାନ୍ ଦୋକାନରେ ବା କାହାକୁ ଟଙ୍କା ଦେବା ପାଇଁ। ଏହା ଦ୍ୱାରା ଆପଣଙ୍କ ଖାତାକୁ କେବେ ଟଙ୍କା ଆସେ ନାହିଁ।',
+
+    upiScam2OnWrong:
+      '🚨 <strong>ବିପଦ!</strong> QR କୋଡ୍ ସ୍କାନ୍ କଲେ ସବୁବେଳେ ପେମେଣ୍ଟ ହୁଏ। ଠକମାନେ "ଟଙ୍କା ପାଇବା" ନାମରେ ନକଲି QR କୋଡ୍ ଦେଇ ଆପଣଙ୍କ ଖାତା ଖାଲି କରନ୍ତି!',
+
+    upiScam3Title: 'ଠକେଇ 3: ବ୍ୟାଙ୍କ KYC ଧମକ',
+
+    upiScam3Coach: '⚠️ <strong>ଠକେଇ ଚିହ୍ନନ୍ତୁ:</strong> ଆପଣଙ୍କୁ ଏକ SMS ଆସେ ଯେ ଆଜି ଆପଣଙ୍କ ବ୍ୟାଙ୍କ ଖାତା ବନ୍ଦ ହୋଇଯିବ।',
+
+    upiScam3Badge: 'ଜରୁରୀ SMS',
+
+    upiScam3From: 'SBI-Bank-Notice ରୁ ସତର୍କତା:',
+
+    upiScam3Message:
+      '"ପ୍ରିୟ ଗ୍ରାହକ, KYC ବାକି ଥିବାରୁ ଆପଣଙ୍କ ବ୍ୟାଙ୍କ ଖାତା 2 ଘଣ୍ଟାରେ ବନ୍ଦ ହୋଇଯିବ! ଆପଣଙ୍କ ATM କାର୍ଡ ଓ PIN ତୁରନ୍ତ ଅପଡେଟ୍ କରିବାକୁ http://sbi-kyc-verify-portal.top ରେ କ୍ଲିକ୍ କରନ୍ତୁ।"',
+
+    upiScam3Question: 'ଏହା ନକଲି ଧମକ ବୋଲି କେମିତି ଜାଣିବେ?',
+
+    upiScam3Correct:
+      'ବ୍ୟାଙ୍କ କେବେ ତୁରନ୍ତ ଖାତା ବନ୍ଦ କରିବା ଧମକ ଦିଏ ନାହିଁ, କିମ୍ବା SMS ଲିଙ୍କରେ ATM PIN ବା ପାସୱାର୍ଡ ମାଗେ ନାହିଁ!',
+
+    upiScam3Wrong: 'ଖାତା ବନ୍ଦ ହେବା ଆଗରୁ ଶୀଘ୍ର ଲିଙ୍କରେ କ୍ଲିକ୍ କରିବି!',
+
+    upiScam3OnCorrect:
+      '🌟 <strong>ବହୁତ ବଢ଼ିଆ!</strong> ବ୍ୟାଙ୍କ କେବେ ଡରାଇବା ଲିଙ୍କ ପଠାଇ କାର୍ଡ ବା PIN ତଥ୍ୟ ମାଗେ ନାହିଁ। କେବେ ଡର ଲାଗିଲେ, <strong>1930</strong> (ଜାତୀୟ ସାଇବର ହେଲ୍ପଲାଇନ୍)କୁ କଲ୍ କରନ୍ତୁ।',
+
+    upiScam3OnWrong:
+      '🚨 <strong>ଡରନ୍ତୁ ନାହିଁ!</strong> ଠକମାନେ ମିଛ ତରବର ("2 ଘଣ୍ଟାରେ ବନ୍ଦ") ଦେଖାଇ ଲୋକଙ୍କୁ ନ ଭାବି କାମ କରାନ୍ତି। ପ୍ରକୃତ ବ୍ୟାଙ୍କ ଏପରି କେବେ କରେ ନାହିଁ!',
+
+    upiShopTitle: 'ଅଭ୍ୟାସ: ପ୍ରକୃତ କିରାଣା ଦୋକାନରେ ପେମେଣ୍ଟ',
+
+    upiShopCoach:
+      '🛒 <strong>ଭଲ ଅଭ୍ୟାସ:</strong> ଆପଣ କିରାଣା ଦୋକାନରୁ ₹80ର ଜିନିଷ କିଣୁଛନ୍ତି। ଦୋକାନ ନାମ ଯାଞ୍ଚ କରି ସୁରକ୍ଷିତ ପେମେଣ୍ଟ ପାଇଁ ଦବାନ୍ତୁ।',
+
+    upiShopCounter: 'କିରାଣା ଦୋକାନ କାଉଣ୍ଟରରେ',
+
+    upiShopMerchant: 'ଦୋକାନର QR କୋଡ୍ ଦେଖାଏ: <strong>Kirana Grocery Store (ଯାଞ୍ଚ ହୋଇଥିବା ଦୋକାନ)</strong>',
+
+    upiShopBill: 'ବିଲ୍: ₹80',
+
+    upiShopProceed: '₹80 ସୁରକ୍ଷିତ ଭାବେ ଦିଅନ୍ତୁ',
+
+    upiShopCheck:
+      'ଦୋକାନ ନାମ <strong>Kirana Grocery Store</strong> ଓ ରାଶି <strong>₹80</strong> ଯାଞ୍ଚ କରନ୍ତୁ। ତାପରେ "ଅଭ୍ୟାସ PIN ଦିଅନ୍ତୁ" ଦବାନ୍ତୁ।'
   }
 };
 
@@ -428,11 +1066,16 @@ const SugamI18n = {
 
   /**
    * Fills elements marked up for translation under `root`:
-   * data-i18n (text), data-i18n-aria-label, data-i18n-placeholder and data-i18n-title (attributes).
+   * data-i18n (text), data-i18n-html (bundled strings with markup), and
+   * data-i18n-aria-label, data-i18n-placeholder and data-i18n-title (attributes).
    */
   translatePage(root = document) {
     root.querySelectorAll('[data-i18n]').forEach((el) => {
       el.textContent = this.get(el.dataset.i18n);
+    });
+    // Only for SUGAM's own bundled strings that contain <strong>/<em>; never for page or user text.
+    root.querySelectorAll('[data-i18n-html]').forEach((el) => {
+      el.innerHTML = this.get(el.dataset.i18nHtml);
     });
     for (const attr of ['aria-label', 'placeholder', 'title']) {
       root.querySelectorAll(`[data-i18n-${attr}]`).forEach((el) => {

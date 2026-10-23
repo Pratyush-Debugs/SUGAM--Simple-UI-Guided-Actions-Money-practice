@@ -188,7 +188,11 @@ async function runTests() {
     assert(sandboxHtml.includes('Urgent Bank KYC Threat'), 'Must include fake KYC SMS scam spotter');
     assert(sandboxHtml.includes('Genuine Grocery Shop Payment'), 'Must include genuine shop payment practice');
     assert(sandboxHtml.includes('1930'), 'Must teach 1930 Cyber helpline');
-    assert(sandboxJs.includes('enter a UPI PIN to receive money'), 'Must teach never enter PIN to receive money');
+    const { SUGAM_TRANSLATIONS } = require(path.join(ROOT, 'shared/i18n.js'));
+    assert(
+      Object.values(SUGAM_TRANSLATIONS.en).some((text) => text.includes('enter a UPI PIN to receive money')),
+      'Must teach never enter PIN to receive money'
+    );
   });
 
   // 7. Master Switch Non-Negotiable Check in Content Script
