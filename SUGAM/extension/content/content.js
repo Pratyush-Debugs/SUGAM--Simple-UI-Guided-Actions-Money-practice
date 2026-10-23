@@ -89,6 +89,10 @@
     hiddenDistractions: [],
 
     async init() {
+      // Remember whether the site itself set these, so teardown can leave <html> exactly as it was.
+      this.siteHadHtmlClass = document.documentElement.hasAttribute('class');
+      this.siteHadHtmlStyle = document.documentElement.hasAttribute('style');
+
       // Check if site is disabled in sync storage
       const res = await this.getStorageData(['sugamSettings']);
       this.settings = res?.sugamSettings || {};
@@ -427,6 +431,10 @@
       document.documentElement.style.removeProperty('--sugam-letter-spacing');
       document.documentElement.style.removeProperty('--sugam-word-spacing');
       document.documentElement.style.removeProperty('--sugam-max-width');
+      // Removing SUGAM's classes and variables can leave empty class="" / style="" behind.
+      const html = document.documentElement;
+      if (!this.siteHadHtmlClass && !html.getAttribute('class')) html.removeAttribute('class');
+      if (!this.siteHadHtmlStyle && !html.getAttribute('style')) html.removeAttribute('style');
 
       // Teardown Reading Ruler
       this.teardownRuler();
