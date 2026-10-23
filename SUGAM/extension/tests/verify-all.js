@@ -10,6 +10,17 @@ const assert = require('assert');
 
 const ROOT = path.resolve(__dirname, '..');
 
+// The content script is split into content.js plus one file per feature; check them together.
+function readContentScripts() {
+  const dir = path.join(ROOT, 'content/features');
+  const files = [
+    'content/content.js',
+    'content/page-safety.js',
+    ...fs.readdirSync(dir).map((f) => `content/features/${f}`)
+  ];
+  return files.map((f) => fs.readFileSync(path.join(ROOT, f), 'utf8')).join('\n');
+}
+
 async function runTests() {
   console.log('==================================================');
   console.log('🚀 Starting SUGAM Verification Test Suite');
@@ -182,7 +193,7 @@ async function runTests() {
 
   // 7. Master Switch Non-Negotiable Check in Content Script
   await test('7. Master Switch Teardown & Reversion', () => {
-    const contentJs = fs.readFileSync(path.join(ROOT, 'content/content.js'), 'utf8');
+    const contentJs = readContentScripts();
 
     assert(contentJs.includes('teardownAllHelpers'), 'Must have complete teardownAllHelpers function');
     assert(contentJs.includes('SUGAM helpers off'), "Must announce 'SUGAM helpers off' to screen readers");
@@ -193,7 +204,7 @@ async function runTests() {
 
   // 8. Sensitive Field Privacy Non-Negotiable
   await test('8. Form Wizard & Speech Never Read/Store Sensitive Fields', () => {
-    const contentJs = fs.readFileSync(path.join(ROOT, 'content/content.js'), 'utf8');
+    const contentJs = readContentScripts();
 
     assert(contentJs.includes('isFieldSensitive'), 'Must check isFieldSensitive');
     assert(contentJs.includes('Private Password or PIN'), 'Must alert user on private fields without copying them');
@@ -250,7 +261,7 @@ async function runTests() {
 
   // 10. Form Wizard Comprehensive Conformance
   await test('10. Form Wizard GOV.UK & COGA Pattern Conformance', () => {
-    const contentJs = fs.readFileSync(path.join(ROOT, 'content/content.js'), 'utf8');
+    const contentJs = readContentScripts();
 
     assert(contentJs.includes('detectFormFields'), 'Must have robust detectFormFields');
     assert(contentJs.includes('setupFormWizardLauncher'), 'Must have on-page floating launcher');

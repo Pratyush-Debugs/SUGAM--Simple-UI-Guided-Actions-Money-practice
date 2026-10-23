@@ -31,7 +31,20 @@
     {
       "matches": ["<all_urls>"],
       "css": ["content/content.css"],
-      "js": ["shared/dom-safe.js", "shared/bionic.js", "content/content.js"],
+      "js": [
+        "shared/dom-safe.js",
+        "shared/bionic.js",
+        "shared/sensitive-detector.js",
+        "content/page-safety.js",
+        "content/features/visual-comfort.js",
+        "content/features/reading-ruler.js",
+        "content/features/bionic-read.js",
+        "content/features/take-your-time.js",
+        "content/features/read-aloud.js",
+        "content/features/form-wizard.js",
+        "content/features/scam-guard.js",
+        "content/content.js"
+      ],
       "run_at": "document_idle"
     }
   ],

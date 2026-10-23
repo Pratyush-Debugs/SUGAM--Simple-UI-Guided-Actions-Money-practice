@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           chrome.scripting
             .executeScript({
               target: { tabId: currentTab.id },
-              files: ['shared/dom-safe.js', 'shared/bionic.js', 'content/content.js']
+              files: chrome.runtime.getManifest().content_scripts[0].js
             })
             .then(() => {
               // Retry sending message after injection

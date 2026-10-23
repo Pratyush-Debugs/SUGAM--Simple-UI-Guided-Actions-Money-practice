@@ -37,9 +37,21 @@ test('permissions that the code does not use are not requested', () => {
 
 test('popup fallback injection uses the same files as the manifest', () => {
   const popup = fs.readFileSync(path.join(ROOT, 'popup/popup.js'), 'utf8');
-  for (const file of manifest.content_scripts[0].js) {
-    assert.ok(popup.includes(`'${file}'`), `popup.js fallback injection must include ${file}`);
-  }
+  assert.ok(popup.includes('chrome.runtime.getManifest().content_scripts[0].js'));
+});
+
+test('content script helpers and features load before content.js, which loads last', () => {
+  const js = manifest.content_scripts[0].js;
+  assert.equal(js.at(-1), 'content/content.js');
+  for (const file of ['shared/sensitive-detector.js', 'content/page-safety.js']) assert.ok(js.includes(file), file);
+  const features = fs.readdirSync(path.join(ROOT, 'content/features')).map((f) => `content/features/${f}`);
+  assert.ok(features.length >= 7);
+  for (const feature of features) assert.ok(js.includes(feature), `${feature} must be listed in the manifest`);
+});
+
+test('there is only one list of sensitive domains', () => {
+  const content = fs.readFileSync(path.join(ROOT, 'content/content.js'), 'utf8');
+  assert.equal(content.includes('SENSITIVE_DOMAINS'), false);
 });
 
 test('no code builds HTML from page, storage or AI text without escaping (sidepanel)', () => {

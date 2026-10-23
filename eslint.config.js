@@ -11,7 +11,12 @@ const sharedGlobals = {
   PictogramMatcher: 'readonly',
   SensitiveDetector: 'readonly',
   SUGAM_DEFAULT_SETTINGS: 'readonly',
-  SUGAM_PRESETS: 'readonly'
+  SUGAM_PRESETS: 'readonly',
+  SugamFeatures: 'readonly',
+  // content/page-safety.js
+  isPageSensitive: 'readonly',
+  isFieldSensitive: 'readonly',
+  esc: 'readonly'
 };
 
 module.exports = [
@@ -36,6 +41,11 @@ module.exports = [
     // Shared scripts also export for Node-based tests, and define their globals themselves.
     files: ['SUGAM/extension/shared/**/*.js'],
     languageOptions: { globals: { ...globals.node } },
+    rules: { 'no-redeclare': 'off', 'no-unused-vars': 'off' }
+  },
+  {
+    // page-safety.js defines the helpers that the other content scripts use as globals.
+    files: ['SUGAM/extension/content/page-safety.js'],
     rules: { 'no-redeclare': 'off', 'no-unused-vars': 'off' }
   },
   {
