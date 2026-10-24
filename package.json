@@ -13,6 +13,7 @@
     "lint": "eslint SUGAM/extension",
     "format": "prettier --write \"SUGAM/extension/**/*.{js,json,css}\" \"*.{js,json}\"",
     "format:check": "prettier --check \"SUGAM/extension/**/*.{js,json,css}\" \"*.{js,json}\"",
+    "package:ext": "python3 scripts/package-extension.py",
     "test:e2e": "playwright test"
   },
   "devDependencies": {
