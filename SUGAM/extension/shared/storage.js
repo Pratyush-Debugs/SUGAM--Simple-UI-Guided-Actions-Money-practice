@@ -253,18 +253,71 @@ function sugamClone(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
+/**
+ * chrome.storage when running inside the extension. Opened as a plain web page (for example the UPI
+ * practice linked from the landing page), there is no chrome.storage, so the browser's localStorage
+ * is used instead, and failing that, memory for this visit.
+ */
+const sugamMemoryStore = {};
+
+function sugamChromeArea(area) {
+  return globalThis.chrome?.storage?.[area];
+}
+
+function sugamWebKey(area, key) {
+  return `sugam:${area}:${key}`;
+}
+
+function sugamWebGet(area, key) {
+  try {
+    const raw = globalThis.localStorage.getItem(sugamWebKey(area, key));
+    return raw ? JSON.parse(raw) : undefined;
+  } catch {
+    return sugamMemoryStore[sugamWebKey(area, key)];
+  }
+}
+
+function sugamWebSet(area, key, value) {
+  try {
+    globalThis.localStorage.setItem(sugamWebKey(area, key), JSON.stringify(value));
+  } catch {
+    sugamMemoryStore[sugamWebKey(area, key)] = value;
+  }
+}
+
+function sugamWebRemove(area, key) {
+  try {
+    globalThis.localStorage.removeItem(sugamWebKey(area, key));
+  } catch {
+    /* nothing stored */
+  }
+  delete sugamMemoryStore[sugamWebKey(area, key)];
+}
+
 function sugamStorageGet(area, key) {
+  const store = sugamChromeArea(area);
+  if (!store) return Promise.resolve(sugamWebGet(area, key));
   return new Promise((resolve) => {
-    chrome.storage[area].get([key], (res) => resolve((res && res[key]) || undefined));
+    store.get([key], (res) => resolve((res && res[key]) || undefined));
   });
 }
 
 function sugamStorageSet(area, items) {
-  return new Promise((resolve) => chrome.storage[area].set(items, () => resolve()));
+  const store = sugamChromeArea(area);
+  if (!store) {
+    for (const [key, value] of Object.entries(items)) sugamWebSet(area, key, value);
+    return Promise.resolve();
+  }
+  return new Promise((resolve) => store.set(items, () => resolve()));
 }
 
 function sugamStorageRemove(area, key) {
-  return new Promise((resolve) => chrome.storage[area].remove(key, () => resolve()));
+  const store = sugamChromeArea(area);
+  if (!store) {
+    sugamWebRemove(area, key);
+    return Promise.resolve();
+  }
+  return new Promise((resolve) => store.remove(key, () => resolve()));
 }
 
 function sugamBytesToBase64(bytes) {
