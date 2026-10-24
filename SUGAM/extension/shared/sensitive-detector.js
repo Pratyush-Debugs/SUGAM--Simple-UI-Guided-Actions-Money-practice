@@ -67,9 +67,7 @@ const SensitiveDetector = {
     }
 
     hostname = hostname.toLowerCase();
-    return SUGAM_SENSITIVE_DOMAINS.some(domain => 
-      hostname === domain || hostname.endsWith('.' + domain)
-    );
+    return SUGAM_SENSITIVE_DOMAINS.some((domain) => hostname === domain || hostname.endsWith('.' + domain));
   },
 
   /**
@@ -96,7 +94,7 @@ const SensitiveDetector = {
       'cc-exp-month',
       'cc-exp-year'
     ];
-    if (sensitiveAutocompletes.some(val => autocomplete.includes(val))) {
+    if (sensitiveAutocompletes.some((val) => autocomplete.includes(val))) {
       return true;
     }
 
@@ -106,7 +104,9 @@ const SensitiveDetector = {
       element.getAttribute('id') || '',
       element.getAttribute('placeholder') || '',
       element.getAttribute('aria-label') || ''
-    ].join(' ').toLowerCase();
+    ]
+      .join(' ')
+      .toLowerCase();
 
     const sensitiveKeywords = [
       'otp',
@@ -124,7 +124,7 @@ const SensitiveDetector = {
       'security-code'
     ];
 
-    return sensitiveKeywords.some(keyword => {
+    return sensitiveKeywords.some((keyword) => {
       // Avoid false matches like "shopping" matching "pin"
       const regex = new RegExp(`(^|[^a-z])${keyword}([^a-z]|$)`, 'i');
       return regex.test(checkString);
@@ -173,4 +173,3 @@ const SensitiveDetector = {
 if (typeof module !== 'undefined') {
   module.exports = { SensitiveDetector, SUGAM_SENSITIVE_DOMAINS };
 }
-

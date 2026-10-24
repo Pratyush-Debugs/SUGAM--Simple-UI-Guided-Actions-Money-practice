@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SUGAM - The web, made calm and clear</title>
+  <meta name="description" content="SUGAM helps people with autism, dyslexia, and cognitive or intellectual disabilities use busy websites on their own. Simple pages. Spoken text. Easy forms. Safe money practice.">
+  <link rel="icon" type="image/png" href="assets/icon32.png">
+  <link rel="stylesheet" href="assets/landing.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       Hero Section & Floating Navbar
+       ======================================================================== -->
+  <header class="hero-wrapper">
+    <!-- Floating Navbar -->
+    <div class="navbar-container">
+      <nav class="navbar-pill" aria-label="Main Navigation">
+        <a href="#" class="brand-link">
+          <img src="assets/icon128.png" alt="SUGAM Logo" class="brand-logo-img">
+          <span class="brand-name">SUGAM</span>
+        </a>
+
+        <ul class="nav-links">
+          <li class="nav-item"><a href="#features">Features</a></li>
+          <li class="nav-item"><a href="#how-it-works">How it works</a></li>
+          <li class="nav-item"><a href="#money-practice">Money practice</a></li>
+        </ul>
+
+        <a href="sugam-extension.zip" download="sugam-extension.zip" class="nav-btn-download download-trigger" id="nav-download-btn">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
+          </svg>
+          <span>Download</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="container">
+      <div class="hero-grid">
+        <!-- Left Content -->
+        <div class="hero-left">
+          <span class="hero-pill-tag">Simplified UI · Guided Actions · Money-practice</span>
+          <h1 class="hero-title">The web, made<br>calm and clear.</h1>
+          <p class="hero-desc">
+            SUGAM helps people with autism, dyslexia, and cognitive or intellectual disabilities use busy websites on their own. Simple pages. Spoken text. Easy forms. Safe money practice.
+          </p>
+          <div class="hero-actions">
+            <a href="sugam-extension.zip" download="sugam-extension.zip" class="btn-primary download-trigger" id="hero-get-ext-btn">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+              </svg>
+              <span>Get the extension</span>
+            </a>
+            <a href="SUGAM/extension/sandbox/upi-practice.html" class="btn-secondary">
+              <span>Try money practice</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Graphic: Browser Window Illustration -->
+        <div class="hero-graphic-wrap" aria-hidden="true">
+          <!-- Background Sage Circle -->
+          <div class="graphic-bg-circle"></div>
+
+          <!-- Browser Mockup -->
+          <div class="browser-mock">
+            <div class="browser-header">
+              <div class="browser-dot"></div>
+              <div class="browser-dot"></div>
+              <div class="browser-dot"></div>
+            </div>
+
+            <div class="browser-body">
+              <!-- Top bar placeholder -->
+              <div class="browser-top-bar"></div>
+
+              <!-- Green dashed highlighted reading section -->
+              <div class="browser-read-box">
+                <div class="read-line read-line-1"></div>
+                <div class="read-line read-line-2"></div>
+              </div>
+
+              <!-- Floating Purple Speech Bubble with Speaker & Soundwaves -->
+              <div class="browser-speech-bubble">
+                <div class="speech-bubble-tail"></div>
+                <!-- Speaker Icon -->
+                <svg class="bubble-speaker-icon" viewBox="0 0 24 24">
+                  <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                </svg>
+                <!-- Sound bars -->
+                <div class="bubble-sound-bars">
+                  <div class="sound-bar sound-bar-1"></div>
+                  <div class="sound-bar sound-bar-2"></div>
+                </div>
+              </div>
+
+              <!-- Bottom Input + Check Button Row -->
+              <div class="browser-form-row">
+                <div class="browser-input-box"></div>
+                <div class="browser-check-btn">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Overlapping Rupee Symbol Badge -->
+            <div class="browser-rupee-badge">₹</div>
+
+            <!-- Decorative Purple Dot at Bottom-Right -->
+            <div class="browser-deco-dot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ========================================================================
+         Section 2: Help on every website
+         ======================================================================== -->
+    <section class="section-features" id="features">
+      <div class="container">
+        <h2 class="section-title">Help on every website</h2>
+        <p class="section-subtitle">One extension. Four gentle helpers.</p>
+
+        <div class="features-grid">
+          <!-- Card 1: Simple navigation -->
+          <article class="feature-card lilac">
+            <div class="card-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+            </div>
+            <h3 class="card-title">Simple navigation</h3>
+            <p class="card-desc">
+              Hides clutter and pop-ups. Shows one clear step at a time, so you always know where to go next.
+            </p>
+          </article>
+
+          <!-- Card 2: Read aloud -->
+          <article class="feature-card mint">
+            <div class="card-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+              </svg>
+            </div>
+            <h3 class="card-title">Read aloud</h3>
+            <p class="card-desc">
+              Tap any text and hear it spoken. Hard words are explained in short, plain language.
+            </p>
+          </article>
+
+          <!-- Card 3: Easy form filling -->
+          <article class="feature-card mint">
+            <div class="card-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+              </svg>
+            </div>
+            <h3 class="card-title">Easy form filling</h3>
+            <p class="card-desc">
+              Forms are split into small questions with hints. Saved details fill in for you, and you check before sending.
+            </p>
+          </article>
+
+          <!-- Card 4: Money practice -->
+          <article class="feature-card lilac">
+            <div class="card-icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+              </svg>
+            </div>
+            <h3 class="card-title">Money practice</h3>
+            <p class="card-desc">
+              Practise paying, sending and saving in a safe sandbox. No real money. No worry.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         Section 3: How it works
+         ======================================================================== -->
+    <section class="section-how" id="how-it-works">
+      <div class="container">
+        <h2 class="section-title">How it works</h2>
+
+        <div class="steps-grid">
+          <!-- Step 1 -->
+          <div class="step-card">
+            <div class="step-num-badge">1</div>
+            <h3 class="step-title">Download</h3>
+            <p class="step-desc">Add the SUGAM extension to your browser.</p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-card">
+            <div class="step-num-badge">2</div>
+            <h3 class="step-title">Open any website</h3>
+            <p class="step-desc">SUGAM makes the page simple and guides you.</p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-card">
+            <div class="step-num-badge">3</div>
+            <h3 class="step-title">Do it yourself</h3>
+            <p class="step-desc">Read, fill and finish tasks on your own.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         Section 4: Practise money, safely Banner
+         ======================================================================== -->
+    <section class="section-practise-banner" id="money-practice">
+      <div class="container">
+        <div class="practise-card">
+          <div class="practise-left">
+            <h2 class="practise-title">Practise money, safely</h2>
+            <p class="practise-desc">
+              Our payment sandbox works like a real payment page, but nothing is real. Make mistakes. Try again. Learn at your pace.
+            </p>
+          </div>
+
+          <div class="practise-right">
+            <a href="SUGAM/extension/sandbox/upi-practice.html" class="btn-sandbox">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+              </svg>
+              <span>Open payment sandbox</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         Section 5: Ready to start? CTA
+         ======================================================================== -->
+    <section class="section-cta" id="download">
+      <div class="container">
+        <h2 class="cta-title">Ready to start?</h2>
+        <p class="cta-subtitle">
+          Free for everyone. Built with care for people recognised under the RPwD Act.
+        </p>
+
+        <div class="cta-actions">
+          <a href="sugam-extension.zip" download="sugam-extension.zip" class="btn-cta-download download-trigger" id="cta-download-btn">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
+            </svg>
+            <span>Download extension</span>
+          </a>
+          <a href="SUGAM/extension/sandbox/upi-practice.html" class="btn-cta-sandbox">
+            <span>Payment sandbox</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       Footer
+       ======================================================================== -->
+  <footer class="footer-wrap">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <img src="assets/icon128.png" alt="" class="footer-logo">
+          <span>SUGAM</span>
+        </div>
+        <div class="footer-slogan">
+          <span>Simplified UI, Guided Actions, &amp; Money-practice</span>
+        </div>
+        <div class="footer-copy">
+          <span>&copy; 2025 SUGAM</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       Quick Installation Instructions Modal
+       ======================================================================== -->
+  <div class="modal-overlay" id="modal-install-guide" role="dialog" aria-modal="true" aria-labelledby="install-modal-title">
+    <div class="modal-dialog">
+      <div class="modal-head">
+        <h2 class="modal-title" id="install-modal-title">
+          <span>📦</span> Extension Downloaded!
+        </h2>
+        <button class="modal-close-btn" id="modal-close-btn" aria-label="Close dialog">✕</button>
+      </div>
+
+      <p style="font-size: 14.5px; color: #5C5263;">
+        Your download of <strong style="color: #50365F;">sugam-extension.zip</strong> has started. Follow these 3 easy steps to load it into Chrome, Brave, or Edge:
+      </p>
+
+      <ol class="modal-instruction-list">
+        <li>
+          <span class="step-num-sm">1</span>
+          <div>
+            <strong>Unzip the downloaded file:</strong> Extract <span class="code-snippet">sugam-extension.zip</span> on your computer into a folder.
+          </div>
+        </li>
+        <li>
+          <span class="step-num-sm">2</span>
+          <div>
+            <strong>Open Extensions:</strong> In Chrome or Brave, navigate to <span class="code-snippet">chrome://extensions</span> and toggle on <strong>Developer mode</strong> in the top-right corner.
+          </div>
+        </li>
+        <li>
+          <span class="step-num-sm">3</span>
+          <div>
+            <strong>Load Unpacked:</strong> Click the <strong>Load unpacked</strong> button on the top-left and select the unzipped folder. That's it!
+          </div>
+        </li>
+      </ol>
+
+      <div style="margin-top: 10px; display: flex; justify-content: flex-end;">
+        <button class="btn-primary" id="modal-got-it-btn" style="min-height: 42px; padding: 10px 24px; font-size: 14px;">
+          Got it, thanks!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Show gentle install guidance modal when clicking download links
+    const modal = document.getElementById('modal-install-guide');
+    const closeBtn = document.getElementById('modal-close-btn');
+    const gotItBtn = document.getElementById('modal-got-it-btn');
+    const downloadTriggers = document.querySelectorAll('.download-trigger');
+
+    function openModal() {
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeModal() {
+      if (modal) modal.classList.remove('active');
+    }
+
+    downloadTriggers.forEach(btn => {
+      btn.addEventListener('click', () => {
+        setTimeout(openModal, 400);
+      });
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (gotItBtn) gotItBtn.addEventListener('click', closeModal);
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+    }
+
+    // Keyboard ESC to close modal
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>
+
