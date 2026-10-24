@@ -12,7 +12,6 @@
  */
 
 globalThis.SugamFeatures = globalThis.SugamFeatures || {};
-const SugamFeatures = globalThis.SugamFeatures;
 
 SugamFeatures.numbersHelper = {
   setupNumbersHelper(options = {}) {
@@ -114,7 +113,10 @@ SugamFeatures.numbersHelper = {
               const rawNum = parseFloat(numMatch[1].replace(/,/g, ''));
               if (!isNaN(rawNum) && rawNum >= 1) {
                 hasChanges = true;
-                transformedText = transformedText.replace(numMatch[1], `${numMatch[1]} (${formatAmountInWords(rawNum)})`);
+                transformedText = transformedText.replace(
+                  numMatch[1],
+                  `${numMatch[1]} (${formatAmountInWords(rawNum)})`
+                );
               }
             }
           }
@@ -180,8 +182,3 @@ SugamFeatures.numbersHelper = {
     this.numbersRecords = [];
   }
 };
-
-if (typeof module !== 'undefined') {
-  module.exports = { SugamNumbersHelper: SugamFeatures.numbersHelper };
-}
-

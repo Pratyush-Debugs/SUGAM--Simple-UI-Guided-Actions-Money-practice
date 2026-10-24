@@ -751,8 +751,14 @@ input[type='range'] {
 }
 
 @keyframes sugamBreathePopup {
-  0%, 100% { transform: scale(0.9); }
-  50% { transform: scale(1.12); background-color: #F3EDF7; }
+  0%,
+  100% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.12);
+    background-color: #f3edf7;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -760,4 +766,3 @@ input[type='range'] {
     animation: none !important;
   }
 }
-

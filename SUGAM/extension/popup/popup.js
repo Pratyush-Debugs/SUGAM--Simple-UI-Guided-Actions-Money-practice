@@ -287,7 +287,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (phone && phone !== '1930') {
         helperBtn.style.display = 'flex';
         helperBtn.textContent = `📞 ${SugamI18n.get('calmCallName', { name, phone })}`;
-        helperBtn.onclick = () => { window.open(`tel:${phone}`); };
+        helperBtn.onclick = () => {
+          window.open(`tel:${phone}`);
+        };
       } else {
         helperBtn.style.display = 'none';
       }
@@ -994,7 +996,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           <p style="font-size:12.5px;">Toll-free in India. Call immediately if anyone threatens you for PIN, OTP, or money.</p>
         </div>
         <div class="info-callout">
-          👨‍👩‍👧 <b>Trusted Helper:</b> ${savedPhone ? `Phone: ${savedPhone}` : 'No phone saved yet. You can add one in the Help dialog.'}
+          👨‍👩‍👧 <b>Trusted Helper:</b> ${savedPhone ? `Phone: ${SugamDom.escapeHtml(savedPhone)}` : 'No phone saved yet. You can add one in the Help dialog.'}
         </div>
       `;
       const chkUrgent = body.querySelector('#chk-scam-urgent');

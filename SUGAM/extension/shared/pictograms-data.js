@@ -62,7 +62,18 @@ const SUGAM_PICTOGRAMS = {
   },
   otp: {
     label: 'OTP / PIN',
-    keywords: ['otp', 'pin', 'passcode', 'password', 'one-time', 'verification code', 'secret code', 'ओटीपी', 'पिन', 'ପିନ୍'],
+    keywords: [
+      'otp',
+      'pin',
+      'passcode',
+      'password',
+      'one-time',
+      'verification code',
+      'secret code',
+      'ओटीपी',
+      'पिन',
+      'ପିନ୍'
+    ],
     svg: `<svg viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Security PIN" fill="none" stroke="#59366E" stroke-width="3" stroke-linecap="round">
       <rect x="8" y="14" width="32" height="24" rx="4" fill="#F3EDF7" stroke="#59366E"/>
       <circle cx="16" cy="26" r="2.5" fill="#59366E"/>
@@ -73,7 +84,21 @@ const SUGAM_PICTOGRAMS = {
   },
   bank: {
     label: 'Bank',
-    keywords: ['bank', 'account', 'branch', 'sbi', 'hdfc', 'icici', 'pnb', 'passbook', 'deposit', 'withdrawal', 'बैंक', 'खाता', 'ବ୍ୟାଙ୍କ'],
+    keywords: [
+      'bank',
+      'account',
+      'branch',
+      'sbi',
+      'hdfc',
+      'icici',
+      'pnb',
+      'passbook',
+      'deposit',
+      'withdrawal',
+      'बैंक',
+      'खाता',
+      'ବ୍ୟାଙ୍କ'
+    ],
     svg: `<svg viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Bank building" fill="none" stroke="#59366E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
       <path d="M6 16l18-9 18 9M9 16v20M39 16v20M17 19v17M24 19v17M31 19v17M6 40h36" fill="#F3EDF7"/>
     </svg>`
@@ -88,7 +113,19 @@ const SUGAM_PICTOGRAMS = {
   },
   doctor: {
     label: 'Health / Doctor',
-    keywords: ['doctor', 'health', 'hospital', 'medicine', 'clinic', 'medical', 'disability', 'डॉक्टर', 'दवा', 'ଡାକ୍ତର', 'ଔଷଧ'],
+    keywords: [
+      'doctor',
+      'health',
+      'hospital',
+      'medicine',
+      'clinic',
+      'medical',
+      'disability',
+      'डॉक्टर',
+      'दवा',
+      'ଡାକ୍ତର',
+      'ଔଷଧ'
+    ],
     svg: `<svg viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Medical health" fill="none" stroke="#59366E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="24" cy="24" r="20" fill="#F3EDF7"/>
       <path d="M24 14v20M14 24h20" stroke="#59366E" stroke-width="5"/>

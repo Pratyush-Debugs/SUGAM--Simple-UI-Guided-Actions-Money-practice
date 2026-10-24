@@ -104,12 +104,18 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (!response) {
         const tabUrl = tab.url || '';
         if (tabUrl.startsWith('chrome://') || tabUrl.startsWith('edge://') || tabUrl.startsWith('about:')) {
-          throw new Error('SUGAM cannot run on internal browser pages. Please open a regular webpage or article to summarise.');
+          throw new Error(
+            'SUGAM cannot run on internal browser pages. Please open a regular webpage or article to summarise.'
+          );
         }
         if (tabUrl.startsWith('file://')) {
-          throw new Error('To summarise local files, open chrome://extensions, click Details on SUGAM, and toggle ON "Allow access to file URLs".');
+          throw new Error(
+            'To summarise local files, open chrome://extensions, click Details on SUGAM, and toggle ON "Allow access to file URLs".'
+          );
         }
-        throw new Error(t('spCouldNotSummarise') || 'Could not connect to the webpage. Please refresh the page and try again.');
+        throw new Error(
+          t('spCouldNotSummarise') || 'Could not connect to the webpage. Please refresh the page and try again.'
+        );
       }
 
       const rawText = response.content || '';
@@ -133,7 +139,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         descP.style.fontSize = '13px';
         descP.style.lineHeight = '1.4';
         descP.style.color = '#29252D';
-        descP.textContent = 'This page contains sensitive password, PIN, or payment fields. To protect your financial security, summaries are never created on sensitive pages.';
+        descP.textContent =
+          'This page contains sensitive password, PIN, or payment fields. To protect your financial security, summaries are never created on sensitive pages.';
 
         sensitiveBox.append(titleDiv, descP);
         cardsContainer.appendChild(sensitiveBox);
