@@ -18,7 +18,7 @@ A cognitive and neuro-inclusive accessibility layer for the web, with a safe UPI
 ## Privacy and permissions
 
 - **No standing access to websites.** SUGAM runs on a page only when the user opens it there (popup, `Alt+Shift+S`, or the right-click menu). Turning on **"Use SUGAM on every website"** (needed for automatic scam warnings) asks Chrome's permission first, and can be turned off at any time.
-- **Nothing leaves the device without consent.** Before the first cloud summary or translation, SUGAM asks whether to use Google Gemini. Each summary says where it was made. Banking, payment and password pages are never sent.
+- **Nothing leaves the device without consent.** Before the first cloud summary or translation, SUGAM asks whether to use Google Gemini. Once allowed, the side panel summarises each page you open while it is showing, so those pages go to Google; choose "No" in the Summarise options to keep everything on the device. Each summary says where it was made. Banking, payment and password pages are never summarised or sent.
 - **Secrets stay local.** A Gemini API key is stored on this device only (never synced) and sent in a header, not a URL. The caregiver PIN is stored only as a salted hash.
 - **Zero residue.** Switching SUGAM off restores the page exactly as the website rendered it.
 

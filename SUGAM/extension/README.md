@@ -36,10 +36,11 @@ Supported languages: **English**, **Hindi (हिन्दी)**, and **Odia (�
    - Sensitive domains (SBI, HDFC, ICICI, Paytm, PhonePe, BHIM, Razorpay, Income Tax, UIDAI, etc.) automatically disable cloud calls and client-side timer freezing.
    - On encountering sensitive fields, the Form Wizard notifies the user with a calm note: *"This is a private password or PIN. SUGAM never touches private details. Please type directly into the website's own secure box."*
 4. **On-Device by Default & Gemini AI Summarization:**
-   - Free Gemini API (`gemini-3.8-flash` / `gemini-3.5-flash-lite`) is used with user consent for summarization into at most 8 plain sentences with Indian context pictograms (Rupee, UPI, QR, OTP, Bank, Bill).
-   - If offline or on sensitive pages, an on-device heuristic summarizer runs automatically.
-5. **Honest Machine Output Disclaimers:**
-   - *"This summary is made by a computer and may have mistakes. Check the original for money, health and legal information."*
+   - Free Gemini API (`gemini-2.5-flash`) is used only after the user says yes, for summaries of at most 8 plain sentences with Indian context pictograms (Rupee, UPI, QR, OTP, Bank, Bill).
+   - Once allowed, the side panel re-summarises automatically when the user switches tabs or a page loads, so each page shown while the panel is open is sent to Gemini. Choose "No" (or "Ask me first") in the Summarise options to keep everything on the device.
+   - Without consent, or offline, an on-device heuristic summarizer runs. Sensitive pages (banking, payment, passwords) are never summarised.
+5. **Machine Output Labels:**
+   - Each summary says where it was made: *"Made on this device"* or *"Made by Google Gemini (cloud)"*.
    - *"Computer translation. Check amounts and dates in the original."*
    - *"SUGAM paused the on-screen clock. The website's own clock may still run."*
 
