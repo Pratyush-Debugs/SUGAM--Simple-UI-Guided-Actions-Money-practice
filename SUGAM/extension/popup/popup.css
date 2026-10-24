@@ -630,3 +630,134 @@ input[type='range'] {
   cursor: pointer;
   min-height: 48px;
 }
+
+/* Feature Work & Options Styling in Modal */
+.feature-work-card {
+  background-color: var(--color-pale-lilac);
+  border-left: 4px solid var(--color-deep-plum);
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.feature-work-badge {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--color-deep-plum);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.feature-work-desc {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--color-charcoal);
+  font-weight: 500;
+}
+
+.form-control-select,
+.form-control-input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-deep-plum);
+  background-color: #ffffff;
+  color: var(--color-charcoal);
+  font-size: 14px;
+  font-weight: 500;
+  box-sizing: border-box;
+  min-height: 44px;
+}
+
+.form-control-select:focus-visible,
+.form-control-input:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.info-callout {
+  font-size: 12.5px;
+  line-height: 1.4;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  color: #424242;
+}
+
+.info-callout.privacy {
+  background-color: #e8f5e9;
+  border-color: #a5d6a7;
+  color: #1b5e20;
+}
+
+.info-callout.warning {
+  background-color: #fff8e1;
+  border-color: #ffe082;
+  color: #795548;
+}
+
+.btn-modal-action {
+  width: 100%;
+  background-color: var(--color-deep-plum);
+  color: var(--color-warm-white);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 6px;
+  transition: background-color 0.15s ease;
+}
+
+.btn-modal-action:hover {
+  background-color: #432854;
+}
+
+.btn-modal-action.secondary {
+  background-color: var(--color-lavender);
+  color: var(--color-deep-plum);
+  border: 2px solid var(--color-deep-plum);
+}
+
+.btn-modal-action.secondary:hover {
+  background-color: var(--color-deep-plum);
+  color: var(--color-warm-white);
+}
+
+/* Calm Moment Modal Breathing Animation */
+.calm-breathe-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: var(--color-lavender);
+  border: 4px solid var(--color-deep-plum);
+  margin: 16px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-deep-plum);
+  animation: sugamBreathePopup 8s ease-in-out infinite;
+}
+
+@keyframes sugamBreathePopup {
+  0%, 100% { transform: scale(0.9); }
+  50% { transform: scale(1.12); background-color: #F3EDF7; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calm-breathe-circle {
+    animation: none !important;
+  }
+}
+

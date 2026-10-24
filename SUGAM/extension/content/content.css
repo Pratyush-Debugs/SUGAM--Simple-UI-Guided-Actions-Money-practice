@@ -232,6 +232,11 @@ html.sugam-theme-high-contrast a {
   color: #ffff00 !important;
 }
 
+/* Numbers Helper styling */
+.sugam-number-helper-wrapper {
+  font-variant-numeric: tabular-nums;
+}
+
 /* Exclude code, icons, and preformatted blocks from font changes */
 html.sugam-active code,
 html.sugam-active pre,

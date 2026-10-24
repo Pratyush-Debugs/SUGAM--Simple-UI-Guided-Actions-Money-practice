@@ -94,16 +94,16 @@
       <button class="tile-gear-btn" data-modal="modal-bionic" aria-label="Options for Bionic read">⚙️</button>
     </div>
 
-    <!-- Tile 5: Summarise with pictures -->
-    <div class="helper-tile" data-feature="summariser" role="region" aria-label="Summarise with pictures">
+    <!-- Tile 5: Summarise -->
+    <div class="helper-tile" data-feature="summariser" role="region" aria-label="Summarise">
       <button class="tile-main-btn" id="btn-tile-summariser" aria-pressed="false">
         <div class="tile-icon-wrap" aria-hidden="true">🖼️</div>
         <div class="tile-info">
-          <span class="tile-title" id="txt-tile-summariser">Summarise with pictures</span>
+          <span class="tile-title" id="txt-tile-summariser">Summarise</span>
           <span class="tile-status-badge status-off" id="status-summariser">Off</span>
         </div>
       </button>
-      <button class="tile-gear-btn" data-modal="modal-summariser" aria-label="Options for Summarise with pictures">⚙️</button>
+      <button class="tile-gear-btn" data-modal="modal-summariser" aria-label="Options for Summarise">⚙️</button>
     </div>
 
     <!-- Tile 6: Read aloud -->
@@ -352,6 +352,28 @@
       </div>
       <div class="modal-footer">
         <button class="modal-btn-primary" data-close="modal-help">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calm Moment Modal (Fallback when opened on browser system pages) -->
+  <div class="modal-overlay hidden" id="modal-calm" role="dialog" aria-modal="true" aria-labelledby="modal-calm-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modal-calm-title" class="modal-title">🌿 You are safe</h2>
+        <button class="modal-close-btn" data-close="modal-calm" aria-label="Close modal">✕</button>
+      </div>
+      <div class="modal-body" id="modal-calm-body" style="text-align: center;">
+        <p class="help-desc" id="txt-calm-sub">Nothing has been sent. Take all the time you need.</p>
+        <div class="calm-breathe-circle" id="calm-breathe-anim" aria-label="Breathe gently">Breathe</div>
+        <div class="help-action-card highlight-safety" style="margin-top: 16px;">
+          <div class="hac-title">🛡️ Helpline Support</div>
+          <a href="tel:1930" class="btn-help-act btn-call-1930" style="margin-top: 8px;">📞 Call 1930 Cyber Helpline</a>
+          <button class="btn-help-act" id="btn-calm-call-helper" style="display: none; margin-top: 8px;">📞 Call Helper</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn-primary" data-close="modal-calm" id="btn-calm-done">I am ready to continue</button>
       </div>
     </div>
   </div>

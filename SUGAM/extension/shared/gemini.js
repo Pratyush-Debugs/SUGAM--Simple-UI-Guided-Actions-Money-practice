@@ -9,7 +9,7 @@
  */
 
 // Change the model in one place. Check Google's current model list before releasing.
-const SUGAM_GEMINI_MODEL = 'gemini-3.8-flash';
+const SUGAM_GEMINI_MODEL = 'gemini-2.5-flash';
 const SUGAM_GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${SUGAM_GEMINI_MODEL}:generateContent`;
 const SUGAM_GEMINI_TIMEOUT_MS = 20000;
 

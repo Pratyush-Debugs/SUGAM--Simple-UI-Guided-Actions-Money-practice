@@ -100,13 +100,49 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       // Ask content script for page text & sensitivity check
-      const response = (await SugamInjector.send(tab.id, { action: 'EXTRACT_PAGE_CONTENT' })) || {
-        content: '',
-        isSensitive: false
-      };
+      const response = await SugamInjector.send(tab.id, { action: 'EXTRACT_PAGE_CONTENT' });
+      if (!response) {
+        const tabUrl = tab.url || '';
+        if (tabUrl.startsWith('chrome://') || tabUrl.startsWith('edge://') || tabUrl.startsWith('about:')) {
+          throw new Error('SUGAM cannot run on internal browser pages. Please open a regular webpage or article to summarise.');
+        }
+        if (tabUrl.startsWith('file://')) {
+          throw new Error('To summarise local files, open chrome://extensions, click Details on SUGAM, and toggle ON "Allow access to file URLs".');
+        }
+        throw new Error(t('spCouldNotSummarise') || 'Could not connect to the webpage. Please refresh the page and try again.');
+      }
 
       const rawText = response.content || '';
       const isSensitive = response.isSensitive;
+
+      if (isSensitive) {
+        cardsContainer.replaceChildren();
+        const sensitiveBox = document.createElement('div');
+        sensitiveBox.className = 'sp-disclaimer';
+        sensitiveBox.style.borderColor = '#59366E';
+        sensitiveBox.style.color = '#59366E';
+        sensitiveBox.style.backgroundColor = '#F3EDF7';
+
+        const titleDiv = document.createElement('div');
+        titleDiv.style.fontWeight = '800';
+        titleDiv.style.fontSize = '14px';
+        titleDiv.style.marginBottom = '4px';
+        titleDiv.textContent = '🔒 Privacy Shield Active';
+
+        const descP = document.createElement('p');
+        descP.style.fontSize = '13px';
+        descP.style.lineHeight = '1.4';
+        descP.style.color = '#29252D';
+        descP.textContent = 'This page contains sensitive password, PIN, or payment fields. To protect your financial security, summaries are never created on sensitive pages.';
+
+        sensitiveBox.append(titleDiv, descP);
+        cardsContainer.appendChild(sensitiveBox);
+        return;
+      }
+
+      if (!rawText || rawText.trim().length < 50) {
+        throw new Error('The page content is too short to summarise. Please open an article with more text.');
+      }
 
       // Cloud AI only with a key, on non-sensitive pages, and after the user said yes.
       const apiKey = settings.summariser?.geminiApiKey || '';
@@ -120,7 +156,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const summaryResult = await SugamAI.summarise(rawText, {
         apiKey,
         language: settings.language || 'en',
-        isSensitive,
+        isSensitive: false,
         cloudAllowed
       });
 
@@ -333,4 +369,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Initial load
   loadEasyCards();
   renderWhereWasI();
+
+  // Auto-refresh summary when switching tabs or navigating
+  chrome.tabs?.onActivated?.addListener(() => {
+    loadEasyCards();
+  });
+  chrome.tabs?.onUpdated?.addListener((tabId, changeInfo, tab) => {
+    if (tab?.active && changeInfo.status === 'complete') {
+      loadEasyCards();
+    }
+  });
 });

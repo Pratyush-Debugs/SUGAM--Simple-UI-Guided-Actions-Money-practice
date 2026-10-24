@@ -24,6 +24,7 @@ const SUGAM_CONTENT_SCRIPTS = [
   'content/features/read-aloud.js',
   'content/features/form-wizard.js',
   'content/features/scam-guard.js',
+  'content/features/numbers-helper.js',
   'content/content.js'
 ];
 const SUGAM_CONTENT_CSS = ['content/content.css'];

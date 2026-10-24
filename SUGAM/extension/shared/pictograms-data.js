@@ -19,11 +19,19 @@ const SUGAM_PICTOGRAMS = {
       'fee',
       'pay',
       'payment',
+      'pension',
+      'stipend',
+      'scholarship',
+      'allowance',
+      'grant',
       'रुपये',
       'पैसे',
       'खर्च',
+      'पेंशन',
+      'छात्रवृत्ति',
       'ଟଙ୍କା',
-      'ପଇସା'
+      'ପଇସା',
+      'ପେନସନ'
     ],
     svg: `<svg viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Rupee symbol" fill="none" stroke="#59366E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="24" cy="24" r="21" fill="#F3EDF7" stroke="#59366E" stroke-width="2.5"/>
@@ -54,7 +62,7 @@ const SUGAM_PICTOGRAMS = {
   },
   otp: {
     label: 'OTP / PIN',
-    keywords: ['otp', 'pin', 'code', 'password', 'one-time', 'ओटीपी', 'पिन', 'ପିନ୍'],
+    keywords: ['otp', 'pin', 'passcode', 'password', 'one-time', 'verification code', 'secret code', 'ओटीपी', 'पिन', 'ପିନ୍'],
     svg: `<svg viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Security PIN" fill="none" stroke="#59366E" stroke-width="3" stroke-linecap="round">
       <rect x="8" y="14" width="32" height="24" rx="4" fill="#F3EDF7" stroke="#59366E"/>
       <circle cx="16" cy="26" r="2.5" fill="#59366E"/>
@@ -65,7 +73,7 @@ const SUGAM_PICTOGRAMS = {
   },
   bank: {
     label: 'Bank',
-    keywords: ['bank', 'account', 'branch', 'sbi', 'hdfc', 'icici', 'बैंक', 'ଖାତା', 'ବ୍ୟାଙ୍କ'],
+    keywords: ['bank', 'account', 'branch', 'sbi', 'hdfc', 'icici', 'pnb', 'passbook', 'deposit', 'withdrawal', 'बैंक', 'खाता', 'ବ୍ୟାଙ୍କ'],
     svg: `<svg viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Bank building" fill="none" stroke="#59366E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
       <path d="M6 16l18-9 18 9M9 16v20M39 16v20M17 19v17M24 19v17M31 19v17M6 40h36" fill="#F3EDF7"/>
     </svg>`
@@ -80,7 +88,7 @@ const SUGAM_PICTOGRAMS = {
   },
   doctor: {
     label: 'Health / Doctor',
-    keywords: ['doctor', 'health', 'hospital', 'medicine', 'clinic', 'डॉक्टर', 'दवा', 'ଡାକ୍ତର', 'ଔଷଧ'],
+    keywords: ['doctor', 'health', 'hospital', 'medicine', 'clinic', 'medical', 'disability', 'डॉक्टर', 'दवा', 'ଡାକ୍ତର', 'ଔଷଧ'],
     svg: `<svg viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Medical health" fill="none" stroke="#59366E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="24" cy="24" r="20" fill="#F3EDF7"/>
       <path d="M24 14v20M14 24h20" stroke="#59366E" stroke-width="5"/>
@@ -109,7 +117,42 @@ const SUGAM_PICTOGRAMS = {
   },
   date: {
     label: 'Date / Time / Calendar',
-    keywords: ['date', 'day', 'calendar', 'month', 'year', 'today', 'tomorrow', 'deadline', 'तारीख', 'दिन', 'ତାରିଖ'],
+    keywords: [
+      'date',
+      'day',
+      'calendar',
+      'month',
+      'year',
+      'today',
+      'tomorrow',
+      'deadline',
+      'january',
+      'february',
+      'march',
+      'april',
+      'may',
+      'june',
+      'july',
+      'august',
+      'september',
+      'october',
+      'november',
+      'december',
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+      'sunday',
+      'तारीख',
+      'दिन',
+      'महीना',
+      'साल',
+      'ତାରିଖ',
+      'ବର୍ଷ',
+      'ମାସ'
+    ],
     svg: `<svg viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Calendar date" fill="none" stroke="#59366E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
       <rect x="8" y="10" width="32" height="30" rx="4" fill="#F3EDF7"/>
       <path d="M8 18h32M16 6v8M32 6v8"/>
@@ -120,7 +163,29 @@ const SUGAM_PICTOGRAMS = {
   },
   person: {
     label: 'Person / Helper',
-    keywords: ['person', 'friend', 'helper', 'user', 'caregiver', 'family', 'mom', 'व्यक्ति', 'दोस्त', 'ସାଙ୍ଗ', 'ଲୋକ'],
+    keywords: [
+      'person',
+      'friend',
+      'helper',
+      'user',
+      'caregiver',
+      'family',
+      'mom',
+      'citizen',
+      'citizens',
+      'beneficiary',
+      'beneficiaries',
+      'student',
+      'students',
+      'applicant',
+      'applicants',
+      'people',
+      'व्यक्ति',
+      'दोस्त',
+      'नागरिक',
+      'ସାଙ୍ଗ',
+      'ଲୋକ'
+    ],
     svg: `<svg viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Person" fill="none" stroke="#59366E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="24" cy="15" r="7" fill="#F3EDF7"/>
       <path d="M10 39c0-7 6-12 14-12s14 5 14 12" fill="#F3EDF7"/>
@@ -128,7 +193,22 @@ const SUGAM_PICTOGRAMS = {
   },
   form: {
     label: 'Form / Application',
-    keywords: ['form', 'apply', 'application', 'question', 'submit', 'details', 'फॉर्म', 'ଫର୍ମ'],
+    keywords: [
+      'form',
+      'apply',
+      'application',
+      'question',
+      'submit',
+      'details',
+      'portal',
+      'register',
+      'registration',
+      'enroll',
+      'enrolment',
+      'फॉर्म',
+      'आवेदन',
+      'ଫର୍ମ'
+    ],
     svg: `<svg viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Form document" fill="none" stroke="#59366E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
       <rect x="10" y="8" width="28" height="32" rx="3" fill="#F3EDF7"/>
       <path d="M16 16h16M16 22h10M16 28h14"/>
@@ -175,6 +255,7 @@ const PictogramMatcher = {
     // Check specific priority concepts first
     const priorityKeys = [
       'warning',
+      'qr',
       'upi',
       'otp',
       'rupee',

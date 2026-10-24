@@ -133,7 +133,11 @@ SugamFeatures.takeYourTime = {
    * Calm Moment: "I need a moment" full-page reassurance
    */
   triggerCalmMoment() {
-    if (this.calmOverlayElem) return;
+    if (this.calmOverlayElem && this.calmOverlayElem.isConnected) return;
+    if (this.calmOverlayElem) {
+      this.calmOverlayElem.remove();
+      this.calmOverlayElem = null;
+    }
 
     const shadow = this.ensureShadowHost();
     const overlay = document.createElement('div');
@@ -142,8 +146,8 @@ SugamFeatures.takeYourTime = {
     overlay.setAttribute('aria-modal', 'true');
     overlay.setAttribute('aria-label', t('calmLabel'));
 
-    const trustedName = this.settings.trustedPerson?.name || t('calmHelper');
-    const trustedPhone = this.settings.trustedPerson?.phone || '1930';
+    const trustedName = this.settings?.trustedPerson?.name || t('calmHelper');
+    const trustedPhone = this.settings?.trustedPerson?.phone || '1930';
 
     overlay.innerHTML = `
       <style>
@@ -161,6 +165,7 @@ SugamFeatures.takeYourTime = {
           justify-content: center;
           color: #FAF8F5;
           padding: 24px;
+          pointer-events: auto;
         }
         .sugam-calm-card {
           background: #FAF8F5;
@@ -259,8 +264,20 @@ SugamFeatures.takeYourTime = {
     shadow.appendChild(overlay);
     this.calmOverlayElem = overlay;
 
-    overlay.querySelector('#sugam-resume-btn').addEventListener('click', () => {
-      this.dismissCalmMoment();
+    const resumeBtn = overlay.querySelector('#sugam-resume-btn');
+    if (resumeBtn) {
+      resumeBtn.addEventListener('click', () => {
+        this.dismissCalmMoment();
+      });
+      // Move focus for accessibility (WCAG 2.2 AA & screen readers)
+      setTimeout(() => resumeBtn.focus(), 50);
+    }
+
+    // Dismiss when clicking backdrop outside card
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        this.dismissCalmMoment();
+      }
     });
   },
 

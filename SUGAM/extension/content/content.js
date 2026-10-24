@@ -25,6 +25,7 @@
     shadowHost: null,
     shadowRoot: null,
     bionicRecords: [], // { wrapper, original } pairs so Bionic Read can be undone losslessly
+    numbersRecords: [], // { wrapper, original } pairs for Numbers Helper
     speechSynthesisUtterance: null,
     isReadingAloud: false,
     readingRulerElem: null,
@@ -207,7 +208,8 @@
      * so page styles cannot conflict with SUGAM.
      */
     ensureShadowHost() {
-      if (this.shadowHost && document.body.contains(this.shadowHost)) {
+      const parent = document.body || document.documentElement;
+      if (this.shadowHost && parent && parent.contains(this.shadowHost)) {
         return this.shadowRoot;
       }
       this.shadowHost = document.createElement('div');
@@ -294,7 +296,7 @@
       `;
       this.shadowRoot.appendChild(style);
 
-      document.body.appendChild(this.shadowHost);
+      (parent || document.documentElement).appendChild(this.shadowHost);
       return this.shadowRoot;
     },
 
@@ -344,6 +346,11 @@
       // 4.9 Form Wizard Launcher (if enabled and forms exist)
       if (this.settings.formWizard?.enabled) {
         this.setupFormWizardLauncher();
+      }
+
+      // 5.6 Numbers Helper
+      if (this.settings.numbersHelper?.enabled) {
+        this.setupNumbersHelper(this.settings.numbersHelper);
       }
 
       // Render floating "SUGAM is on: Turn off" badge
@@ -399,6 +406,9 @@
 
       // Teardown Form Wizard & launcher
       this.teardownFormWizard();
+
+      // Teardown Numbers Helper (restore original DOM text)
+      this.teardownNumbersHelper();
 
       // Remove Calm overlay if open
       this.dismissCalmMoment();
