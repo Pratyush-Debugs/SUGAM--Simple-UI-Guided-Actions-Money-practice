@@ -166,9 +166,9 @@ const sandboxSrc = path.join(EXT_DIR, 'sandbox');
 const sandboxDest = path.join(DIST_DIR, 'sandbox');
 copyRecursive(sandboxSrc, sandboxDest);
 
-// Sandbox relative dependencies: ../shared/storage.js and ../icons/*
-const sharedSrc = path.join(EXT_DIR, 'shared', 'storage.js');
-const sharedDest = path.join(DIST_DIR, 'shared', 'storage.js');
+// Sandbox relative dependencies: ../shared/ (dom-safe.js, storage.js, i18n.js) and ../icons/*
+const sharedSrc = path.join(EXT_DIR, 'shared');
+const sharedDest = path.join(DIST_DIR, 'shared');
 copyRecursive(sharedSrc, sharedDest);
 
 const iconsSrc = path.join(EXT_DIR, 'icons');

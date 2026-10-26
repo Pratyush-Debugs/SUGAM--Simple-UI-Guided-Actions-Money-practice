@@ -83,8 +83,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateCoach(t('upiCoachReset'));
   });
 
-  document.getElementById('btn-exit-sandbox').addEventListener('click', () => {
-    window.close();
+  const linkHome = document.getElementById('link-home');
+  if (linkHome && window.location.protocol !== 'file:') {
+    linkHome.setAttribute('href', '/');
+  }
+
+  document.getElementById('btn-exit-sandbox').addEventListener('click', (e) => {
+    e.preventDefault();
+    if (window.opener && !window.opener.closed) {
+      window.close();
+    } else if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = window.location.protocol === 'file:' ? '../index.html' : '/';
+    }
   });
 
   // Amount in words. English gets full Indian-system words; Hindi and Odia show the
