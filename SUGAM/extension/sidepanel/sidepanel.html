@@ -10,12 +10,12 @@
   <header class="sp-header">
     <div class="sp-brand">
       <img src="../icons/icon32.png" alt="" width="28" height="28" aria-hidden="true">
-      <h2>SUGAM Reader</h2>
+      <h2 data-i18n="spTitle">SUGAM Reader</h2>
     </div>
-    <div class="sp-tabs" role="tablist" aria-label="Reading modes">
-      <button role="tab" aria-selected="true" class="sp-tab-btn active" id="tab-btn-summary">🖼️ Easy Cards</button>
-      <button role="tab" aria-selected="false" class="sp-tab-btn" id="tab-btn-translate">🌐 Translate</button>
-      <button role="tab" aria-selected="false" class="sp-tab-btn" id="tab-btn-memory">🧠 Where was I</button>
+    <div class="sp-tabs" role="tablist" aria-label="Reading modes" data-i18n-aria-label="spTabsLabel">
+      <button role="tab" aria-selected="true" class="sp-tab-btn active" id="tab-btn-summary">🖼️ <span data-i18n="spTabCards">Easy cards</span></button>
+      <button role="tab" aria-selected="false" class="sp-tab-btn" id="tab-btn-translate">🌐 <span data-i18n="tileTranslate">Translate</span></button>
+      <button role="tab" aria-selected="false" class="sp-tab-btn" id="tab-btn-memory">🧠 <span data-i18n="tileWhereWasI">Where was I?</span></button>
     </div>
   </header>
 
@@ -24,17 +24,17 @@
     <section class="sp-view active" id="view-summary" role="tabpanel" aria-labelledby="tab-btn-summary">
       <div class="sp-actions-bar">
         <button class="sp-action-btn" id="btn-refresh-summary">
-          <span>🔄</span> Refresh Cards
+          <span>🔄</span> <span data-i18n="spRefreshCards">Refresh cards</span>
         </button>
         <button class="sp-action-btn" id="btn-listen-all">
-          <span>🔊</span> Read all cards
+          <span>🔊</span> <span data-i18n="spReadAll">Read all cards</span>
         </button>
       </div>
 
-      <!-- Honest Disclaimer Notice (Spec 1 & 4.7) -->
-      <div class="sp-disclaimer" role="note">
+      <!-- Disclaimer Notice (hidden to remove computer summarization banner) -->
+      <div class="sp-disclaimer" id="sp-disclaimer-box" role="note" style="display: none;">
         <span class="disc-icon">⚠️</span>
-        <span id="txt-sp-disclaimer">
+        <span id="txt-sp-disclaimer" data-i18n="disclaimerComputer">
           This summary is made by a computer and may have mistakes. Check the original for money, health and legal information.
         </span>
       </div>
@@ -42,7 +42,7 @@
       <!-- Loading skeleton -->
       <div id="summary-loading" class="sp-loading hidden" aria-live="polite">
         <div class="spinner"></div>
-        <p>Creating easy-read cards...</p>
+        <p data-i18n="spLoading">Creating easy-read cards...</p>
       </div>
 
       <!-- Cards Container -->
@@ -54,29 +54,29 @@
     <!-- View 2: In-place Translation -->
     <section class="sp-view" id="view-translate" role="tabpanel" aria-labelledby="tab-btn-translate" hidden>
       <div class="translate-controls">
-        <label for="select-trans-lang" class="form-label">Translate page into:</label>
+        <label for="select-trans-lang" class="form-label" data-i18n="spTranslateInto">Translate page into:</label>
         <select id="select-trans-lang" class="form-select">
           <option value="hi">हिन्दी (Hindi)</option>
           <option value="or">ଓଡ଼ିଆ (Odia)</option>
           <option value="en">English</option>
         </select>
-        <button class="sp-primary-btn" id="btn-run-translate">Translate Page</button>
+        <button class="sp-primary-btn" id="btn-run-translate" data-i18n="spTranslateButton">Translate page</button>
       </div>
 
       <div class="sp-disclaimer" style="margin-top: 14px;">
-        <span>Computer translation. Check amounts and dates in the original.</span>
+        <span data-i18n="disclaimerTranslation">Computer translation. Check amounts and dates in the original.</span>
       </div>
 
       <div id="translate-result" class="translated-box" style="margin-top: 16px;">
-        <p class="placeholder-text">Choose a language and tap Translate Page to read comfortably.</p>
+        <p class="placeholder-text" data-i18n="spTranslatePlaceholder">Choose a language and tap Translate page to read comfortably.</p>
       </div>
     </section>
 
     <!-- View 3: Where was I (Task & Breadcrumb Memory) -->
     <section class="sp-view" id="view-memory" role="tabpanel" aria-labelledby="tab-btn-memory" hidden>
       <div class="memory-card">
-        <h3>Where you were</h3>
-        <p>SUGAM remembers your pages so you never feel lost when taking a break.</p>
+        <h3 data-i18n="spMemoryTitle">Where you were</h3>
+        <p data-i18n="spMemoryIntro">SUGAM remembers your pages so you never feel lost when taking a break.</p>
         <div id="memory-list" class="memory-items">
           <!-- Populated by JS -->
         </div>
@@ -84,7 +84,10 @@
     </section>
   </main>
 
+  <script src="../shared/dom-safe.js"></script>
   <script src="../shared/storage.js"></script>
+  <script src="../shared/injector.js"></script>
+  <script src="../shared/i18n.js"></script>
   <script src="../shared/pictograms-data.js"></script>
   <script src="../shared/gemini.js"></script>
   <script src="sidepanel.js"></script>

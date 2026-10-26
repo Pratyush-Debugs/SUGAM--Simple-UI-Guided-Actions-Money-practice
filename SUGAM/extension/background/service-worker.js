@@ -3,7 +3,7 @@
  * Handles installation, commands, context menus, and sidePanel routing.
  */
 
-importScripts('../shared/storage.js');
+importScripts('../shared/storage.js', '../shared/injector.js');
 
 chrome.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === 'install') {
@@ -13,7 +13,12 @@ chrome.runtime.onInstalled.addListener(async (details) => {
         chrome.storage.sync.set({ sugamSettings: SUGAM_DEFAULT_SETTINGS });
       }
     });
+  } else if (details.reason === 'update') {
+    // Reading settings migrates older data (e.g. moves the API key out of synced storage).
+    await SugamStorage.getSettings();
   }
+
+  await SugamInjector.syncRegistration();
 
   // Set sidepanel behavior
   if (chrome.sidePanel && chrome.sidePanel.setPanelBehavior) {
@@ -42,18 +47,23 @@ chrome.runtime.onInstalled.addListener(async (details) => {
   });
 });
 
+// Automatic injection follows what the user has granted ("Use SUGAM on every website").
+chrome.runtime.onStartup.addListener(() => SugamInjector.syncRegistration());
+chrome.permissions.onAdded.addListener(() => SugamInjector.syncRegistration());
+chrome.permissions.onRemoved.addListener(() => SugamInjector.syncRegistration());
+
 // Handle Context Menu Clicks
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (!tab || !tab.id) return;
 
   if (info.menuItemId === 'sugam-read-selection') {
-    chrome.tabs.sendMessage(tab.id, { action: 'TRIGGER_READ_ALOUD', mode: 'selection' });
+    SugamInjector.send(tab.id, { action: 'TRIGGER_READ_ALOUD', mode: 'selection' });
   } else if (info.menuItemId === 'sugam-summarise-page') {
     if (chrome.sidePanel && chrome.sidePanel.open) {
       await chrome.sidePanel.open({ tabId: tab.id });
     }
   } else if (info.menuItemId === 'sugam-calm-moment') {
-    chrome.tabs.sendMessage(tab.id, { action: 'TRIGGER_CALM_MOMENT' });
+    SugamInjector.send(tab.id, { action: 'TRIGGER_CALM_MOMENT' });
   }
 });
 
@@ -63,23 +73,33 @@ chrome.commands.onCommand.addListener(async (command) => {
   if (!tab || !tab.id) return;
 
   if (command === 'toggle-master-switch') {
-    chrome.tabs.sendMessage(tab.id, { action: 'TOGGLE_MASTER_SWITCH' });
+    SugamInjector.send(tab.id, { action: 'TOGGLE_MASTER_SWITCH' });
   } else if (command === 'trigger-calm-moment') {
-    chrome.tabs.sendMessage(tab.id, { action: 'TRIGGER_CALM_MOMENT' });
+    SugamInjector.send(tab.id, { action: 'TRIGGER_CALM_MOMENT' });
   }
 });
 
 // Message Relay
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  // Only accept messages from SUGAM's own pages and content scripts.
+  if (sender.id !== chrome.runtime.id || !request) return false;
+
   if (request.action === 'OPEN_SIDE_PANEL' && sender.tab?.id) {
-    if (chrome.sidePanel && chrome.sidePanel.open) {
-      chrome.sidePanel.open({ tabId: sender.tab.id });
-      sendResponse({ success: true });
+    if (!chrome.sidePanel?.open) {
+      sendResponse({ success: false });
+      return false;
     }
-  } else if (request.action === 'OPEN_UPI_PRACTICE') {
+    // Answer once the panel has really opened, so the sender knows the outcome.
+    chrome.sidePanel
+      .open({ tabId: sender.tab.id })
+      .then(() => sendResponse({ success: true }))
+      .catch(() => sendResponse({ success: false }));
+    return true; // keep the channel open for the async response
+  }
+
+  if (request.action === 'OPEN_UPI_PRACTICE') {
     chrome.tabs.create({ url: chrome.runtime.getURL('sandbox/upi-practice.html') });
     sendResponse({ success: true });
   }
-  return true;
+  return false;
 });
-
